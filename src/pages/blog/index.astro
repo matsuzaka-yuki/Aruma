@@ -1,0 +1,100 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import Sidebar from '../../components/Sidebar.astro';
+import { getCollection } from 'astro:content';
+import { i18n } from '../../i18n/translation';
+import I18nKey from '../../i18n/i18nKey';
+
+const query = Astro.url.searchParams.get('q')?.trim().toLowerCase();
+
+let posts = (await getCollection('blog')).sort((a, b) => {
+	// 优先按置顶排序
+	const aSticky = a.data.category === '置顶' ? 1 : 0;
+	const bSticky = b.data.category === '置顶' ? 1 : 0;
+	if (aSticky !== bSticky) return bSticky - aSticky;
+	// 其次按日期排序
+	return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
+});
+
+if (query) {
+	posts = posts.filter((post) => {
+		const title = post.data.title.toLowerCase();
+		const description = post.data.description?.toLowerCase() ?? '';
+		const category = post.data.category?.toLowerCase() ?? '';
+		const tags = post.data.tags?.map(t => t.toLowerCase()).join(' ') ?? '';
+		
+		return title.includes(query) || 
+			   description.includes(query) || 
+			   category.includes(query) || 
+			   tags.includes(query);
+	});
+}
+
+const title = query ? i18n(I18nKey.searchResultFor, { query }) : i18n(I18nKey.archive);
+---
+
+<Layout title={title}>
+	<div class="article">
+		{query && (
+			<div class="mdui-card archive-card animation-fadein">
+				<div class="archive-title">
+					<i class="mdui-icon material-icons">search</i>
+					{i18n(I18nKey.searchResult)}: <i>{query}</i>
+					<span style="font-size: 14px; margin-left: 10px; opacity: 0.7;">
+						{i18n(I18nKey.foundPosts, { count: posts.length })}
+					</span>
+				</div>
+			</div>
+		)}
+
+		{posts.length > 0 ? (
+			posts.map((post) => (
+				<PostCard post={post} />
+			))
+		) : (
+			<div class="mdui-card archive-card animation-fadein" style="padding: 40px 20px;">
+				<div class="mdui-typo-display-1-opacity" style="text-align: center; margin-bottom: 20px;">
+					<i class="mdui-icon material-icons" style="font-size: 48px; opacity: 0.5;">find_in_page</i>
+				</div>
+				<div style="text-align: center; opacity: 0.7;">
+					{i18n(I18nKey.noSearchResult, { query: query ?? '' })}
+				</div>
+				<div style="text-align: center; margin-top: 20px;">
+					<a href="/blog/" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">
+						{i18n(I18nKey.viewAllPosts)}
+					</a>
+				</div>
+			</div>
+		)}
+	</div>
+
+	<Sidebar slot="sidebar" />
+</Layout>
+
+<style>
+	.archive-card {
+		margin-bottom: 20px;
+		padding: 15px 0;
+		text-align: center;
+		background-color: rgba(255, 255, 255, 0.8) !important;
+		border-radius: 7px;
+	}
+	:global(.mdui-theme-layout-dark) .archive-card {
+		background-color: rgba(66, 66, 66, 0.8) !important;
+	}
+	.archive-title {
+		font-size: 20px;
+		font-weight: 500;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+	}
+	.archive-title i {
+		font-style: normal;
+		color: var(--color);
+	}
+</style>
