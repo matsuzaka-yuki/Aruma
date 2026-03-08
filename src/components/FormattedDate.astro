@@ -1,0 +1,20 @@
+---
+import { siteConfig } from '../site.config';
+
+interface Props {
+	date: Date;
+}
+
+const { date } = Astro.props;
+const locale = siteConfig.lang === 'zh-cn' ? 'zh-cn' : 'en-us';
+---
+
+<time datetime={date.toISOString()}>
+	{
+		date.toLocaleDateString(locale, {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		})
+	}
+</time>
