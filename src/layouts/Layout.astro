@@ -6,6 +6,7 @@ import { siteConfig } from '../site.config';
 // @ts-ignore - ViewTransitions deprecated but still required for page transitions
 import { ViewTransitions } from 'astro:transitions';
 import 'mdui/mdui.css';
+import '../styles/material-icons.css';
 import 'mdui';
 import '../styles/aruma.css';
 
@@ -22,7 +23,6 @@ const { title = siteConfig.title, description = siteConfig.description } = Astro
 	<head>
 		<BaseHead title={title} description={description} />
 		<ViewTransitions />
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
 		<script is:inline>
 			window.paceOptions = {
 				ajax: false, // 禁用 AJAX 监听，仅通过 Astro 钩子手动触发
