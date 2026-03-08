@@ -1,16 +1,12 @@
 ---
-export const prerender = true;
-
 import Layout from '../../layouts/Layout.astro';
-import PostCard from '../../components/PostCard.astro';
 import Sidebar from '../../components/Sidebar.astro';
 import { getCollection } from 'astro:content';
 import { i18n } from '../../i18n/translation';
+import PostCard from '../../components/PostCard.astro';
 import I18nKey from '../../i18n/i18nKey';
 
-const query = Astro.url.searchParams.get('q')?.trim().toLowerCase();
-
-let posts = (await getCollection('post')).sort((a, b) => {
+const allPosts = (await getCollection('post')).sort((a, b) => {
 	// 优先按置顶排序
 	const aSticky = a.data.category === '置顶' ? 1 : 0;
 	const bSticky = b.data.category === '置顶' ? 1 : 0;
@@ -19,60 +15,160 @@ let posts = (await getCollection('post')).sort((a, b) => {
 	return b.data.pubDate.valueOf() - a.data.pubDate.valueOf();
 });
 
-if (query) {
-	posts = posts.filter((post) => {
-		const title = post.data.title.toLowerCase();
-		const description = post.data.description?.toLowerCase() ?? '';
-		const category = post.data.category?.toLowerCase() ?? '';
-		const tags = post.data.tags?.map(t => t.toLowerCase()).join(' ') ?? '';
-		
-		return title.includes(query) || 
-			   description.includes(query) || 
-			   category.includes(query) || 
-			   tags.includes(query);
-	});
-}
-
-const title = query ? i18n(I18nKey.searchResultFor, { query }) : i18n(I18nKey.archive);
+// 准备文章数据供客户端搜索使用
+const postsData = allPosts.map(post => ({
+	id: post.id,
+	title: post.data.title,
+	description: post.data.description ?? '',
+	category: post.data.category ?? '',
+	tags: post.data.tags ?? [],
+	pubDate: post.data.pubDate.toISOString(),
+	image: post.data.heroImage
+		? typeof post.data.heroImage === 'string'
+			? post.data.heroImage
+			: post.data.heroImage.src
+		: ''
+}));
 ---
 
-<Layout title={title}>
+<Layout title={i18n(I18nKey.archive)}>
 	<div class="article">
-		{query && (
-			<div class="mdui-card archive-card animation-fadein">
-				<div class="archive-title">
-					<i class="mdui-icon material-icons">search</i>
-					{i18n(I18nKey.searchResult)}: <i>{query}</i>
-					<span style="font-size: 14px; margin-left: 10px; opacity: 0.7;">
-						{i18n(I18nKey.foundPosts, { count: posts.length })}
-					</span>
-				</div>
+		<div id="search-header" class="mdui-card archive-card animation-fadein" style="display: none;">
+			<div class="archive-title">
+				<i class="mdui-icon material-icons">search</i>
+				{i18n(I18nKey.searchResult)}: <i id="search-query"></i>
+				<span style="font-size: 14px; margin-left: 10px; opacity: 0.7;" set:html={i18n(I18nKey.foundPosts, { count: 0 }).replace('0', '<span id="search-count">0</span>')} />
 			</div>
-		)}
+		</div>
 
-		{posts.length > 0 ? (
-			posts.map((post) => (
+		<div id="posts-container">
+			{allPosts.map((post) => (
 				<PostCard post={post} />
-			))
-		) : (
-			<div class="mdui-card archive-card animation-fadein" style="padding: 40px 20px;">
-				<div class="mdui-typo-display-1-opacity" style="text-align: center; margin-bottom: 20px;">
-					<i class="mdui-icon material-icons" style="font-size: 48px; opacity: 0.5;">find_in_page</i>
-				</div>
-				<div style="text-align: center; opacity: 0.7;">
-					{i18n(I18nKey.noSearchResult, { query: query ?? '' })}
-				</div>
-				<div style="text-align: center; margin-top: 20px;">
-					<a href="/post/" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">
-						{i18n(I18nKey.viewAllPosts)}
-					</a>
-				</div>
+			))}
+		</div>
+
+		<div id="no-results" class="mdui-card archive-card animation-fadein" style="display: none; padding: 40px 20px;">
+			<div class="mdui-typo-display-1-opacity" style="text-align: center; margin-bottom: 20px;">
+				<i class="mdui-icon material-icons" style="font-size: 48px; opacity: 0.5;">find_in_page</i>
 			</div>
-		)}
+			<div style="text-align: center; opacity: 0.7;" id="no-results-text">
+			</div>
+			<div style="text-align: center; margin-top: 20px;">
+				<a href="/post/" class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-theme-accent">
+					{i18n(I18nKey.viewAllPosts)}
+				</a>
+			</div>
+		</div>
 	</div>
 
 	<Sidebar slot="sidebar" />
 </Layout>
+
+<!-- 内联文章数据供客户端使用 -->
+<script is:inline define:vars={{ postsData }}>
+	const allPostsData = postsData;
+
+	function formatDate(dateStr) {
+		const date = new Date(dateStr);
+		return date.toLocaleDateString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+	}
+
+	function escapeHtml(text) {
+		const div = document.createElement('div');
+		div.textContent = text;
+		return div.innerHTML;
+	}
+
+	function renderPostCard(post) {
+		const stickyHtml = post.category === '置顶' ? '<span class="mdui-text-color-theme" id="sticky">置顶 </span>' : '';
+		const coverImage = post.image || '';
+
+		return `
+			<a class="post animation-fadein" href="/post/${post.id}/">
+				<div class="mdui-card index-card mdui-hoverable">
+					<div class="mdui-card-media index-img-media">
+						<div class="index-img" style="background-image: url('${coverImage}')"></div>
+						<div class="index-card-filter"></div>
+						<div class="mdui-card-media-covered">
+							<div class="mdui-card-primary index-primary">
+								<div class="mdui-card-primary-title">
+									${stickyHtml}${escapeHtml(post.title)}
+								</div>
+								<div class="mdui-card-primary-subtitle index-info">
+									${formatDate(post.pubDate)} | 10 评论
+								</div>
+								<div class="mdui-card-primary-subtitle index-subtitle">${escapeHtml(post.description)}</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</a>
+		`;
+	}
+
+	function filterPosts(query) {
+		if (!query) return allPostsData;
+
+		const lowerQuery = query.toLowerCase();
+		return allPostsData.filter(post => {
+			const title = post.title.toLowerCase();
+			const description = post.description.toLowerCase();
+			const category = post.category.toLowerCase();
+			const tags = post.tags.map(t => t.toLowerCase()).join(' ');
+
+			return title.includes(lowerQuery) ||
+				   description.includes(lowerQuery) ||
+				   category.includes(lowerQuery) ||
+				   tags.includes(lowerQuery);
+		});
+	}
+
+	function renderPosts(query) {
+		const container = document.getElementById('posts-container');
+		const searchHeader = document.getElementById('search-header');
+		const noResults = document.getElementById('no-results');
+		const noResultsText = document.getElementById('no-results-text');
+		const queryEl = document.getElementById('search-query');
+		const countEl = document.getElementById('search-count');
+
+		const filteredPosts = filterPosts(query);
+
+		if (query) {
+			searchHeader.style.display = 'block';
+			if (queryEl) queryEl.textContent = query;
+			if (countEl) countEl.textContent = filteredPosts.length;
+		} else {
+			searchHeader.style.display = 'none';
+		}
+
+		if (filteredPosts.length > 0) {
+			container.innerHTML = filteredPosts.map(renderPostCard).join('');
+			noResults.style.display = 'none';
+		} else {
+			container.innerHTML = '';
+			noResults.style.display = 'block';
+			if (query) {
+				noResultsText.textContent = `没有找到与 "${query}" 相关的文章`;
+			} else {
+				noResults.style.display = 'none';
+			}
+		}
+	}
+
+	function initSearch() {
+		const urlParams = new URLSearchParams(window.location.search);
+		const query = urlParams.get('q')?.trim() || '';
+		renderPosts(query);
+	}
+
+	// 初始加载和 View Transitions 支持
+	document.addEventListener('astro:page-load', initSearch);
+
+	// 如果不是通过 View Transitions 加载的，立即执行
+	if (document.readyState === 'complete') {
+		initSearch();
+	}
+</script>
 
 <style>
 	.archive-card {
@@ -96,5 +192,121 @@ const title = query ? i18n(I18nKey.searchResultFor, { query }) : i18n(I18nKey.ar
 	.archive-title i {
 		font-style: normal;
 		color: var(--color);
+	}
+
+	/* Post Card Styles */
+	.post-card {
+		margin-bottom: 20px;
+		overflow: hidden;
+		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		border-radius: 7px;
+	}
+	.post-card:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+	}
+	.post-card-link {
+		display: flex;
+		text-decoration: none;
+		color: inherit;
+	}
+	.post-card-image {
+		flex-shrink: 0;
+		width: 200px;
+		height: 150px;
+		overflow: hidden;
+	}
+	.post-card-image img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.3s ease;
+	}
+	.post-card:hover .post-card-image img {
+		transform: scale(1.05);
+	}
+	.post-card-content {
+		flex: 1;
+		padding: 16px 20px;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+	.post-card-meta {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		font-size: 13px;
+		color: var(--mdui-color-text-secondary);
+		margin-bottom: 8px;
+	}
+	.post-card-date {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+	}
+	.post-card-date i {
+		font-size: 14px;
+	}
+	.post-card-category {
+		background: var(--color);
+		color: #fff;
+		padding: 2px 8px;
+		border-radius: 4px;
+		text-decoration: none;
+		font-size: 12px;
+	}
+	.post-card-category:hover {
+		opacity: 0.8;
+	}
+	.post-card-title {
+		font-size: 18px;
+		font-weight: 500;
+		margin: 0 0 8px 0;
+		line-height: 1.4;
+	}
+	.post-card-description {
+		font-size: 14px;
+		color: var(--mdui-color-text-secondary);
+		margin: 0 0 10px 0;
+		line-height: 1.6;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	.post-card-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+	.post-card-tag {
+		font-size: 11px;
+		padding: 2px 6px;
+		border-radius: 3px;
+		background: rgba(0, 0, 0, 0.05);
+		color: var(--mdui-color-text-secondary);
+		text-decoration: none;
+		transition: background 0.2s;
+	}
+	.post-card-tag:hover {
+		background: var(--color);
+		color: #fff;
+	}
+	:global(.mdui-theme-layout-dark) .post-card-tag {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	@media (max-width: 768px) {
+		.post-card-link {
+			flex-direction: column;
+		}
+		.post-card-image {
+			width: 100%;
+			height: 180px;
+		}
+		.post-card-content {
+			padding: 12px 16px;
+		}
 	}
 </style>
