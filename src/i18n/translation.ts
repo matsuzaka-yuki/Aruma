@@ -2,6 +2,7 @@ import { siteConfig } from "../site.config";
 import type I18nKey from "./i18nKey";
 import { zhCN } from "./languages/zh-CN";
 import { en } from "./languages/en";
+import { ja } from "./languages/ja";
 
 // 类型定义：确保所有语言文件包含完整的翻译键
 export type Translation = {
@@ -19,6 +20,9 @@ const map: { [key: string]: Translation } = {
     "en": en,
     "en-us": en,
     "en_us": en,
+    "ja": ja,
+    "ja-jp": ja,
+    "ja_jp": ja,
 };
 
 // 获取翻译对象
