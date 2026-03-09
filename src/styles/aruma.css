@@ -1,32 +1,54 @@
 
 /* ----------------- 全局样式 ----------------- */
-html {
+:root {
   --color: #ff4081; /* 默认粉色主题 */
+  /* 主题背景色变量 - 避免过渡动画导致闪烁 */
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --chip-bg: rgba(255, 255, 255, 0.8);
+  --chip-hover-bg: #d5d5d5;
+  --drawer-bg: rgba(255, 255, 255, 0.75);
+  --list-item-hover-bg: rgba(0, 0, 0, 0.06);
+  --archive-card-bg: rgba(255, 255, 255, 0.8);
+  --album-card-bg: rgba(255, 255, 255, 0.8);
+  --album-tag-bg: rgba(255, 64, 129, 0.08);
+  --album-tag-hover-bg: rgba(255, 64, 129, 0.15);
+  --album-tag-more-bg: rgba(0, 0, 0, 0.05);
+  --album-info-header-bg: rgba(255, 255, 255, 0.8);
+  --photo-item-bg: rgba(255, 255, 255, 0.8);
+  --blockquote-bg: rgba(0, 0, 0, 0.05);
+  --code-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* 暗色模式变量覆盖 */
+html.mdui-theme-layout-dark {
+  --card-bg: rgba(66, 66, 66, 0.8);
+  --chip-bg: rgba(255, 255, 255, 0.1);
+  --chip-hover-bg: rgba(255, 255, 255, 0.2);
+  --drawer-bg: rgba(48, 48, 48, 0.75);
+  --list-item-hover-bg: rgba(255, 255, 255, 0.08);
+  --archive-card-bg: rgba(66, 66, 66, 0.8);
+  --album-card-bg: rgba(66, 66, 66, 0.8);
+  --album-tag-bg: rgba(255, 64, 129, 0.15);
+  --album-tag-hover-bg: rgba(255, 64, 129, 0.25);
+  --album-tag-more-bg: rgba(255, 255, 255, 0.1);
+  --album-info-header-bg: rgba(66, 66, 66, 0.8);
+  --photo-item-bg: rgba(66, 66, 66, 0.8);
+  --blockquote-bg: rgba(255, 255, 255, 0.05);
+  --code-bg: rgba(255, 255, 255, 0.1);
 }
 
 /* 暗色模式全局适配 */
-html.mdui-theme-layout-dark body {
-  background-color: #303030;
-  color: #fff;
-}
-
-/* 修正暗色模式背景显示问题 */
-html.mdui-theme-layout-dark body {
-  background-color: transparent !important; /* 关键：body 必须透明才能看到 fixed 的 background */
-  color: #fff;
-}
-
 html.mdui-theme-layout-dark .background {
-  opacity: 1 !important;
+  opacity: 1;
   filter: none;
 }
 
 html.mdui-theme-layout-dark .index-filter {
-  background: rgba(33, 33, 33, 0.5) !important; /* 降低不透明度从 0.7 到 0.5，使背景更清晰 */
+  background: rgba(33, 33, 33, 0.5); /* 降低不透明度从 0.7 到 0.5，使背景更清晰 */
 }
 
 html.mdui-theme-layout-dark .mdui-appbar {
-  background-color: transparent !important; /* 暗色模式下顶栏依然完全透明 */
+  background-color: transparent; /* 暗色模式下顶栏依然完全透明 */
 }
 
 html.mdui-theme-layout-dark .mdui-drawer {
@@ -68,7 +90,7 @@ html.mdui-theme-layout-dark .sidebar-info::after {
 }
 
 html.mdui-theme-layout-dark .sidebar-module {
-  background-color: rgba(66, 66, 66, 0.8) !important;
+  background-color: rgba(66, 66, 66, 0.8);
 }
 
 html.mdui-theme-layout-dark .sidebar-module-title {
@@ -79,7 +101,8 @@ html.mdui-theme-layout-dark .sidebar-module-list {
   color: rgba(255, 255, 255, 0.7);
 }
 
-html.mdui-theme-layout-dark .archive-year-title {
+html.mdui-theme-layout-dark .archive-year-title,
+html.mdui-theme-layout-dark .archive-title {
   color: #fff;
 }
 
@@ -89,11 +112,11 @@ html.mdui-theme-layout-dark .mdui-card-primary-title {
 
 /* 暗色模式文章内容适配 */
 html.mdui-theme-layout-dark .post-card-content .mdui-card-primary-title {
-  color: #fff !important;
+  color: #fff;
 }
 
 html.mdui-theme-layout-dark .post-card-content .mdui-card-primary-subtitle {
-  color: rgba(255, 255, 255, 0.7) !important;
+  color: rgba(255, 255, 255, 0.7);
 }
 
 html.mdui-theme-layout-dark .mdui-typo {
@@ -115,7 +138,7 @@ html.mdui-theme-layout-dark .mdui-typo li {
 }
 
 html.mdui-theme-layout-dark .mdui-typo blockquote {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--blockquote-bg);
   color: rgba(255, 255, 255, 0.6);
 }
 
@@ -148,12 +171,7 @@ html.mdui-theme-layout-dark .index-card-filter {
 }
 
 html.mdui-theme-layout-dark .index-img-media:hover .index-card-filter {
-  background: rgba(0, 0, 0, 0.5); /* 悬停时更暗一点 */
-}
-
-/* 覆盖 MDUI 默认的暗色背景 */
-.mdui-theme-layout-dark .mdui-hoverable:hover {
-  background-color: rgba(80, 80, 80, 0.9) !important;
+  background: rgba(0, 0, 0, 0.5);
 }
 
 body {
@@ -205,7 +223,7 @@ a {
 .mdui-appbar {
   color: #fff;
   text-shadow: 1px 1px 1px rgba(66, 66, 66, 0.5); /* 增加文字阴影提高可读性 */
-  background-color: transparent !important; /* 导航栏背景透明 */
+  background-color: transparent; /* 导航栏背景透明 */
   transition: all 0.3s;
   position: fixed; /* 强制固定 */
   top: 0;
@@ -352,16 +370,13 @@ a {
 
 /* ----------------- 主容器 (Main Container) ----------------- */
 .mdui-card {
-  background-color: rgba(255, 255, 255, 0.8) !important;
-  border-radius: 7px; /*  圆角 */
+  background-color: var(--card-bg);
+  border-radius: 7px;
   box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+              transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   overflow: hidden;
   position: relative;
-}
-
-.mdui-theme-layout-dark .mdui-card {
-  background-color: rgba(66, 66, 66, 0.8) !important;
 }
 
 .index-container {
@@ -377,22 +392,7 @@ a {
 /* ----------------- 文章卡片 (Post Card / Index Card) ----------------- */
 .mdui-hoverable:hover {
   box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
-  transform: translate3d(0, -2px, 0); /* 轻微上浮 */
-}
-
-/* ----------------- 文章卡片 (Post Card / Index Card) ----------------- */
-.mdui-card {
-  background-color: #fff;
-  border-radius: 7px; /* 圆角 */
-  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  overflow: hidden;
-  position: relative;
-}
-
-.mdui-hoverable:hover {
-  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
-  transform: translate3d(0, -2px, 0); /* 轻微上浮 */
+  transform: translate3d(0, -2px, 0);
 }
 
 /* 文章卡片布局 */
@@ -451,14 +451,14 @@ a {
   right: 0;
   padding: 16px 24px;
   color: #fff;
-  background-color: rgba(0, 0, 0, 0.4) !important;
+  background-color: rgba(0, 0, 0, 0.4);
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
   transition: all 0.3s;
   z-index: 2;
 }
 
 .index-primary {
-  padding: 0 !important;
+  padding: 0;
   transition: all 0.3s;
 }
 
@@ -513,7 +513,7 @@ a {
 
 /* 主题色文字 */
 .mdui-text-color-theme {
-  color: var(--color) !important;
+  color: var(--color);
 }
 
 /* 置顶标签 */
@@ -527,7 +527,7 @@ a {
   margin: 20px 0;
   text-align: center;
   padding-bottom: 15px; /* 减少底部空白 */
-  background-color: transparent !important;
+  background-color: transparent;
   position: relative;
   z-index: 1;
 }
@@ -603,7 +603,7 @@ a {
 
 .sidebar-module {
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: rgba(255, 255, 255, 0.8);
   border-radius: 7px;
 }
 
@@ -639,7 +639,7 @@ a {
 }
 
 .sidebar-tag .mdui-chip {
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: var(--chip-bg);
   border-radius: 5px;
   display: inline-flex;
   align-items: center;
@@ -648,11 +648,16 @@ a {
   color: rgba(0, 0, 0, 0.87);
   font-size: 13px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: transform 0.2s;
+}
+
+html.mdui-theme-layout-dark .sidebar-tag .mdui-chip {
+  color: #fff;
 }
 
 .mdui-chip:hover {
-  background-color: #d5d5d5;
+  background-color: var(--chip-hover-bg);
+  transform: translateY(-1px);
 }
 
 .mdui-chip-title {
@@ -662,12 +667,12 @@ a {
 /* ----------------- 文章详情页 (Post Content) ----------------- */
 .archive-card {
   margin-top: 20px;
-  transition: all 0.3s;
+  transition: box-shadow 0.3s, transform 0.3s;
   text-align: center;
   font-size: large;
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: var(--archive-card-bg);
   border-radius: 7px;
-  padding: 0; /* 移除 padding，由内部 title 控制 */
+  padding: 0;
 }
 
 @media (max-width: 1024px) {
@@ -690,7 +695,7 @@ a {
 .post-card-content {
   margin: 20px 0;
   padding: 0;
-  background-color: rgba(255, 255, 255, 0.8) !important;
+  background-color: var(--card-bg);
 }
 
 @media (max-width: 1024px) {
@@ -722,8 +727,8 @@ a {
 }
 
 .post-header-info {
-  background-color: rgba(0, 0, 0, 0.4) !important; /* 信息区域固定遮罩 */
-  padding: 20px 24px !important;
+  background-color: rgba(0, 0, 0, 0.4); /* 信息区域固定遮罩 */
+  padding: 20px 24px;
   z-index: 2;
 }
 
@@ -863,7 +868,7 @@ a {
 }
 
 .mdui-theme-layout-dark .mdui-typo blockquote {
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: var(--blockquote-bg);
   color: #bbb;
 }
 
@@ -924,7 +929,7 @@ a {
 }
 
 .mdui-theme-layout-dark .mdui-typo code {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--code-bg);
 }
 
 .mdui-typo img {

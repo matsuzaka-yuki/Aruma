@@ -9,6 +9,7 @@ import 'mdui/mdui.css';
 import '../styles/material-icons.css';
 import 'mdui';
 import '../styles/aruma.css';
+import '../styles/albums.css';
 
 interface Props {
 	title?: string;
@@ -19,8 +20,21 @@ const { title = siteConfig.title, description = siteConfig.description } = Astro
 ---
 
 <!doctype html>
-<html lang={siteConfig.lang} class="mdui-theme-auto">
+<html lang={siteConfig.lang}>
 	<head>
+		{/* 阻塞式主题脚本 - 必须在任何样式加载之前执行，防止 FOUC (Flash of Unstyled Content) */}
+		<script is:inline>
+			(function() {
+				const theme = localStorage.getItem('theme');
+				// 默认暗色模式：theme === 'dark' 或 theme 为 null/undefined
+				const isDark = theme === 'dark' || theme === null;
+				if (isDark) {
+					document.documentElement.classList.add('mdui-theme-layout-dark');
+				} else {
+					document.documentElement.classList.remove('mdui-theme-layout-dark');
+				}
+			})();
+		</script>
 		<BaseHead title={title} description={description} />
 		<ViewTransitions />
 		<script is:inline>
@@ -55,7 +69,7 @@ const { title = siteConfig.title, description = siteConfig.description } = Astro
 				flex: 1; /* 撑开容器，将 footer 推到底部 */
 			}
 			.background {
-				background-image: var(--background-image) !important;
+				background-image: var(--background-image);
 			}
 			.content-area {
 				flex: 1;
@@ -82,12 +96,30 @@ const { title = siteConfig.title, description = siteConfig.description } = Astro
 			}
 		</style>
 		<script is:inline>
-			// 防止闪烁：在页面渲染前尽早应用主题
-			const theme = localStorage.getItem('theme');
-			// 如果没有设置，默认为 dark
-			if (theme === 'dark' || !theme) {
-				document.documentElement.classList.add('mdui-theme-layout-dark');
+			const getTheme = () => {
+				const theme = localStorage.getItem('theme');
+				return theme === 'dark' || !theme;
+			};
+
+			const setTheme = () => {
+				if (getTheme()) {
+					document.documentElement.classList.add('mdui-theme-layout-dark');
+				} else {
+					document.documentElement.classList.remove('mdui-theme-layout-dark');
+				}
+			};
+
+		// Initial setup
+		setTheme();
+
+		// Re-apply theme before View Transitions navigation to prevent FOUC
+		document.addEventListener('astro:before-swap', (event) => {
+			if (getTheme()) {
+				event.newDocument.documentElement.classList.add('mdui-theme-layout-dark');
+			} else {
+				event.newDocument.documentElement.classList.remove('mdui-theme-layout-dark');
 			}
+		});
 		</script>
 	</head>
 	<body class="mdui-theme-primary-pink mdui-theme-accent-pink">

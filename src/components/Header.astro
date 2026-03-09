@@ -186,16 +186,12 @@ const archives = Object.entries(archiveCounts)
 <style>
   /* Drawer Styles */
   .drawer {
-    background: rgba(255, 255, 255, 0.75); /* 提高透明度从 0.95 到 0.75 */
+    background: var(--drawer-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-right: 1px solid rgba(0,0,0,0.05);
     display: flex;
     flex-direction: column;
-  }
-  :global(.mdui-theme-layout-dark) .drawer {
-    background: rgba(48, 48, 48, 0.75); /* 提高透明度从 0.95 到 0.75 */
-    border-right: 1px solid rgba(255,255,255,0.05);
   }
 
   /* Profile Section */
@@ -338,6 +334,9 @@ const archives = Object.entries(archiveCounts)
     width: 100%;
     border-top: 1px solid rgba(0,0,0,0.05);
   }
+  :global(.mdui-theme-layout-dark) .drawer {
+    border-right-color: rgba(255, 255, 255, 0.05);
+  }
   :global(.mdui-theme-layout-dark) .drawer-bottom {
     border-top-color: rgba(255, 255, 255, 0.05);
   }
@@ -360,14 +359,14 @@ const archives = Object.entries(archiveCounts)
     border-right: none;
     padding: 8px 0;
     font-size: 16px;
-    outline: none !important;
-    box-shadow: none !important;
+    outline: none;
+    box-shadow: none;
   }
 
   .appbar-search .mdui-textfield-input:focus {
-    outline: none !important;
-    box-shadow: none !important;
-    border-bottom: 1px solid #fff !important;
+    outline: none;
+    box-shadow: none;
+    border-bottom: 1px solid #fff;
   }
 
   .appbar-search.mdui-textfield-expanded .mdui-textfield-input {
@@ -430,14 +429,14 @@ const archives = Object.entries(archiveCounts)
 
   /* Remove MDUI 2 default dropdown styles to let our container handle everything */
   mdui-dropdown#qrcode-dropdown::part(panel) {
-    background: transparent !important;
-    box-shadow: none !important;
-    overflow: visible !important;
+    background: transparent;
+    box-shadow: none;
+    overflow: visible;
   }
 
   @media (max-width: 600px) {
     #qrcode-dropdown {
-      display: none !important;
+      display: none;
     }
   }
 </style>
