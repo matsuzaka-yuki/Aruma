@@ -1,19 +1,19 @@
 [
   {
     "id": 1,
-    "content": "樱花落下的速度是每秒五厘米！",
+    "content": "The speed at which cherry blossoms fall is 5 centimeters per second!",
     "date": "2025-03-08T10:30:00Z",
     "images": ["/assets/anime/cmmn.webp", "/assets/anime/laxxx.webp"]
   },
   {
     "id": 2,
-    "content": "今天天气不错，适合写代码。Aruma 的 MDUI2 设计风格真的很简洁。",
+    "content": "The weather is nice today, perfect for coding. Aruma's MDUI2 design style is really clean.",
     "date": "2025-03-07T15:45:00Z",
-    "tags": ["心情", "开发"]
+    "tags": ["mood", "development"]
   },
   {
     "id": 3,
-    "content": "这是一个带图片的测试日记。",
+    "content": "This is a test diary entry with images.",
     "date": "2025-03-06T09:00:00Z",
     "images": ["/assets/anime/lkls.webp"]
   }

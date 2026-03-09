@@ -1,6 +1,7 @@
 import { siteConfig } from "../site.config";
 import type I18nKey from "./i18nKey";
 import { zhCN } from "./languages/zh-CN";
+import { zhTW } from "./languages/zh-TW";
 import { en } from "./languages/en";
 import { ja } from "./languages/ja";
 
@@ -17,6 +18,8 @@ const map: { [key: string]: Translation } = {
     "zh-cn": zhCN,
     "zh_cn": zhCN,
     "zh": zhCN,
+    "zh-tw": zhTW,
+    "zh_tw": zhTW,
     "en": en,
     "en-us": en,
     "en_us": en,

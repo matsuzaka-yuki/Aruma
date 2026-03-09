@@ -48,10 +48,6 @@ export const ja: Translation = {
     [Key.diaryHoursAgo]: " 時間前",
     [Key.diaryDaysAgo]: " 日前",
 
-    // フッター
-    [Key.allRightsReserved]: "All rights reserved.",
-    [Key.poweredBy]: "Proudly powered by",
-
     // コードコピー
     [Key.copyCode]: "コードをコピー",
     [Key.copySuccess]: "コピーしました！",

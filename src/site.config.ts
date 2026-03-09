@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
   title: "有希",
   description: "有希的个人博客",
   author: "有希",
-  lang: "zh-cn", // 语言配置：支持 "zh-cn"（中文）和 "en"（英文）
+  lang: "zh-cn", // 语言配置：支持 "zh-cn"（中文）、"zh-tw"（繁体中文）、"en"（英文）和 "ja"（日文）
   avatar: avatarImage.src,
   background: backgroundImage.src,
   sidebarBg: sidebarImage.src,

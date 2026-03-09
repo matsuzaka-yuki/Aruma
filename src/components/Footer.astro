@@ -2,8 +2,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { siteConfig, footerConfig } from '../site.config';
-import { i18n } from '../i18n/translation';
-import I18nKey from '../i18n/i18nKey';
 
 const today = new Date();
 
@@ -25,9 +23,9 @@ if (footerConfig.enable) {
 
 <footer class="footer-container mdui-typo">
 	<div class="footer-text">
-		&copy; {today.getFullYear()} {siteConfig.author}. {i18n(I18nKey.allRightsReserved)}
+		&copy; {today.getFullYear()} {siteConfig.author}. All rights reserved.
 		<br />
-		{i18n(I18nKey.poweredBy)} <a href="https://astro.build" target="_blank">Astro</a> & <a href="https://github.com/matsuzaka-yuki/Aruma" target="_blank">Aruma</a>
+		Powered by <a href="https://astro.build" target="_blank">Astro</a> & <a href="https://github.com/matsuzaka-yuki/Aruma" target="_blank">Aruma</a>
 	</div>
 
 	{customFooterHtml && (

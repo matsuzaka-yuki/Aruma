@@ -48,10 +48,6 @@ export const en: Translation = {
     [Key.diaryHoursAgo]: " hours ago",
     [Key.diaryDaysAgo]: " days ago",
     
-    // Footer
-    [Key.allRightsReserved]: "All rights reserved.",
-    [Key.poweredBy]: "Proudly powered by",
-    
     // Code copy
     [Key.copyCode]: "Copy code",
     [Key.copySuccess]: "Copied!",
