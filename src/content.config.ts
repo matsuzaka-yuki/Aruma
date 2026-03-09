@@ -15,6 +15,8 @@ const post = defineCollection({
 			heroImage: image().optional(),
 			tags: z.array(z.string()).optional(),
 			category: z.string().optional(),
+			pinned: z.boolean().optional().default(false),
+			priority: z.number().optional(),
 		}),
 });
 

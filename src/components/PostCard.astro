@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { post } = Astro.props;
-const { title, description, pubDate, heroImage, category } = post.data;
+const { title, description, pubDate, heroImage, pinned } = post.data;
 
 // 处理封面图逻辑
 let coverImage = null;
@@ -35,7 +35,7 @@ if (siteConfig.randomImage && siteConfig.randomImage.enable && siteConfig.random
       <div class="mdui-card-media-covered">
         <div class="mdui-card-primary index-primary">
           <div class="mdui-card-primary-title">
-            {category === '置顶' && <span class="mdui-text-color-theme" id="sticky">{i18n(I18nKey.sticky)} </span>}
+            {pinned && <span class="mdui-text-color-theme" id="sticky">{i18n(I18nKey.sticky)} </span>}
             {title}
           </div>
           <div class="mdui-card-primary-subtitle index-info">

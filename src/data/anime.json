@@ -5,10 +5,10 @@
     "cover": "/assets/anime/lkls.webp",
     "url": "https://www.bilibili.com/bangumi/media/md28338623",
     "type": "TV",
-    "area": "日本",
+    "area": "Japan",
     "show": "12 episodes",
     "evaluate": "Girl's gunfight",
-    "progress": "已看第12话"
+    "progress": "Watched episode 12"
   },
   {
     "name": "Yowamushi Pedal",
@@ -16,10 +16,10 @@
     "cover": "/assets/anime/rynh.webp",
     "url": "https://www.bilibili.com/bangumi/media/md2590",
     "type": "TV",
-    "area": "日本",
+    "area": "Japan",
     "show": "12 episodes",
     "evaluate": "Girl's daily life, sweet and healing",
-    "progress": "已看第8话"
+    "progress": "Watched episode 8"
   },
   {
     "name": "Asteroid in Love",
@@ -27,10 +27,10 @@
     "cover": "/assets/anime/laxxx.webp",
     "url": "https://www.bilibili.com/bangumi/media/md28224128",
     "type": "TV",
-    "area": "日本",
+    "area": "Japan",
     "show": "12 episodes",
     "evaluate": "Meeting girls among the stars, pure love and healing",
-    "progress": "已看第5话"
+    "progress": "Watched episode 5"
   },
   {
     "name": "Is the Order a Rabbit?",
@@ -38,10 +38,10 @@
     "cover": "/assets/anime/tz1.webp",
     "url": "https://www.bilibili.com/bangumi/media/md2762",
     "type": "TV",
-    "area": "日本",
+    "area": "Japan",
     "show": "12 episodes",
     "evaluate": "A group of girls' warm daily life",
-    "progress": "已看第12话"
+    "progress": "Watched episode 12"
   },
   {
     "name": "The Secret of the Magic Girl",
@@ -49,9 +49,9 @@
     "cover": "/assets/anime/cmmn.webp",
     "url": "https://www.bilibili.com/bangumi/media/md26625039",
     "type": "TV",
-    "area": "日本",
+    "area": "Japan",
     "show": "12 episodes",
     "evaluate": "Muli, Muli!",
-    "progress": "已看第8话"
+    "progress": "Watched episode 8"
   }
 ]

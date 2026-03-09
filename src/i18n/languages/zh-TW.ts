@@ -1,0 +1,62 @@
+import Key from "../i18nKey";
+import type { Translation } from "../translation";
+
+export const zhTW: Translation = {
+    // 導航
+    [Key.home]: "首頁",
+    [Key.category]: "分類",
+    [Key.archive]: "歸檔",
+    [Key.friends]: "友人帳",
+    [Key.anime]: "追番",
+    [Key.diary]: "日記",
+    [Key.other]: "其他",
+    [Key.about]: "關於",
+
+    // 搜尋
+    [Key.searchPlaceholder]: "搜尋",
+    [Key.searchResult]: "搜尋結果",
+    [Key.searchResultFor]: "搜尋結果: {query}",
+    [Key.foundPosts]: "共找到 {count} 篇相關內容",
+    [Key.noSearchResult]: "沒有找到與「{query}」相關的文章",
+    [Key.viewAllPosts]: "查看全部文章",
+
+    // 文章相關
+    [Key.sticky]: "[置頂]",
+    [Key.comments]: "{count} 則留言",
+    [Key.views]: "{count} 瀏覽",
+    [Key.readingTime]: "閱讀時間: 約 {minutes} 分鐘",
+    [Key.categoryLabel]: "分類: ",
+    [Key.tagsLabel]: "標籤: ",
+
+    // 側邊欄
+    [Key.recentReplies]: "最新回覆",
+    [Key.noReplies]: "暫無回覆",
+    [Key.tagCloud]: "標籤雲",
+
+    // 頁面標題
+    [Key.friendsTitle]: "友情連結",
+    [Key.animeTitle]: "追番",
+    [Key.diaryTitle]: "日記",
+    [Key.archiveTitle]: "歸檔",
+    [Key.archiveYear]: "歸檔: {year} 年",
+    [Key.categoryTitle]: "分類",
+    [Key.categoryWith]: "分類: {name}",
+    [Key.tagWith]: "標籤: {tag}",
+
+    // 短文頁面
+    [Key.diaryMinutesAgo]: " 分鐘前",
+    [Key.diaryHoursAgo]: " 小時前",
+    [Key.diaryDaysAgo]: " 天前",
+
+    // 程式碼複製
+    [Key.copyCode]: "複製程式碼",
+    [Key.copySuccess]: "複製成功",
+
+    // RSS
+    [Key.rssSubscribe]: "RSS 訂閱",
+
+    // 設備頁面
+    [Key.devices]: "設備",
+    [Key.devicesTitle]: "我的設備",
+    [Key.devicesViewDetails]: "查看詳情",
+};

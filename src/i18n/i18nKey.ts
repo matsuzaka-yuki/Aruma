@@ -46,10 +46,6 @@ enum I18nKey {
     diaryHoursAgo = "diaryHoursAgo",
     diaryDaysAgo = "diaryDaysAgo",
     
-    // 页脚
-    allRightsReserved = "allRightsReserved",
-    poweredBy = "poweredBy",
-    
     // 代码复制
     copyCode = "copyCode",
     copySuccess = "copySuccess",

@@ -49,10 +49,6 @@ export const zhCN: Translation = {
     [Key.diaryHoursAgo]: " 小时前",
     [Key.diaryDaysAgo]: " 天前",
     
-    // 页脚
-    [Key.allRightsReserved]: "All rights reserved.",
-    [Key.poweredBy]: "Proudly powered by",
-    
     // 代码复制
     [Key.copyCode]: "复制代码",
     [Key.copySuccess]: "复制成功",

@@ -38,6 +38,9 @@ importers:
       mdui:
         specifier: ^2.1.4
         version: 2.1.4
+      pace-js:
+        specifier: ^1.2.4
+        version: 1.2.4
       pagefind:
         specifier: ^1.4.0
         version: 1.4.0
@@ -1940,6 +1943,9 @@ packages:
   p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
     engines: {node: '>=6'}
+
+  pace-js@1.2.4:
+    resolution: {integrity: sha512-qnCxtvUoY9yHId0AwMQCVmWltb698GiuVArmDbQzonTu9QCo0SgWUVnX9jB9mi+/FUSWvQULBPxUAAo/kLrh1A==}
 
   package-manager-detector@1.6.0:
     resolution: {integrity: sha512-61A5ThoTiDG/C8s8UMZwSorAGwMJ0ERVGj2OjoW5pAalsNOg15+iQiPzrLJ4jhZ1HJzmC2PIHT2oEiH3R5fzNA==}
@@ -4736,6 +4742,8 @@ snapshots:
   p-timeout@6.1.4: {}
 
   p-try@2.2.0: {}
+
+  pace-js@1.2.4: {}
 
   package-manager-detector@1.6.0: {}
 
