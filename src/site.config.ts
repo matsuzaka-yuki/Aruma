@@ -1,8 +1,9 @@
 import avatarImage from './assets/home/logo.webp';
 import backgroundImage from './assets/home/bg.webp';
 import sidebarImage from './assets/home/sidebar.webp';
+import type { SiteConfig } from './types/site-config';
 
-export const siteConfig = {
+export const siteConfig: SiteConfig = {
   title: "有希",
   description: "有希的个人博客",
   author: "有希",
@@ -45,4 +46,11 @@ export const siteConfig = {
     ignoreHeroImage: true, // 设为 true 时，即使文章设置了 heroImage 也会强制使用随机图
     url: "https://www.loliapi.com/acg/pc", // 默认使用随机二次元图片 API
   }
+};
+
+export const footerConfig = {
+  enable: false,
+  customHtml: "",
+  // 也可以直接编辑 FooterConfig.html 文件来添加备案号等自定义内容
+  // 注意：若 customHtml 不为空，则使用 customHtml 中的内容；若 customHtml 留空，则使用 FooterConfig.html 文件中的内容
 };
