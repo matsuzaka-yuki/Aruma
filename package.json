@@ -1,9 +1,10 @@
 {
-  "name": "Aruma",
+  "name": "aruma",
   "type": "module",
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
+    "check": "astro check",
     "build": "astro build && pagefind --site dist && node scripts/compress-fonts.js",
     "preview": "astro preview",
     "astro": "astro"
