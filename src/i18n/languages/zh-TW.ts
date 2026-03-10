@@ -70,7 +70,6 @@ export const zhTW: Translation = {
     [Key.albumsBackToList]: "返回相簿列表",
 
     // 追番頁面
-    [Key.animeSubtitle]: "我的追番列表",
     [Key.animeYear]: "年份",
     [Key.animeStudio]: "製作",
     [Key.animeEpisodes]: "集數",

@@ -35,6 +35,11 @@
   "pnpm": {
     "overrides": {
       "ttf2woff2": "4.0.5"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "ttf2woff2"
+    ]
   }
 }

@@ -6,12 +6,12 @@ export const ja: Translation = {
     [Key.home]: "ホーム",
     [Key.category]: "カテゴリー",
     [Key.archive]: "アーカイブ",
-    [Key.friends]: "友人",
+    [Key.friends]: "友達",
     [Key.anime]: "アニメ",
     [Key.diary]: "日記",
     [Key.albums]: "アルバム",
     [Key.other]: "その他",
-    [Key.about]: "について",
+    [Key.about]: "このブログについて",
 
     // 検索
     [Key.searchPlaceholder]: "検索",
@@ -36,7 +36,7 @@ export const ja: Translation = {
 
     // ページタイトル
     [Key.friendsTitle]: "リンク集",
-    [Key.animeTitle]: "アニメ",
+    [Key.animeTitle]: "視聴したアニメ",
     [Key.diaryTitle]: "日記",
     [Key.archiveTitle]: "アーカイブ",
     [Key.archiveYear]: "アーカイブ: {year} 年",
@@ -45,9 +45,9 @@ export const ja: Translation = {
     [Key.tagWith]: "タグ: {tag}",
 
     // 日記ページ
-    [Key.diaryMinutesAgo]: " 分前",
-    [Key.diaryHoursAgo]: " 時間前",
-    [Key.diaryDaysAgo]: " 日前",
+    [Key.diaryMinutesAgo]: "分前",
+    [Key.diaryHoursAgo]: "時間前",
+    [Key.diaryDaysAgo]: "日前",
 
     // コードコピー
     [Key.copyCode]: "コードをコピー",
@@ -55,24 +55,23 @@ export const ja: Translation = {
 
     // RSS
     [Key.rssSubscribe]: "RSS フィード",
-    
+
     // デバイスページ
     [Key.devices]: "デバイス",
     [Key.devicesTitle]: "私のデバイス",
     [Key.devicesViewDetails]: "詳細を見る",
 
     // アルバムページ
-    [Key.albumsSubtitle]: "美しい瞬間を記録",
-    [Key.albumsPhotosCount]: "枚の写真",
-    [Key.albumsPhotoCount]: "枚の写真",
-    [Key.albumsEmpty]: "アルバムなし",
-    [Key.albumsEmptyDesc]: "アルバムが作成されていません",
-    [Key.albumsBackToList]: "アルバム一覧に戻る",
+    [Key.albumsSubtitle]: "人生の美しい瞬間の記録です",
+    [Key.albumsPhotosCount]: "件の写真",
+    [Key.albumsPhotoCount]: "件の写真",
+    [Key.albumsEmpty]: "コンテンツはありません",
+    [Key.albumsEmptyDesc]: "まだアルバムが作成されていません。美しい思い出を追加しましょう！",
+    [Key.albumsBackToList]: "アルバムに戻る",
 
     // アニメページ
-    [Key.animeSubtitle]: "マイアニメリスト",
     [Key.animeYear]: "年",
     [Key.animeStudio]: "スタジオ",
     [Key.animeEpisodes]: "エピソード",
-    [Key.animeEmpty]: "アニメなし",
+    [Key.animeEmpty]: "アニメのデータはありません",
 };

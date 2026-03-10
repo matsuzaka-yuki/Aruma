@@ -70,7 +70,6 @@ export const en: Translation = {
     [Key.albumsBackToList]: "Back to albums",
 
     // Anime page
-    [Key.animeSubtitle]: "My Anime List",
     [Key.animeYear]: "Year",
     [Key.animeStudio]: "Studio",
     [Key.animeEpisodes]: "Episodes",

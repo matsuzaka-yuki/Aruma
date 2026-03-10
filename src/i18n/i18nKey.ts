@@ -67,7 +67,6 @@ enum I18nKey {
     albumsBackToList = "albumsBackToList",
 
     // 追番页面
-    animeSubtitle = "animeSubtitle",
     animeYear = "animeYear",
     animeStudio = "animeStudio",
     animeEpisodes = "animeEpisodes",
