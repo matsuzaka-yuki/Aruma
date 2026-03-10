@@ -70,9 +70,95 @@ function initPhotoSwipe() {
     }));
   }
 
-  function setupGallery(selector: string) {
+  function openPhotoSwipeSingle(img: HTMLImageElement) {
+    const item = {
+      src: img.src,
+      width: img.naturalWidth || img.width || 800,
+      height: img.naturalHeight || img.height || 600,
+      alt: img.alt || '',
+      element: img,
+    };
+
+    const pswp = new PhotoSwipe({
+      dataSource: [item],
+      index: 0,
+      pswpModule: PhotoSwipe,
+      paddingFn: () => ({ top: 20, bottom: 20, left: 20, right: 20 }),
+      bgOpacity: 0.85,
+      showHideOpacity: true,
+      zoom: true,
+      closeOnVerticalDrag: true,
+      pinchToClose: true,
+    });
+
+    pswp.init();
+  }
+
+  function openPhotoSwipeGallery(container: Element, clickedImg: HTMLImageElement) {
+    const images = container.querySelectorAll('img');
+    const items = Array.from(images).map((img) => ({
+      src: img.src,
+      width: img.naturalWidth || img.width || 800,
+      height: img.naturalHeight || img.height || 600,
+      alt: img.alt || '',
+      element: img,
+    }));
+
+    const clickedIndex = Array.from(images).indexOf(clickedImg);
+
+    const pswp = new PhotoSwipe({
+      dataSource: items,
+      index: clickedIndex,
+      pswpModule: PhotoSwipe,
+      preload: [1, 2],
+      paddingFn: () => ({ top: 20, bottom: 20, left: 20, right: 20 }),
+      bgOpacity: 0.85,
+      showHideOpacity: true,
+      zoom: true,
+      closeOnVerticalDrag: true,
+      pinchToClose: true,
+    });
+
+    pswp.on('uiRegister', () => {
+      pswp.ui?.registerElement({
+        name: 'bulletsIndicator',
+        className: 'pswp__bullets-indicator',
+        order: 5,
+        onInit: (el, pswpInstance) => {
+          if (pswpInstance.getNumItems() <= 1) return;
+
+          const bullets = document.createElement('div');
+          bullets.className = 'pswp__bullets';
+          el.appendChild(bullets);
+
+          for (let i = 0; i < pswpInstance.getNumItems(); i++) {
+            const bullet = document.createElement('button');
+            bullet.className = 'pswp__bullet';
+            if (i === pswpInstance.currIndex) {
+              bullet.classList.add('pswp__bullet--active');
+            }
+            bullet.addEventListener('click', () => {
+              pswpInstance.goTo(i);
+            });
+            bullets.appendChild(bullet);
+          }
+
+          pswpInstance.on('change', () => {
+            const allBullets = bullets.querySelectorAll('.pswp__bullet');
+            allBullets.forEach((b, idx) => {
+              b.classList.toggle('pswp__bullet--active', idx === pswpInstance.currIndex);
+            });
+          });
+        },
+      });
+    });
+
+    pswp.init();
+  }
+
+  function setupSingleImage(selector: string) {
     document.querySelectorAll(selector).forEach((container) => {
-      container.querySelectorAll('img').forEach((img, index) => {
+      container.querySelectorAll('img').forEach((img) => {
         if (img.closest('.pswp')) return;
         if ((img as any)._pswpInitialized) return;
         (img as any)._pswpInitialized = true;
@@ -81,61 +167,52 @@ function initPhotoSwipe() {
         img.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          
-          const items = getGalleryItems(container);
-          const clickedIndex = Array.from(container.querySelectorAll('img')).indexOf(img);
-          
-          const pswp = new PhotoSwipe({
-            dataSource: items,
-            index: clickedIndex,
-            pswpModule: PhotoSwipe,
-            preload: [1, 2],
-            paddingFn: () => ({ top: 20, bottom: 20, left: 20, right: 20 }),
-            bgOpacity: 0.85,
-            showHideOpacity: true,
-            zoom: true,
-            closeOnVerticalDrag: true,
-            pinchToClose: true,
-          });
-          
-          pswp.on('uiRegister', () => {
-            pswp.ui?.registerElement({
-              name: 'bulletsIndicator',
-              className: 'pswp__bullets-indicator',
-              order: 5,
-              onInit: (el, pswpInstance) => {
-                const bullets = document.createElement('div');
-                bullets.className = 'pswp__bullets';
-                el.appendChild(bullets);
-
-                for (let i = 0; i < pswpInstance.getNumItems(); i++) {
-                  const bullet = document.createElement('button');
-                  bullet.className = 'pswp__bullet';
-                  bullet.addEventListener('click', () => {
-                    pswpInstance.goTo(i);
-                  });
-                  bullets.appendChild(bullet);
-                }
-
-                pswpInstance.on('change', () => {
-                  const allBullets = bullets.querySelectorAll('.pswp__bullet');
-                  allBullets.forEach((b, idx) => {
-                    b.classList.toggle('pswp__bullet--active', idx === pswpInstance.currIndex);
-                  });
-                });
-              },
-            });
-          });
-          
-          pswp.init();
+          openPhotoSwipeSingle(img as HTMLImageElement);
         });
       });
     });
   }
 
-  setupGallery('.photo-gallery');
-  setupGallery('.diary-images');
-  setupGallery('.post-content');
+  function setupGalleryByCard(cardSelector: string, imageContainerSelector: string) {
+    document.querySelectorAll(cardSelector).forEach((card) => {
+      const imageContainer = card.querySelector(imageContainerSelector);
+      if (!imageContainer) return;
+
+      imageContainer.querySelectorAll('img').forEach((img) => {
+        if (img.closest('.pswp')) return;
+        if ((img as any)._pswpInitialized) return;
+        (img as any)._pswpInitialized = true;
+
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openPhotoSwipeGallery(imageContainer, img as HTMLImageElement);
+        });
+      });
+    });
+  }
+
+  function setupPostContent() {
+    document.querySelectorAll('.post-content').forEach((container) => {
+      container.querySelectorAll('img').forEach((img) => {
+        if (img.closest('.pswp')) return;
+        if ((img as any)._pswpInitialized) return;
+        (img as any)._pswpInitialized = true;
+
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openPhotoSwipeSingle(img as HTMLImageElement);
+        });
+      });
+    });
+  }
+
+  setupSingleImage('.photo-gallery');
+  setupGalleryByCard('.diary-card', '.diary-images');
+  setupPostContent();
 }
 
 document.addEventListener('astro:page-load', initPhotoSwipe);
