@@ -155,6 +155,23 @@ if (siteConfig.font) {
 		<PhotoSwipe />
 		<script>
 			import 'mdui';
+
+			// KaTeX CSS 懒加载 - 只有当页面包含数学公式时才加载样式
+			function loadKatexCSS() {
+				if (document.querySelector('.katex')) {
+					import('katex/dist/katex.css');
+				}
+			}
+
+			// 页面加载时检查
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', loadKatexCSS);
+			} else {
+				loadKatexCSS();
+			}
+
+			// Astro View Transitions 页面切换后重新检查
+			document.addEventListener('astro:page-load', loadKatexCSS);
 		</script>
 	</body>
 </html>
