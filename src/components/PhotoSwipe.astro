@@ -1,0 +1,207 @@
+---
+import PhotoSwipe from 'photoswipe';
+import 'photoswipe/style.css';
+---
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+<script>
+import PhotoSwipe from 'photoswipe';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
+
+function initPhotoSwipe() {
+  const lightbox = new PhotoSwipeLightbox({
+    gallery: '.pswp',
+    pswpModule: PhotoSwipe,
+    preload: [1, 2],
+    paddingFn: () => ({ top: 20, bottom: 20, left: 20, right: 20 }),
+    bgOpacity: 0.85,
+    showHideOpacity: true,
+    zoom: true,
+    closeOnVerticalDrag: true,
+    pinchToClose: true,
+  });
+
+  lightbox.on('uiRegister', () => {
+    lightbox.pswp?.ui?.registerElement({
+      name: 'bulletsIndicator',
+      className: 'pswp__bullets-indicator',
+      order: 5,
+      onInit: (el, pswp) => {
+        const bullets = document.createElement('div');
+        bullets.className = 'pswp__bullets';
+        el.appendChild(bullets);
+
+        for (let i = 0; i < pswp.getNumItems(); i++) {
+          const bullet = document.createElement('button');
+          bullet.className = 'pswp__bullet';
+          bullet.addEventListener('click', (e) => {
+            pswp.goTo(i);
+          });
+          bullets.appendChild(bullet);
+        }
+
+        pswp.on('change', () => {
+          const allBullets = bullets.querySelectorAll('.pswp__bullet');
+          allBullets.forEach((b, idx) => {
+            b.classList.toggle('pswp__bullet--active', idx === pswp.currIndex);
+          });
+        });
+      },
+    });
+  });
+
+  lightbox.init();
+
+  function openPhotoSwipe(items: any[], index: number) {
+    lightbox.loadAndOpen(index, {
+      gallery: document.querySelector('.pswp') as HTMLElement,
+    }, items);
+  }
+
+  function getGalleryItems(container: Element): any[] {
+    const images = container.querySelectorAll('img');
+    return Array.from(images).map((img) => ({
+      src: img.src,
+      width: img.naturalWidth || img.width || 800,
+      height: img.naturalHeight || img.height || 600,
+      alt: img.alt || '',
+      element: img,
+    }));
+  }
+
+  function setupGallery(selector: string) {
+    document.querySelectorAll(selector).forEach((container) => {
+      container.querySelectorAll('img').forEach((img, index) => {
+        if (img.closest('.pswp')) return;
+        if ((img as any)._pswpInitialized) return;
+        (img as any)._pswpInitialized = true;
+
+        img.style.cursor = 'pointer';
+        img.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          const items = getGalleryItems(container);
+          const clickedIndex = Array.from(container.querySelectorAll('img')).indexOf(img);
+          
+          const pswp = new PhotoSwipe({
+            dataSource: items,
+            index: clickedIndex,
+            pswpModule: PhotoSwipe,
+            preload: [1, 2],
+            paddingFn: () => ({ top: 20, bottom: 20, left: 20, right: 20 }),
+            bgOpacity: 0.85,
+            showHideOpacity: true,
+            zoom: true,
+            closeOnVerticalDrag: true,
+            pinchToClose: true,
+          });
+          
+          pswp.on('uiRegister', () => {
+            pswp.ui?.registerElement({
+              name: 'bulletsIndicator',
+              className: 'pswp__bullets-indicator',
+              order: 5,
+              onInit: (el, pswpInstance) => {
+                const bullets = document.createElement('div');
+                bullets.className = 'pswp__bullets';
+                el.appendChild(bullets);
+
+                for (let i = 0; i < pswpInstance.getNumItems(); i++) {
+                  const bullet = document.createElement('button');
+                  bullet.className = 'pswp__bullet';
+                  bullet.addEventListener('click', () => {
+                    pswpInstance.goTo(i);
+                  });
+                  bullets.appendChild(bullet);
+                }
+
+                pswpInstance.on('change', () => {
+                  const allBullets = bullets.querySelectorAll('.pswp__bullet');
+                  allBullets.forEach((b, idx) => {
+                    b.classList.toggle('pswp__bullet--active', idx === pswpInstance.currIndex);
+                  });
+                });
+              },
+            });
+          });
+          
+          pswp.init();
+        });
+      });
+    });
+  }
+
+  setupGallery('.photo-gallery');
+  setupGallery('.diary-images');
+  setupGallery('.post-content');
+}
+
+document.addEventListener('astro:page-load', initPhotoSwipe);
+</script>
+
+<style is:global>
+.pswp__bullets-indicator {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.pswp__bullets {
+  display: flex;
+  gap: 8px;
+}
+
+.pswp__bullet {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.pswp__bullet:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.pswp__bullet--active {
+  background-color: #fff;
+  transform: scale(1.2);
+}
+
+.pswp {
+  --pswp-bg: rgba(0, 0, 0, 0.9);
+}
+
+:global(.mdui-theme-layout-dark) .pswp {
+  --pswp-bg: rgba(0, 0, 0, 0.95);
+}
+
+.pswp__top-bar {
+  background: transparent !important;
+}
+
+.pswp__counter {
+  color: #fff;
+  font-size: 14px;
+  line-height: 44px;
+  padding: 0 15px;
+}
+
+.pswp__button {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.pswp__button:hover {
+  opacity: 1;
+}
+</style>

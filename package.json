@@ -21,6 +21,7 @@
     "mdui": "^2.1.4",
     "pace-js": "^1.2.4",
     "pagefind": "^1.4.0",
+    "photoswipe": "^5.4.4",
     "qrcode": "^1.5.4",
     "sharp": "^0.34.3",
     "tailwind-merge": "^3.5.0",
