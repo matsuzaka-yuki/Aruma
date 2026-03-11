@@ -88,7 +88,7 @@ const archives = Object.entries(archiveCounts)
       ))}
     </div>
   </div>
-  
+
   <div class="mdui-divider"></div>
 
   <div class="mdui-list" id="drawer-menu">
@@ -134,7 +134,7 @@ const archives = Object.entries(archiveCounts)
             </div>
             <div class="mdui-collapse-item-body">
               {archives.map((archive) => (
-                <a href={`/archive#year-${archive.year}`} class="mdui-list-item mdui-ripple">
+                <a href={`/archive#year-${archive.year}`} class="mdui-list-item mdui-ripple" data-archive-link data-year={archive.year}>
                   <div class="mdui-list-item-content">{archive.year}</div>
                   <span class="drawer-count">{archive.count}</span>
                 </a>
@@ -258,7 +258,7 @@ const archives = Object.entries(archiveCounts)
   :global(.mdui-theme-layout-dark) .drawer .mdui-list-item-icon {
     color: inherit; /* 恢复暗色模式默认 */
   }
-  
+
   .drawer .mdui-list-item:hover {
     background-color: rgba(0, 0, 0, 0.06);
   }
@@ -406,7 +406,7 @@ const archives = Object.entries(archiveCounts)
     pointer-events: none;
     transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  
+
   :global(.mdui-theme-layout-dark) .qrcode-container {
     background: #303030; /* Use solid dark grey for dark mode */
     border-color: var(--mdui-color-primary);
@@ -450,7 +450,7 @@ const archives = Object.entries(archiveCounts)
       const toggleBtn = document.getElementById('toggle-drawer');
       const drawer = document.getElementById('main-drawer');
       const overlay = document.getElementById('drawer-overlay');
-      
+
       // QR Code logic
       const qrcodeDropdown = document.getElementById('qrcode-dropdown') as any;
       const qrcodeCanvas = document.getElementById('qrcode-canvas') as HTMLCanvasElement;
@@ -511,7 +511,7 @@ const archives = Object.entries(archiveCounts)
           header.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = item.classList.contains('open');
-            
+
             collapseItems.forEach(otherItem => {
               if (otherItem !== item && otherItem.classList.contains('open')) {
                  otherItem.classList.remove('open');
@@ -531,6 +531,37 @@ const archives = Object.entries(archiveCounts)
               item.classList.add('open');
               // @ts-ignore
               body.style.maxHeight = body.scrollHeight + 'px';
+            }
+          });
+        }
+      });
+
+      // Handle archive links specially to fix hash navigation with View Transitions
+      const archiveLinks = document.querySelectorAll('[data-archive-link]');
+      archiveLinks.forEach((link) => {
+        if (!(link as HTMLElement).dataset.bound) {
+          (link as HTMLElement).dataset.bound = 'true';
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const year = (link as HTMLElement).dataset.year;
+            const targetHash = `#year-${year}`;
+
+            // Check if we're already on the archive page
+            const isOnArchivePage = window.location.pathname === '/archive' || window.location.pathname === '/archive/';
+
+            if (isOnArchivePage) {
+              // Already on archive page, just update hash and trigger filter
+              window.location.hash = targetHash;
+              // Trigger the global archive filter function if available
+              if ((window as any).applyArchiveFilter) {
+                (window as any).applyArchiveFilter(targetHash);
+              }
+              // Close drawer
+              closeDrawer();
+            } else {
+              // Navigate to archive page with hash
+              closeDrawer();
+              navigate(`/archive${targetHash}`);
             }
           });
         }
@@ -604,7 +635,7 @@ const archives = Object.entries(archiveCounts)
         searchInput.dataset.bound = 'true';
         // 阻止点击输入框时冒泡到 document 触发关闭
         searchInput.addEventListener('click', (e) => e.stopPropagation());
-        
+
         // 监听回车键进行搜索
         searchInput.addEventListener('keydown', (e) => {
           if (e.key === 'Enter') {
@@ -619,7 +650,7 @@ const archives = Object.entries(archiveCounts)
         document.addEventListener('click', (e) => {
           const target = e.target as HTMLElement;
           // 如果点击的不是搜索容器内部，且搜索框已展开，则关闭
-          if (searchContainer?.classList.contains('mdui-textfield-expanded') && 
+          if (searchContainer?.classList.contains('mdui-textfield-expanded') &&
               !searchContainer.contains(target)) {
             closeSearch();
           }
