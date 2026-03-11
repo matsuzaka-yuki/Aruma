@@ -1,36 +1,55 @@
 ---
 interface Props {
-  name: string;
-  url: string;
-  avatar: string;
-  desc: string;
+    name: string;
+    url: string;
+    avatar: string;
+    desc: string;
 }
 
 const { name, url, avatar, desc } = Astro.props;
 ---
 
-<a href={url} target="_blank" rel="noopener noreferrer" class="friend-card-link block">
-  <div class="mdui-card friend-card mdui-hoverable flex items-center p-6 bg-white/80 dark:bg-gray-800/80 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-30 box-border">
-    <div class="friend-avatar flex-shrink-0 mr-5">
-      <img
-        src={avatar}
-        alt={name}
-        class="w-18 h-18 rounded-full object-cover border-none shadow-md"
-      />
+<a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="friend-card-link block"
+>
+    <div
+        class="mdui-card friend-card mdui-hoverable flex items-center p-6 bg-white/80 dark:bg-gray-800/80 rounded-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-lg h-30 box-border"
+    >
+        <div class="friend-avatar flex-shrink-0 mr-5">
+            <img
+                src={avatar}
+                alt={name}
+                class="w-18 h-18 rounded-full object-cover border-none shadow-md"
+            />
+        </div>
+        <div class="friend-info flex-1 min-w-0">
+            <div
+                class="friend-name text-xl font-medium mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-gray-800 dark:text-white"
+            >
+                {name}
+            </div>
+            <div
+                class="friend-desc text-sm text-gray-600 line-clamp-2 leading-relaxed dark:text-gray-300"
+            >
+                {desc}
+            </div>
+        </div>
     </div>
-    <div class="friend-info flex-1 min-w-0">
-      <div class="friend-name text-xl font-medium mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis text-gray-800 dark:text-white">
-        {name}
-      </div>
-      <div class="friend-desc text-sm text-gray-600 line-clamp-2 leading-relaxed dark:text-gray-300">
-        {desc}
-      </div>
-    </div>
-  </div>
 </a>
 
 <style>
-  :global(.mdui-theme-layout-dark) .friend-card {
-    background-color: rgba(66, 66, 66, 0.8);
-  }
+    :global(.mdui-theme-layout-dark) .friend-card {
+        background-color: rgba(66, 66, 66, 0.8);
+    }
+
+    :global(.mdui-theme-layout-dark) .friend-name {
+        color: white;
+    }
+
+    :global(.mdui-theme-layout-dark) .friend-desc {
+        color: #d1d5db;
+    }
 </style>

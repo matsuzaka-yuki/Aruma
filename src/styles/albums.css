@@ -2,647 +2,650 @@
 
 /* 相册列表页面 */
 .albums-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-  margin-top: 20px;
-  animation: fadeInUp 0.5s ease-out;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+    animation: fadeInUp 0.5s ease-out;
 }
 
 .album-card {
-  background-color: var(--album-card-bg);
-  border-radius: 7px;
-  overflow: hidden;
-  transition: box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
-              transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    background-color: var(--album-card-bg);
+    border-radius: 7px;
+    overflow: hidden;
+    transition:
+        box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+        transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .album-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 .album-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
 .album-cover {
-  position: relative;
-  width: 100%;
-  height: 280px;
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
 }
 
 .album-cover img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
 }
 
 .album-card:hover .album-cover img {
-  transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .album-cover-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
-  transition: all 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        rgba(0, 0, 0, 0.1) 100%
+    );
+    transition: all 0.3s ease;
 }
 
 .album-info {
-  padding: 20px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .album-title {
-  font-size: 20px;
-  font-weight: 500;
-  margin: 0 0 10px 0;
-  color: #333;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1;
-  -webkit-box-orient: vertical;
+    font-size: 20px;
+    font-weight: 500;
+    margin: 0 0 10px 0;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
 }
 
 .album-description {
-  font-size: 15px;
-  color: #757575;
-  margin: 0 0 14px 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  line-height: 1.5;
+    font-size: 15px;
+    color: #757575;
+    margin: 0 0 14px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.5;
 }
 
 .album-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  font-size: 13px;
-  color: #999;
-  margin-top: auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 13px;
+    color: #999;
+    margin-top: auto;
 }
 
 .album-meta > span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .album-meta .mdui-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
 }
 
 .album-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 12px;
 }
 
 .album-tag {
-  display: inline-block;
-  padding: 3px 10px;
-  background-color: var(--album-tag-bg);
-  color: var(--color);
-  border-radius: 12px;
-  font-size: 12px;
-  transition: transform 0.2s ease;
+    display: inline-block;
+    padding: 3px 10px;
+    background-color: var(--album-tag-bg);
+    color: var(--color);
+    border-radius: 12px;
+    font-size: 12px;
+    transition: transform 0.2s ease;
 }
 
 .album-tag:hover {
-  background-color: var(--album-tag-hover-bg);
-  transform: translateY(-1px);
+    background-color: var(--album-tag-hover-bg);
+    transform: translateY(-1px);
 }
 
 .album-tag-more {
-  background-color: var(--album-tag-more-bg);
-  color: #666;
+    background-color: var(--album-tag-more-bg);
+    color: #666;
 }
 
 .albums-empty {
-  text-align: center;
-  padding: 60px 20px;
-  color: #999;
-  animation: fadeIn 0.5s ease-out;
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+    animation: fadeIn 0.5s ease-out;
 }
 
 .albums-empty .mdui-icon {
-  font-size: 64px;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 16px;
-  opacity: 0.5;
+    font-size: 64px;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.5;
 }
 
 .albums-empty h3 {
-  font-size: 20px;
-  margin: 0 0 8px 0;
-  color: #666;
+    font-size: 20px;
+    margin: 0 0 8px 0;
+    color: #666;
 }
 
 .albums-empty p {
-  font-size: 14px;
-  margin: 0;
+    font-size: 14px;
+    margin: 0;
 }
 
 /* 相册详情页面 */
 .album-detail-header {
-  margin-bottom: 24px;
-  margin-top: 20px;
-  animation: fadeInUp 0.5s ease-out;
+    margin-bottom: 24px;
+    margin-top: 20px;
+    animation: fadeInUp 0.5s ease-out;
 }
 
 .back-to-list {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: #757575;
-  text-decoration: none;
-  font-size: 14px;
-  margin-bottom: 16px;
-  transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: #757575;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 16px;
+    transition: color 0.2s ease;
 }
 
 .back-to-list:hover {
-  color: var(--color);
+    color: var(--color);
 }
 
 .back-to-list .mdui-icon {
-  font-size: 18px;
-  width: 18px;
-  height: 18px;
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
 }
 
 .album-info-header {
-  background-color: var(--album-info-header-bg);
-  border-radius: 7px;
-  padding: 24px;
+    background-color: var(--album-info-header-bg);
+    border-radius: 7px;
+    padding: 24px;
 }
 
 .album-detail-title {
-  font-size: 28px;
-  font-weight: 500;
-  margin: 0 0 12px 0;
-  color: #333;
+    font-size: 28px;
+    font-weight: 500;
+    margin: 0 0 12px 0;
+    color: #333;
 }
 
 .album-detail-description {
-  font-size: 15px;
-  color: #757575;
-  margin: 0 0 16px 0;
-  line-height: 1.6;
+    font-size: 15px;
+    color: #757575;
+    margin: 0 0 16px 0;
+    line-height: 1.6;
 }
 
 .album-detail-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  font-size: 14px;
-  color: #999;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 14px;
+    color: #999;
 }
 
 .album-detail-meta > span {
-  display: flex;
-  align-items: center;
-  gap: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .album-detail-meta .mdui-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
 }
 
 .album-detail-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
 }
 
 .album-detail-tag {
-  display: inline-block;
-  padding: 5px 14px;
-  background-color: rgba(255, 64, 129, 0.08);
-  color: var(--color);
-  border-radius: 16px;
-  font-size: 13px;
-  transition: all 0.2s ease;
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: rgba(255, 64, 129, 0.08);
+    color: var(--color);
+    border-radius: 16px;
+    font-size: 13px;
+    transition: all 0.2s ease;
 }
 
 .album-detail-tag:hover {
-  background-color: rgba(255, 64, 129, 0.15);
+    background-color: rgba(255, 64, 129, 0.15);
 }
 
 /* 照片网格布局 */
 .photo-gallery {
-  margin-top: 20px;
-  animation: fadeInUp 0.6s ease-out;
+    margin-top: 20px;
+    animation: fadeInUp 0.6s ease-out;
 }
 
 .grid-layout {
-  display: grid;
-  gap: 16px;
+    display: grid;
+    gap: 16px;
 }
 
 .grid-layout[data-columns="2"] {
-  grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .grid-layout[data-columns="3"] {
-  grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .grid-layout[data-columns="4"] {
-  grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 1fr);
 }
 
 .masonry-layout {
-  columns: 2;
-  column-gap: 16px;
+    columns: 2;
+    column-gap: 16px;
 }
 
 @media (min-width: 768px) {
-  .masonry-layout {
-    columns: 3;
-  }
+    .masonry-layout {
+        columns: 3;
+    }
 }
 
 @media (min-width: 1280px) {
-  .masonry-layout[data-columns="4"] {
-    columns: 4;
-  }
+    .masonry-layout[data-columns="4"] {
+        columns: 4;
+    }
 }
 
 .photo-item {
-  break-inside: avoid;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
-  border-radius: 7px;
-  background-color: var(--photo-item-bg);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+    break-inside: avoid;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 7px;
+    background-color: var(--photo-item-bg);
+    transition:
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
 }
 
 .photo-item:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .photo-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 7px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 7px;
 }
 
 .photo-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+    width: 100%;
+    height: auto;
+    display: block;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
 .photo-item:hover .photo-image {
-  transform: scale(1.05);
+    transform: scale(1.05);
 }
 
 .photo-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
-  display: flex;
-  align-items: flex-end;
-  padding: 20px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8) 0%,
+        rgba(0, 0, 0, 0.4) 50%,
+        transparent 100%
+    );
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
 .photo-item:hover .photo-overlay {
-  opacity: 1;
+    opacity: 1;
 }
 
 .photo-overlay-content {
-  width: 100%;
-  color: #fff;
+    width: 100%;
+    color: #fff;
 }
 
 .photo-overlay-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
 }
 
 .photo-overlay-description {
-  font-size: 13px;
-  opacity: 0.9;
-  margin-bottom: 8px;
+    font-size: 13px;
+    opacity: 0.9;
+    margin-bottom: 8px;
 }
 
 .photo-overlay-icon {
-  display: flex;
-  justify-content: flex-end;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .photo-overlay-icon .mdui-icon {
-  font-size: 24px;
-  width: 24px;
-  height: 24px;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
 }
 
 /* 灯箱样式 */
 .lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.9);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(8px);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
 }
 
 .lightbox-content {
-  position: relative;
-  max-width: 95vw;
-  max-height: 95vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    position: relative;
+    max-width: 95vw;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .lightbox-close {
-  position: absolute;
-  top: -40px;
-  right: 0;
-  background: transparent;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  padding: 8px;
-  z-index: 10;
-  transition: transform 0.2s ease;
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 10;
+    transition: transform 0.2s ease;
 }
 
 .lightbox-close:hover {
-  transform: scale(1.1);
+    transform: scale(1.1);
 }
 
 .lightbox-close .mdui-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
 }
 
 .lightbox-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  padding: 12px;
-  border-radius: 50%;
-  transition: all 0.2s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
 }
 
 .lightbox-nav:hover {
-  background: rgba(255, 255, 255, 0.2);
-  transform: translateY(-50%) scale(1.1);
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
 }
 
 .lightbox-prev {
-  left: -60px;
+    left: -60px;
 }
 
 .lightbox-next {
-  right: -60px;
+    right: -60px;
 }
 
 .lightbox-nav .mdui-icon {
-  font-size: 32px;
-  width: 32px;
-  height: 32px;
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
 }
 
 .lightbox-image-container {
-  max-width: 90vw;
-  max-height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #lightbox-image {
-  max-width: 100%;
-  max-height: 75vh;
-  object-fit: contain;
-  border-radius: 4px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    max-width: 100%;
+    max-height: 75vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 .lightbox-info {
-  margin-top: 16px;
-  padding: 16px 24px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  max-width: 600px;
-  text-align: center;
-  color: #fff;
+    margin-top: 16px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    max-width: 600px;
+    text-align: center;
+    color: #fff;
 }
 
 .lightbox-info-title {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 8px;
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 8px;
 }
 
 .lightbox-info-description {
-  font-size: 14px;
-  opacity: 0.9;
-  margin-bottom: 12px;
+    font-size: 14px;
+    opacity: 0.9;
+    margin-bottom: 12px;
 }
 
 .lightbox-info-meta {
-  font-size: 13px;
-  opacity: 0.7;
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  flex-wrap: wrap;
+    font-size: 13px;
+    opacity: 0.7;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
 /* 动画 */
 @keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* 图片懒加载占位符 */
 .photo-image[loading="lazy"] {
-  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
 }
 
 @keyframes loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* 暗色模式适配 */
-:global(.mdui-theme-layout-dark) .album-title {
-  color: #fff;
-}
-
-:global(.mdui-theme-layout-dark) .album-description {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-:global(.mdui-theme-layout-dark) .album-tag-more {
-  color: rgba(255, 255, 255, 0.7);
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
 }
 
 :global(.mdui-theme-layout-dark) .albums-empty h3 {
-  color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.7);
 }
 
 :global(.mdui-theme-layout-dark) .albums-empty {
-  color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5);
 }
 
 :global(.mdui-theme-layout-dark) .album-detail-title {
-  color: #fff;
+    color: #fff;
 }
 
 :global(.mdui-theme-layout-dark) .album-detail-description {
-  color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.7);
+}
+
+:global(.mdui-theme-layout-dark) .album-detail-meta {
+    color: rgba(255, 255, 255, 0.6);
 }
 
 :global(.mdui-theme-layout-dark) .photo-image[loading="lazy"] {
-  background: linear-gradient(90deg, #2a2a2a 25%, #1a1a1a 50%, #2a2a2a 75%);
-  background-size: 200% 100%;
+    background: linear-gradient(90deg, #2a2a2a 25%, #1a1a1a 50%, #2a2a2a 75%);
+    background-size: 200% 100%;
 }
 
 /* 响应式设计 */
 @media (max-width: 1024px) {
-  .albums-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .albums-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 
-  .grid-layout[data-columns="3"],
-  .grid-layout[data-columns="4"] {
-    grid-template-columns: repeat(2, 1fr);
-  }
+    .grid-layout[data-columns="3"],
+    .grid-layout[data-columns="4"] {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
 @media (max-width: 600px) {
-  .albums-grid {
-    grid-template-columns: 1fr;
-  }
+    .albums-grid {
+        grid-template-columns: 1fr;
+    }
 
-  .album-cover {
-    height: 240px;
-    aspect-ratio: 16 / 10;
-  }
+    .album-cover {
+        height: 240px;
+        aspect-ratio: 16 / 10;
+    }
 
-  .album-meta {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 12px;
-    font-size: 12px;
-  }
+    .album-meta {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 12px;
+    }
 
-  .grid-layout {
-    grid-template-columns: 1fr ;
-  }
+    .grid-layout {
+        grid-template-columns: 1fr;
+    }
 
-  .masonry-layout {
-    columns: 1;
-  }
+    .masonry-layout {
+        columns: 1;
+    }
 
-  .lightbox-nav {
-    display: none;
-  }
+    .lightbox-nav {
+        display: none;
+    }
 
-  .lightbox-close {
-    top: 10px;
-    right: 10px;
-    position: fixed;
-  }
+    .lightbox-close {
+        top: 10px;
+        right: 10px;
+        position: fixed;
+    }
 
-  .album-detail-title {
-    font-size: 22px;
-  }
+    .album-detail-title {
+        font-size: 22px;
+    }
 
-  .album-detail-meta {
-    gap: 12px;
-  }
+    .album-detail-meta {
+        gap: 12px;
+    }
 }
 
 /* 打印样式 */
 @media print {
-  .lightbox,
-  .album-tag,
-  .back-to-list,
-  button {
-    display: none ;
-  }
+    .lightbox,
+    .album-tag,
+    .back-to-list,
+    button {
+        display: none;
+    }
 
-  .photo-gallery {
-    display: block ;
-    columns: 2;
-    column-gap: 1rem;
-  }
+    .photo-gallery {
+        display: block;
+        columns: 2;
+        column-gap: 1rem;
+    }
 
-  .photo-item {
-    break-inside: avoid;
-    margin-bottom: 1rem;
-  }
+    .photo-item {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
 }
