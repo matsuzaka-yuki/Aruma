@@ -102,3 +102,26 @@ mdui-card {
 ::view-transition-new(root) {
   opacity: 1;
 }
+
+/* 页面进入动画 - 淡入上移效果 */
+.page-transition {
+  animation: pageIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pageIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 性能优化：减少动画时长 */
+@media (prefers-reduced-motion: reduce) {
+  .page-transition {
+    animation-duration: 0.15s;
+  }
+}
