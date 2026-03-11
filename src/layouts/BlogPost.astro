@@ -7,9 +7,9 @@ import { siteConfig } from '../site.config';
 import { i18n } from '../i18n/translation';
 import I18nKey from '../i18n/i18nKey';
 
-type Props = Omit<CollectionEntry<'post'>['data'], 'pinned'> & { id: string; pinned?: boolean };
+type Props = Omit<CollectionEntry<'post'>['data'], 'pinned'> & { id: string; pinned?: boolean; hasMath?: boolean };
 
-const { title, description, pubDate, heroImage, tags, category, id } = Astro.props;
+const { title, description, pubDate, heroImage, tags, category, id, hasMath = false } = Astro.props;
 
 // 处理封面图逻辑，保持与 PostCard 一致
 let coverImage = null;
@@ -22,7 +22,7 @@ if (siteConfig.randomImage && siteConfig.randomImage.enable && siteConfig.random
 }
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} hasMath={hasMath}>
 	<div class="article">
 		<article class="mdui-card post-card-content mdui-hoverable">
 			{coverImage && (

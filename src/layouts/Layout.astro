@@ -14,9 +14,10 @@ import '../styles/albums.css';
 interface Props {
 	title?: string;
 	description?: string;
+	hasMath?: boolean;
 }
 
-const { title = siteConfig.title, description = siteConfig.description } = Astro.props;
+const { title = siteConfig.title, description = siteConfig.description, hasMath = false } = Astro.props;
 
 let customFontFamily = "";
 if (siteConfig.font) {
@@ -52,7 +53,7 @@ if (siteConfig.font) {
 				}
 			})();
 		</script>
-		<BaseHead title={title} description={description} />
+		<BaseHead title={title} description={description} hasMath={hasMath} />
 		<ClientRouter />
 		<script is:inline>
 			window.paceOptions = {

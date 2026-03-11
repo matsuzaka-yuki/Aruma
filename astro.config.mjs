@@ -11,6 +11,7 @@ import rehypeComponents from 'rehype-components';
 import { rehypeWrapTable } from './src/plugins/rehype-wrap-table.mjs';
 import { GithubCardComponent } from './src/plugins/rehype-component-github-card.mjs';
 import { parseDirectiveNode } from './src/plugins/remark-directive-rehype.mjs';
+import { remarkDetectMath } from './src/plugins/remark-detect-math.mjs';
 
 // https://astro.build/config
 export default defineConfig({
@@ -19,9 +20,9 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
 
   markdown: {
-    remarkPlugins: [remarkMath, remarkDirective, parseDirectiveNode],
+    remarkPlugins: [remarkMath, remarkDirective, parseDirectiveNode, remarkDetectMath],
     rehypePlugins: [
-      rehypeKatex,
+      [rehypeKatex, { output: 'htmlAndMath' }],
       rehypeWrapTable,
       [
         rehypeComponents,
