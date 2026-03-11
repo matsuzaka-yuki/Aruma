@@ -37,6 +37,9 @@ html.mdui-theme-layout-dark {
 }
 
 /* 暗色模式全局适配 */
+html.mdui-theme-layout-dark {
+  color: #fff;
+}
 html.mdui-theme-layout-dark .background {
   opacity: 1;
   filter: none;
