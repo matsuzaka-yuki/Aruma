@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .mdui-theme-layout-dark .dark\:text-white {
+    color: #fff;
+  }
+  
+  .mdui-theme-layout-dark .dark\:bg-gray-800\/80 {
+    background-color: rgba(66, 66, 66, 0.8);
+  }
+  
+  .mdui-theme-layout-dark .dark\:text-gray-300 {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .mdui-theme-layout-dark .dark\:text-gray-400 {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  
+  .mdui-theme-layout-dark .dark\:bg-gray-800\/75 {
+    background-color: rgba(48, 48, 48, 0.75);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@layer utilities {
+  .text-shadow-sm {
+    text-shadow: 1px 1px 1px rgba(66, 66, 66, 0.5);
+  }
+
+  .text-shadow-md {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+  }
+
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+}

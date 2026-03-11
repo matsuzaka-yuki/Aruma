@@ -5,6 +5,8 @@ import { siteConfig } from '../../site.config';
 import { i18n } from '../../i18n/translation';
 import I18nKey from '../../i18n/i18nKey';
 import { scanAlbums } from '../../utils/album-scanner';
+import AlbumCard from '../../components/cards/AlbumCard.astro';
+import PageGrid from '../../components/layouts/PageGrid.astro';
 
 // 检查相册页面是否启用
 if (!siteConfig.featurePages.albums) {
@@ -23,68 +25,26 @@ const albumsData = await scanAlbums();
       </div>
     </div>
 
-    <div class="albums-grid">
+    <PageGrid columns={2}>
       {albumsData.map(album => (
-        <article
-          class="album-card mdui-card mdui-hoverable"
-        >
-          <a href={`/albums/${album.id}/`} class="album-card-link">
-            <div class="album-cover">
-              <img
-                src={album.cover}
-                alt={album.title}
-                loading="lazy"
-              />
-              <div class="album-cover-overlay"></div>
-            </div>
-            <div class="album-info">
-              <h3 class="album-title">{album.title}</h3>
-              {album.description && (
-                <p class="album-description">
-                  {album.description}
-                </p>
-              )}
-              <div class="album-meta">
-                <span class="album-count">
-                  <i class="mdui-icon material-icons">photo</i>
-                  {album.photos.length} {album.photos.length > 1 ? i18n(I18nKey.albumsPhotosCount) : i18n(I18nKey.albumsPhotoCount)}
-                </span>
-                <time class="album-date">
-                  <i class="mdui-icon material-icons">event</i>
-                  {new Date(album.date).toLocaleDateString('zh-CN')}
-                </time>
-                {album.location && (
-                  <span class="album-location">
-                    <i class="mdui-icon material-icons">location_on</i>
-                    {album.location}
-                  </span>
-                )}
-              </div>
-              {album.tags && album.tags.length > 0 && (
-                <div class="album-tags">
-                  {album.tags.slice(0, 4).map(tag => (
-                    <span class="album-tag">
-                      {tag}
-                    </span>
-                  ))}
-                  {album.tags.length > 4 && (
-                    <span class="album-tag album-tag-more">
-                      +{album.tags.length - 4}
-                    </span>
-                  )}
-                </div>
-              )}
-            </div>
-          </a>
-        </article>
+        <AlbumCard
+          id={album.id}
+          title={album.title}
+          description={album.description}
+          cover={album.cover}
+          photos={album.photos.length}
+          date={album.date}
+          location={album.location}
+          tags={album.tags}
+        />
       ))}
-    </div>
+    </PageGrid>
 
     {albumsData.length === 0 && (
-      <div class="albums-empty">
-        <i class="mdui-icon material-icons">photo_album</i>
-        <h3>{i18n(I18nKey.albumsEmpty)}</h3>
-        <p>{i18n(I18nKey.albumsEmptyDesc)}</p>
+      <div class="albums-empty text-center py-16 px-5 text-gray-500 animate-fade-in">
+        <i class="mdui-icon material-icons text-6xl w-16 h-16 mb-4 opacity-50">photo_album</i>
+        <h3 class="text-xl font-medium mb-2 text-gray-600 dark:text-white/70">{i18n(I18nKey.albumsEmpty)}</h3>
+        <p class="text-sm">{i18n(I18nKey.albumsEmptyDesc)}</p>
       </div>
     )}
   </div>
@@ -93,223 +53,30 @@ const albumsData = await scanAlbums();
 </Layout>
 
 <style>
-  .albums-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+  .archive-card {
     margin-top: 20px;
-  }
-
-  .album-card {
-    background-color: var(--album-card-bg);
-    border-radius: 7px;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .album-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .album-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-  }
-
-  .album-cover {
-    position: relative;
-    width: 100%;
-    height: 280px;
-    overflow: hidden;
-  }
-
-  .album-cover img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .album-card:hover .album-cover img {
-    transform: scale(1.1);
-  }
-
-  .album-cover-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.1) 100%);
-    transition: all 0.3s ease;
-  }
-
-  .album-info {
-    padding: 20px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .album-title {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 0 0 10px 0;
-    color: #333;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-  }
-
-  .album-description {
-    font-size: 15px;
-    color: #757575;
-    margin: 0 0 14px 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    line-height: 1.5;
-  }
-
-  .album-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    font-size: 13px;
-    color: #999;
-    margin-top: auto;
-  }
-
-  .album-meta > span {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-
-  .album-meta .mdui-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-  }
-
-  .album-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 12px;
-  }
-
-  .album-tag {
-    display: inline-block;
-    padding: 3px 10px;
-    background-color: rgba(255, 64, 129, 0.08);
-    color: var(--color);
-    border-radius: 12px;
-    font-size: 12px;
-    transition: all 0.2s ease;
-  }
-
-  .album-tag:hover {
-    background-color: rgba(255, 64, 129, 0.15);
-  }
-
-  .album-tag-more {
-    background-color: rgba(0, 0, 0, 0.05);
-    color: #666;
-  }
-
-  .albums-empty {
+    transition: box-shadow 0.3s, transform 0.3s;
     text-align: center;
-    padding: 60px 20px;
-    color: #999;
+    font-size: large;
+    background-color: var(--archive-card-bg);
+    border-radius: 7px;
+    padding: 0;
   }
 
-  .albums-empty .mdui-icon {
-    font-size: 64px;
-    width: 64px;
-    height: 64px;
-    margin-bottom: 16px;
-    opacity: 0.5;
-  }
-
-  .albums-empty h3 {
-    font-size: 20px;
-    margin: 0 0 8px 0;
-    color: #666;
-  }
-
-  .albums-empty p {
-    font-size: 14px;
+  .archive-title {
+    padding: 10px 0;
     margin: 0;
   }
 
-  /* 暗色模式适配 */
-  :global(.mdui-theme-layout-dark) .album-card {
+  .archive-title span {
+    font-weight: 500;
+  }
+
+  :global(.mdui-theme-layout-dark) .archive-card {
     background-color: rgba(66, 66, 66, 0.8);
   }
 
-  :global(.mdui-theme-layout-dark) .album-title {
+  :global(.mdui-theme-layout-dark) .archive-title {
     color: #fff;
-  }
-
-  :global(.mdui-theme-layout-dark) .album-description {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  :global(.mdui-theme-layout-dark) .album-tag {
-    background-color: rgba(255, 64, 129, 0.15);
-  }
-
-  :global(.mdui-theme-layout-dark) .album-tag:hover {
-    background-color: rgba(255, 64, 129, 0.25);
-  }
-
-  :global(.mdui-theme-layout-dark) .album-tag-more {
-    background-color: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  :global(.mdui-theme-layout-dark) .albums-empty h3 {
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  :global(.mdui-theme-layout-dark) .albums-empty {
-    color: rgba(255, 255, 255, 0.5);
-  }
-
-  /* 响应式适配 */
-  @media (max-width: 1024px) {
-    .albums-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 600px) {
-    .albums-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .album-cover {
-      height: 240px;
-      aspect-ratio: 16 / 10;
-    }
-
-    .album-meta {
-      flex-direction: row;
-      flex-wrap: wrap;
-      gap: 12px;
-      font-size: 12px;
-    }
   }
 </style>

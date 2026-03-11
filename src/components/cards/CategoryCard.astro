@@ -1,0 +1,20 @@
+---
+interface Props {
+  name: string;
+  count: number;
+  slug: string;
+}
+
+const { name, count, slug } = Astro.props;
+---
+
+<a href={`/category/${slug}`} class="category-card-link block">
+  <div class="mdui-card category-card mdui-hoverable flex items-center justify-between p-4.5 bg-white/80 dark:bg-gray-800/80 rounded-lg text-gray-800 transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
+    <span class="category-name text-base font-medium whitespace-nowrap overflow-hidden text-ellipsis dark:text-white">
+      {name}
+    </span>
+    <span class="category-count bg-gray-800/8 text-gray-800 text-xs px-2 py-0.5 rounded-full dark:bg-white/12 dark:text-white/80">
+      {count}
+    </span>
+  </div>
+</a>

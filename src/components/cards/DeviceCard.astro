@@ -1,0 +1,59 @@
+---
+import { i18n } from '../../i18n/translation';
+import I18nKey from '../../i18n/i18nKey';
+
+interface Props {
+  name: string;
+  image: string;
+  specs: string;
+  description: string;
+  link: string;
+  category: string;
+}
+
+const { name, image, specs, description, link, category } = Astro.props;
+---
+
+<a
+  href={link}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="device-card-link block no-underline text-inherit"
+  data-category={category}
+>
+  <article class="mdui-card device-card mdui-hoverable flex flex-col bg-white/80 dark:bg-gray-800/80 rounded-lg transition-all duration-300 overflow-hidden h-full box-border hover:-translate-y-1 hover:shadow-lg">
+    <div class="device-image w-full h-50 flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden p-5 dark:from-gray-800 dark:to-gray-900">
+      <img
+        src={image}
+        alt={name}
+        class="max-w-full max-h-full object-contain transition-transform duration-300 hover:scale-105"
+      />
+    </div>
+    
+    <div class="device-info flex-1 p-4 md:p-5 flex flex-col">
+      <div class="device-header mb-3">
+        <div class="device-name text-lg font-medium text-gray-800 mb-1.5 whitespace-nowrap overflow-hidden text-ellipsis dark:text-white">
+          {name}
+        </div>
+        <div class="device-specs inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 rounded text-xs text-gray-600 dark:bg-white/10 dark:text-gray-300">
+          {specs}
+        </div>
+      </div>
+      
+      <div class="device-description text-sm text-gray-600 leading-relaxed flex-1 line-clamp-2 mb-3 dark:text-gray-300">
+        {description}
+      </div>
+      
+      <div class="device-footer flex items-center justify-between pt-3 border-t border-dashed border-gray-200 opacity-0 transition-opacity duration-300 text-pink-500 text-sm font-medium dark:border-gray-700">
+        <span>{i18n(I18nKey.devicesViewDetails)}</span>
+        <i class="mdui-icon material-icons text-lg">arrow_forward</i>
+      </div>
+    </div>
+  </article>
+</a>
+
+<style>
+  .device-card:hover .device-footer {
+    opacity: 1;
+  }
+</style>

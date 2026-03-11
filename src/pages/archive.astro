@@ -19,10 +19,11 @@ const groupedPosts = posts.reduce((acc, post) => {
 }, {} as Record<number, typeof posts>);
 const years = Object.keys(groupedPosts).map(Number).sort((a, b) => b - a);
 ---
+
 <Layout title={i18n(I18nKey.archiveTitle)}>
   <div class="article">
     {years.map(year => (
-      <div class="archive-year-section" id={`year-${year}`}>
+      <section class="archive-year-section mb-10" id={`year-${year}`}>
         <div class="mdui-card archive-card mdui-hoverable">
           <div class="archive-title">
             <span>{i18n(I18nKey.archiveYear).replace("{year}", year.toString())}</span>
@@ -31,7 +32,7 @@ const years = Object.keys(groupedPosts).map(Number).sort((a, b) => b - a);
         {groupedPosts[year].map(post => (
           <PostCard post={post} />
         ))}
-      </div>
+      </section>
     ))}
   </div>
 
@@ -78,7 +79,30 @@ const years = Object.keys(groupedPosts).map(Number).sort((a, b) => b - a);
 </script>
 
 <style>
-  .archive-year-section {
-    margin-bottom: 40px;
+  .archive-card {
+    margin-top: 20px;
+    transition: box-shadow 0.3s, transform 0.3s;
+    text-align: center;
+    font-size: large;
+    background-color: var(--archive-card-bg);
+    border-radius: 7px;
+    padding: 0;
+  }
+
+  .archive-title {
+    padding: 10px 0;
+    margin: 0;
+  }
+
+  .archive-title span {
+    font-weight: 500;
+  }
+
+  :global(.mdui-theme-layout-dark) .archive-card {
+    background-color: rgba(66, 66, 66, 0.8);
+  }
+
+  :global(.mdui-theme-layout-dark) .archive-title {
+    color: #fff;
   }
 </style>

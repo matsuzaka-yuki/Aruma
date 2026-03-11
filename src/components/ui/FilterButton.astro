@@ -1,0 +1,22 @@
+---
+interface Props {
+  children: string;
+  category: string;
+  isActive?: boolean;
+}
+
+const { children, category, isActive = false } = Astro.props;
+---
+
+<button
+  class:list={[
+    'filter-btn mdui-btn px-5 py-2 rounded-xl text-sm transition-all duration-300 border',
+    isActive 
+      ? 'bg-pink-500 text-white border-pink-500 shadow-lg shadow-pink-500/30 mdui-btn-active' 
+      : 'bg-white/60 text-gray-700 dark:bg-gray-700/60 dark:text-gray-200 hover:bg-white/90 dark:hover:bg-gray-700/90 hover:-translate-y-0.5 hover:shadow-md border-gray-800/8 dark:border-white/8'
+  ]}
+  data-category={category}
+  aria-pressed={isActive}
+>
+  {children}
+</button>

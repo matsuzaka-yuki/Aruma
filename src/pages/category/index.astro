@@ -4,6 +4,8 @@ import Sidebar from '../../components/Sidebar.astro';
 import { getCollection } from 'astro:content';
 import { i18n } from '../../i18n/translation';
 import I18nKey from '../../i18n/i18nKey';
+import CategoryCard from '../../components/cards/CategoryCard.astro';
+import PageGrid from '../../components/layouts/PageGrid.astro';
 
 const posts = await getCollection('post');
 const categoryCounts = posts.reduce((acc, post) => {
@@ -30,62 +32,45 @@ const categories = Object.entries(categoryCounts)
       </div>
     </div>
 
-    <div class="category-container">
+    <PageGrid columns={2}>
       {categories.map(category => (
-        <a href={`/category/${category.slug}`} class="category-card mdui-card mdui-hoverable">
-          <span class="category-name">{category.name}</span>
-          <span class="category-count">{category.count}</span>
-        </a>
+        <CategoryCard
+          name={category.name}
+          count={category.count}
+          slug={category.slug}
+        />
       ))}
-    </div>
+    </PageGrid>
   </div>
 
   <Sidebar slot="sidebar" />
 </Layout>
 
 <style>
-  .category-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+  .archive-card {
     margin-top: 20px;
-  }
-  .category-card {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 18px 20px;
-    background-color: rgba(255, 255, 255, 0.8);
+    transition: box-shadow 0.3s, transform 0.3s;
+    text-align: center;
+    font-size: large;
+    background-color: var(--archive-card-bg);
     border-radius: 7px;
-    color: #333;
-    text-decoration: none;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    padding: 0;
   }
-  .category-name {
-    font-size: 16px;
+
+  .archive-title {
+    padding: 10px 0;
+    margin: 0;
+  }
+
+  .archive-title span {
     font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
-  .category-count {
-    background: rgba(0, 0, 0, 0.08);
-    color: #333;
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 12px;
-  }
-  :global(.mdui-theme-layout-dark) .category-card {
+
+  :global(.mdui-theme-layout-dark) .archive-card {
     background-color: rgba(66, 66, 66, 0.8);
-    color: rgba(255, 255, 255, 0.9);
   }
-  :global(.mdui-theme-layout-dark) .category-count {
-    background: rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.8);
-  }
-  @media (max-width: 768px) {
-    .category-container {
-      grid-template-columns: 1fr;
-    }
+
+  :global(.mdui-theme-layout-dark) .archive-title {
+    color: #fff;
   }
 </style>

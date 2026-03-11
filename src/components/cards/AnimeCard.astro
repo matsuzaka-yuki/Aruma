@@ -1,0 +1,57 @@
+---
+import { i18n } from '../../i18n/translation';
+import I18nKey from '../../i18n/i18nKey';
+
+interface Props {
+  title: string;
+  cover: string;
+  link: string;
+  description: string;
+  year: string;
+  studio: string;
+  progress: number;
+  totalEpisodes: number;
+}
+
+const { title, cover, link, description, year, studio, progress, totalEpisodes } = Astro.props;
+const progressPercent = totalEpisodes > 0 ? (progress / totalEpisodes) * 100 : 0;
+---
+
+<div class="mdui-card anime-card mdui-hoverable flex p-4 bg-white/80 dark:bg-gray-800/80 rounded-xl transition-all duration-300 min-h-50 box-border overflow-hidden hover:shadow-lg">
+  <div class="anime-cover relative flex-shrink-0 w-32 h-45 overflow-hidden rounded-lg shadow-lg">
+    <a href={link} target="_blank" rel="noopener noreferrer">
+      <img src={cover} alt={title} loading="lazy" class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" />
+    </a>
+  </div>
+
+  <div class="anime-info flex-1 min-w-0 flex flex-col justify-between pl-4">
+    <div class="anime-header-info mb-3">
+      <a href={link} target="_blank" rel="noopener noreferrer" class="anime-name block text-lg font-semibold text-gray-800 mb-2 no-underline hover:text-pink-500 line-clamp-2 leading-relaxed dark:text-white">
+        {title}
+      </a>
+      <p class="anime-description text-sm text-gray-600 line-clamp-2 leading-relaxed m-0 dark:text-gray-300">
+        {description}
+      </p>
+    </div>
+
+    <div class="anime-meta-container">
+      <div class="anime-meta-row flex justify-between items-center text-xs mb-1">
+        <span class="anime-meta-label text-gray-500 flex-shrink-0 dark:text-gray-400">{i18n(I18nKey.animeYear)}</span>
+        <span class="anime-meta-value text-gray-700 text-right ml-3 overflow-hidden text-ellipsis whitespace-nowrap dark:text-gray-200">{year}</span>
+      </div>
+      <div class="anime-meta-row flex justify-between items-center text-xs">
+        <span class="anime-meta-label text-gray-500 flex-shrink-0 dark:text-gray-400">{i18n(I18nKey.animeStudio)}</span>
+        <span class="anime-meta-value text-gray-700 text-right ml-3 overflow-hidden text-ellipsis whitespace-nowrap dark:text-gray-200">{studio}</span>
+      </div>
+    </div>
+
+    <div class="anime-progress-container mt-3">
+      <div class="anime-progress-bar w-full h-1 bg-gray-200 rounded-full overflow-hidden mb-1 dark:bg-gray-700">
+        <div class="anime-progress-fill h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-300" style={`width: ${progressPercent}%`}></div>
+      </div>
+      <span class="anime-progress-text text-xs text-gray-500 dark:text-gray-400">
+        {progress}/{totalEpisodes} ({Math.round(progressPercent)}%)
+      </span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+---
+import { i18n } from '../../i18n/translation';
+import I18nKey from '../../i18n/i18nKey';
+
+interface Props {
+  content: string;
+  date: string;
+  images?: string[];
+  tags?: string[];
+}
+
+const { id, content, date, images = [], tags = [] } = Astro.props;
+
+function formatTime(dateString: string): string {
+  const now = new Date();
+  const dateObj = new Date(dateString);
+  const diffInMinutes = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60));
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes}${i18n(I18nKey.diaryMinutesAgo)}`;
+  }
+  if (diffInMinutes < 1440) {
+    const hours = Math.floor(diffInMinutes / 60);
+    return `${hours}${i18n(I18nKey.diaryHoursAgo)}`;
+  }
+  const days = Math.floor(diffInMinutes / 1440);
+  return `${days}${i18n(I18nKey.diaryDaysAgo)}`;
+}
+---
+
+<div class="mdui-card diary-card mdui-hoverable p-4 md:p-5 bg-white/80 dark:bg-gray-800/80 rounded-lg transition-all duration-300">
+  <div class="diary-header flex justify-between items-center mb-3">
+    <div class="diary-time flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400">
+      <i class="mdui-icon material-icons w-4 h-4 text-base">access_time</i>
+      <time datetime={date}>{formatTime(date)}</time>
+    </div>
+    
+    {tags.length > 0 && (
+      <div class="diary-tags flex gap-2">
+        {tags.map(tag => (
+          <span class="diary-tag text-xs text-pink-500 opacity-80">#{tag}</span>
+        ))}
+      </div>
+    )}
+  </div>
+  
+  <div class="diary-content mdui-typo text-base leading-relaxed mb-3 whitespace-pre-wrap break-all dark:text-white/90">
+    {content}
+  </div>
+
+  {images.length > 0 && (
+    <div class="diary-images mt-3 rounded-lg overflow-hidden">
+      <div class="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2">
+        {images.map((image, index) => (
+          <div class="image-item aspect-square overflow-hidden rounded-md">
+            <img
+              src={image}
+              alt={`diary image ${index}`}
+              loading="lazy"
+              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  )}
+</div>
