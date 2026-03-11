@@ -7,7 +7,8 @@ import { siteConfig } from "../site.config";
 import { ClientRouter } from "astro:transitions";
 import "mdui/mdui.css";
 import "../styles/material-icons.css";
-import "mdui";
+import "mdui/components/dropdown.js";
+import "mdui/components/icon.js";
 import "../styles/aruma.css";
 import "../styles/albums.css";
 
@@ -200,7 +201,8 @@ if (siteConfig.font) {
 		<Footer />
 		<PhotoSwipe />
 		<script>
-			import "mdui";
+			import "mdui/components/dropdown.js";
+			import "mdui/components/icon.js";
 
 			// KaTeX CSS 懒加载 - 只有当页面包含数学公式时才加载样式
 			function loadKatexCSS() {
