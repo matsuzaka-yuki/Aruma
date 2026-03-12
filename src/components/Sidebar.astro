@@ -8,6 +8,6 @@ const posts = await getCollection("post");
 const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
 ---
 
-<ProfileCard client:load />
-<ReplyModule client:load />
-<TagCloud tags={tags} client:load />
+<ProfileCard client:visible />
+<ReplyModule client:visible />
+<TagCloud tags={tags} client:visible />
