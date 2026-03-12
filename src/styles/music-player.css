@@ -3,14 +3,14 @@
 /* ==================== 1. CSS 变量 ==================== */
 :root {
   --music-player-primary: var(--color, #ff4081);
-  --music-player-bg: rgba(255, 255, 255, 0.95);
+  --music-player-bg: rgba(255, 255, 255, 0.85);
   --music-player-text: rgba(0, 0, 0, 0.87);
   --music-player-text-secondary: rgba(0, 0, 0, 0.6);
   --music-player-text-meta: rgba(0, 0, 0, 0.5);
   --music-player-divider: rgba(0, 0, 0, 0.12);
   --music-player-btn-bg: rgba(0, 0, 0, 0.06);
   --music-player-btn-hover: rgba(0, 0, 0, 0.1);
-  --music-player-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  --music-player-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   --music-player-width: 20rem;
   --music-player-mini-width: 17.5rem;
   --music-player-mobile-width: 20rem;
@@ -21,14 +21,14 @@
 
 html.mdui-theme-layout-dark {
   --music-player-primary: var(--color, #ff4081);
-  --music-player-bg: rgba(66, 66, 66, 0.95);
+  --music-player-bg: rgba(66, 66, 66, 0.85);
   --music-player-text: rgba(255, 255, 255, 0.87);
   --music-player-text-secondary: rgba(255, 255, 255, 0.7);
   --music-player-text-meta: rgba(255, 255, 255, 0.5);
   --music-player-divider: rgba(255, 255, 255, 0.12);
   --music-player-btn-bg: rgba(255, 255, 255, 0.08);
   --music-player-btn-hover: rgba(255, 255, 255, 0.12);
-  --music-player-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --music-player-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 /* ==================== 2. 动画定义 ==================== */
@@ -137,6 +137,8 @@ html.mdui-theme-layout-dark {
 .mini-player {
   width: var(--music-player-mini-width);
   background: var(--music-player-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: var(--music-player-shadow);
   border-radius: 1rem;
   padding: 0.75rem;
@@ -150,6 +152,8 @@ html.mdui-theme-layout-dark {
 .expanded-player {
   width: var(--music-player-width);
   background: var(--music-player-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: var(--music-player-shadow);
   border-radius: 1rem;
   padding: 1rem;
@@ -234,11 +238,17 @@ button.bg-\[var\(--music-player-primary\)\] {
 /* ==================== 10. 播放列表面板 ==================== */
 .playlist-panel {
   background: var(--music-player-bg);
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: var(--music-player-shadow);
   border-radius: 1rem;
   overflow: hidden;
   width: var(--music-player-width);
   box-sizing: border-box;
+  position: fixed;
+  bottom: 18rem;
+  right: var(--music-player-position);
+  z-index: 50;
 }
 
 .playlist-header {
@@ -261,8 +271,14 @@ button.bg-\[var\(--music-player-primary\)\] {
 }
 
 .playlist-item.is-active {
-  background: var(--music-player-btn-hover);
-  border-left-color: var(--music-player-primary);
+  background: transparent;
+  color: var(--music-player-primary);
+}
+
+.playlist-item.is-active .mp-text-primary,
+.playlist-item.is-active .mp-text-secondary,
+.playlist-item.is-active .mp-text-meta {
+  color: var(--music-player-primary);
 }
 
 /* ==================== 11. 滚动条隐藏 ==================== */
@@ -351,7 +367,7 @@ button.bg-\[var\(--music-player-primary\)\] {
 
   .playlist-panel {
     width: var(--music-player-width);
-    bottom: 15.5rem;
+    bottom: 17.5rem;
     right: var(--music-player-position);
     left: auto;
     max-height: 20rem;

@@ -731,7 +731,7 @@ onDestroy(() => {
         </div>
     </div>
      {#if showPlaylist}
-        <div class="playlist-panel fixed bottom-72 right-4 max-h-96 overflow-hidden z-50 rounded-2xl shadow-2xl"
+        <div class="playlist-panel"
              transition:slide={{ duration: 300, axis: 'y' }}>
             <div class="playlist-header flex items-center justify-between p-4 mp-border-divider">
                 <h3 class="text-lg font-semibold mp-text-primary">{i18n(Key.musicPlayerPlaylist)}</h3>
@@ -741,7 +741,7 @@ onDestroy(() => {
             </div>
             <div class="playlist-content overflow-y-auto max-h-80 hide-scrollbar">
                 {#each playlist as song, index}
-                    <div class="playlist-item flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border-l-4 border-transparent"
+                    <div class="playlist-item flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors"
                          class:is-active={index === currentIndex}
                          on:click={() => playSong(index)}
                          on:keydown={(e) => {
@@ -766,10 +766,10 @@ onDestroy(() => {
                             <img src={getAssetPath(song.cover)} alt={song.title} loading="lazy" class="w-full h-full object-cover" />
                         </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-medium truncate" class:text-\[var\(--music-player-primary\)\]={index === currentIndex} class:mp-text-primary={index !== currentIndex}>
+                            <div class="font-medium truncate mp-text-primary">
                                 {song.title}
                             </div>
-                            <div class="text-sm truncate" class:mp-text-secondary={index !== currentIndex} class:text-\[var\(--music-player-primary\)\]={index === currentIndex}>
+                            <div class="text-sm truncate mp-text-secondary">
                                 {song.artist}
                             </div>
                         </div>
