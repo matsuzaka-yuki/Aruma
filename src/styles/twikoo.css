@@ -27,10 +27,16 @@ html.mdui-theme-layout-dark {
 .tk-row .tk-col .tk-input textarea {
   border-radius: 8px;
   padding: 16px;
-  min-height: 120px !important;
+  min-height: 190px !important;
   border: 1px solid var(--tk-border);
-  background: var(--tk-bg);
+  background-color: rgba(255, 255, 255, 0) !important;
+  background-image: url('/assets/images/textarea.webp');
+  background-repeat: no-repeat;
+  background-position: right;
+  background-size: contain;
   color: var(--tk-text);
+  resize: none;
+  outline: none !important;
 }
 
 .tk-row .tk-col .tk-input textarea:focus {
@@ -60,6 +66,10 @@ html.mdui-theme-layout-dark {
   width: 100%;
   margin-left: 0 !important;
   margin-top: 0 !important;
+}
+
+.tk-row.actions .__markdown {
+  display: none !important;
 }
 
 .tk-row.actions .tk-preview,
@@ -112,6 +122,24 @@ html.mdui-theme-layout-dark {
   color: var(--tk-text);
 }
 
+.tk-comments .tk-nick {
+  color: #ff4081; /* 指定粉色昵称 */
+  transition: all 0.2s ease;
+}
+
+.tk-comments .tk-nick:hover {
+  color: #ff80ab; /* 悬浮时稍亮一点的粉色 */
+  text-decoration: underline;
+}
+
+html.mdui-theme-layout-dark .tk-comments .tk-nick {
+  color: #ff80ab; /* 暗色模式下使用稍亮的粉色 */
+}
+
+html.mdui-theme-layout-dark .tk-comments .tk-nick:hover {
+  color: #ffb2dd; /* 暗色模式下悬浮使用更亮的粉色 */
+}
+
 .tk-meta .tk-tag {
   border: none;
   border-radius: 4px;
@@ -119,9 +147,41 @@ html.mdui-theme-layout-dark {
   font-size: 12px;
 }
 
-.tk-meta .tk-tag-green {
-  background: var(--tk-primary);
-  color: white;
+.tk-comments .tk-meta .tk-tag-green {
+  display: none;
+}
+
+/* 头像样式优化 */
+.tk-comments .tk-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%; /* 圆形头像 */
+  overflow: visible; /* 允许认证标识溢出 */
+}
+
+.tk-comments .tk-avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+/* 博主头像认证 Logo */
+.tk-comment:has(.tk-tag-green) .tk-avatar {
+  position: relative;
+}
+
+.tk-comment:has(.tk-tag-green) .tk-avatar::after {
+  content: "";
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 18px; /* 稍微调大一点以匹配大头像 */
+  height: 18px;
+  background-image: url('/assets/images/author.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  z-index: 1;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); /* 添加微弱阴影更立体 */
 }
 
 .tk-content,
@@ -133,6 +193,18 @@ html.mdui-theme-layout-dark {
 .tk-preview-container img {
   display: inline;
   vertical-align: bottom;
+}
+
+/* Bilibili 自定义表情大小限制 */
+.tk-content img.emoji,
+.tk-content img[src*="bilibili"],
+.tk-content img[src*="bili"],
+.tk-preview-container img.emoji,
+.tk-preview-container img[src*="bilibili"],
+.tk-preview-container img[src*="bili"] {
+  max-width: 23px;
+  max-height: 23px;
+  vertical-align: middle;
 }
 
 .tk-content a,
@@ -195,8 +267,140 @@ html.mdui-theme-layout-dark .tk-collapse-wrap .tk-expand:hover {
   transition: all 0.2s ease;
 }
 
+.tk-admin {
+  position: relative;
+  z-index: 1000;
+}
+
+.tk-admin .tk-content {
+  color: #fff !important;
+}
+
 .tk-action {
   min-height: 24px;
   display: flex;
   align-items: center;
 }
+
+/* ===== Twikoo 评论区布局改造 (Typecho风格) ===== */
+
+/* 加载动画居中 */
+#tcomment .tk-loading,
+.tk-comments-container .tk-loading,
+.tk-loading {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  margin: 20px 0 !important;
+  text-align: center !important;
+}
+
+#tcomment .tk-loading *,
+.tk-loading * {
+  display: inline-block !important;
+  margin: 0 auto !important;
+}
+
+/* 1. 将主容器改为 Flex 布局，以便重新排序所有的子元素 */
+.tk-comment .tk-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* 消除原有的 div 层级限制，让元数据直接参与 flex 排版，同时避免影响回复输入框 */
+.tk-comment .tk-main > .tk-row,
+.tk-comment .tk-main > .tk-row > .tk-meta {
+  display: contents !important;
+}
+
+/* ---------------- 第一行元素 ---------------- */
+
+/* 昵称 */
+.tk-comment .tk-nick {
+  order: 1;
+  font-size: 15px; /* 字体微调：稍微大一点点 */
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+/* 标签 (如博主、置顶) */
+.tk-comment .tk-tag {
+  order: 2;
+  margin-left: 6px;
+}
+
+/* 系统和浏览器图标容器 */
+.tk-comment .tk-extras {
+  order: 3;
+  display: flex;
+  margin-top: 0 !important;
+  margin-left: 8px; /* 距离左侧昵称的间距 */
+  gap: 6px; /* 两个图标之间的间距 */
+  opacity: 0.6; /* 降低透明度，模仿 Typecho 的灰色弱化小图标 */
+}
+
+/* 隐藏图标旁边的文字 */
+.tk-comment .tk-extra-text {
+  display: none !important;
+}
+
+/* 清除原有自带的外边距 */
+.tk-comment .tk-extra {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* 图标大小微调 */
+.tk-comment .tk-extra .tk-icon svg {
+  width: 14px; 
+  height: 14px;
+}
+
+/* 时间：显示在图标右边 */
+.tk-comment .tk-time {
+  order: 4;
+  font-size: 12px;
+  color: #999;
+  margin-left: 8px;
+}
+
+/* 管理员操作项 (隐藏/置顶)：显示在时间右边 */
+.tk-comment .tk-actions {
+  order: 5;
+  margin-left: 8px;
+  font-size: 12px;
+  color: #999;
+}
+
+/* 右侧的 评论/点赞 三件套：推到最右侧 */
+.tk-comment .tk-main > .tk-row > .tk-action {
+  order: 6;
+  margin-left: auto;
+}
+
+/* ---------------- 强制换行占位 ---------------- */
+.tk-comment .tk-main::before {
+  content: "";
+  width: 100%;
+  order: 7;
+}
+
+/* ---------------- 第二行元素 ---------------- */
+
+/* 评论正文 */
+.tk-comment .tk-content {
+  order: 8;
+  width: 100%;
+  margin-top: 3px;
+  font-size: 14px;
+}
+
+/* 嵌套回复区域 */
+.tk-comment .tk-replies {
+  order: 9;
+  width: 100%;
+}
+
+
+
