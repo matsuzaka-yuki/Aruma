@@ -103,6 +103,7 @@ html.mdui-theme-layout-dark {
 }
 
 .tk-comment {
+  position: relative;
   border: 1px solid var(--tk-border);
   padding: 16px;
   border-radius: 12px;
@@ -322,6 +323,11 @@ html.mdui-theme-layout-dark .tk-collapse-wrap .tk-expand:hover {
   font-size: 15px; /* 字体微调：稍微大一点点 */
   font-weight: bold;
   line-height: 1.2;
+  /* 防止过长昵称破坏布局，超出显示省略号 */
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 标签 (如博主、置顶) */
@@ -365,12 +371,36 @@ html.mdui-theme-layout-dark .tk-collapse-wrap .tk-expand:hover {
   margin-left: 8px;
 }
 
-/* 管理员操作项 (隐藏/置顶)：显示在时间右边 */
+/* 响应式：在窄屏或文字较多要换行时隐藏时间，保持布局整洁 */
+@media (max-width: 600px) {
+  .tk-comment .tk-time {
+    display: none !important;
+  }
+}
+
+/* 管理员操作项 (隐藏/置顶)：显示在时间右边，手机端显示在右下角 */
 .tk-comment .tk-actions {
   order: 5;
   margin-left: 8px;
   font-size: 12px;
   color: #999;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.tk-comment:hover .tk-actions {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .tk-comment .tk-actions {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    order: unset;
+    margin-left: 0;
+    z-index: 10;
+  }
 }
 
 /* 右侧的 评论/点赞 三件套：推到最右侧 */
@@ -400,6 +430,67 @@ html.mdui-theme-layout-dark .tk-collapse-wrap .tk-expand:hover {
 .tk-comment .tk-replies {
   order: 9;
   width: 100%;
+}
+
+/* OwO 表情选择框透明设计 */
+.OwO-body {
+  background: rgba(255, 255, 255, 0.85) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(144, 147, 153, 0.2) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.OwO-body .OwO-items {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.OwO-body .OwO-items::-webkit-scrollbar {
+  display: none;
+}
+
+.OwO-body .OwO-bar {
+  background: transparent !important;
+  border-bottom: 1px solid rgba(144, 147, 153, 0.15) !important;
+}
+
+.OwO-body .OwO-items-item {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.OwO-body .OwO-items-item:hover {
+  background: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.mdui-theme-layout-dark .OwO-body {
+  background: rgba(50, 50, 50, 0.85) !important;
+  border: 1px solid rgba(200, 200, 200, 0.15) !important;
+  color: #e5e5e5 !important;
+}
+
+html.mdui-theme-layout-dark .OwO-body .OwO-bar {
+  border-bottom: 1px solid rgba(200, 200, 200, 0.1) !important;
+  color: #e5e5e5 !important;
+}
+
+html.mdui-theme-layout-dark .OwO-body .OwO-items-item {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+html.mdui-theme-layout-dark .OwO-body .OwO-items-item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+html.mdui-theme-layout-dark .OwO-body .OwO-header li {
+  color: #b0b0b0 !important;
+}
+
+html.mdui-theme-layout-dark .OwO-body .OwO-header li:hover,
+html.mdui-theme-layout-dark .OwO-body .OwO-header .OwO-item-active {
+  color: #fff !important;
 }
 
 
