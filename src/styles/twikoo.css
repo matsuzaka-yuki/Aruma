@@ -30,7 +30,7 @@ html.mdui-theme-layout-dark {
   min-height: 190px !important;
   border: 1px solid var(--tk-border);
   background-color: rgba(255, 255, 255, 0) !important;
-  background-image: url('/assets/images/textarea.webp');
+  background-image: url("/assets/images/textarea.webp");
   background-repeat: no-repeat;
   background-position: right;
   background-size: contain;
@@ -178,11 +178,11 @@ html.mdui-theme-layout-dark .tk-comments .tk-nick:hover {
   bottom: 0px;
   width: 18px; /* 稍微调大一点以匹配大头像 */
   height: 18px;
-  background-image: url('/assets/images/author.png');
+  background-image: url("/assets/images/author.png");
   background-size: contain;
   background-repeat: no-repeat;
   z-index: 1;
-  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2)); /* 添加微弱阴影更立体 */
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2)); /* 添加微弱阴影更立体 */
 }
 
 .tk-content,
@@ -359,7 +359,7 @@ html.mdui-theme-layout-dark .tk-collapse-wrap .tk-expand:hover {
 
 /* 图标大小微调 */
 .tk-comment .tk-extra .tk-icon svg {
-  width: 14px; 
+  width: 14px;
   height: 14px;
 }
 
@@ -492,6 +492,3 @@ html.mdui-theme-layout-dark .OwO-body .OwO-header li:hover,
 html.mdui-theme-layout-dark .OwO-body .OwO-header .OwO-item-active {
   color: #fff !important;
 }
-
-
-

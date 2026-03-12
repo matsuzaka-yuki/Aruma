@@ -17,9 +17,9 @@ const twikooLangMap: Record<string, string> = {
 	"zh-CN": "zh-CN",
 	"zh-TW": "zh-TW",
 	"en-US": "en",
-	"en": "en",
+	en: "en",
 	"ja-JP": "ja",
-	"ja": "ja",
+	ja: "ja",
 };
 
 const config = {
@@ -35,76 +35,95 @@ const masterTag = commentConfig?.twikoo?.masterTag || "博主";
 <div id="tcomment" style={`--master-tag: "${masterTag}";`}></div>
 <script is:inline src="/assets/js/twikoo.all.min.js"></script>
 <script is:inline define:vars={{ config, commentPlaceholder, kaomojiText }}>
-  function getCurrentPath() {
-    const pathname = window.location.pathname;
-    return pathname.endsWith('/') && pathname.length > 1 ? pathname.slice(0, -1) : pathname;
-  }
-  
-  function createTwikooConfig() {
-    return {
-      ...config,
-      path: getCurrentPath(),
-      el: '#tcomment'
-    };
-  }
-  
-  function initTwikoo() {
-    if (typeof twikoo !== 'undefined') {
-      const commentEl = document.getElementById('tcomment');
-      if (commentEl) {
-        commentEl.innerHTML = '';
-        
-        const dynamicConfig = createTwikooConfig();
-        console.log('[Twikoo] 初始化配置:', dynamicConfig);
-        
-        twikoo.init(dynamicConfig).then(() => {
-          console.log('[Twikoo] 初始化完成');
-          
-          setTimeout(() => {
-            const textarea = document.querySelector('.tk-input textarea');
-            if (textarea) {
-              textarea.setAttribute('placeholder', commentPlaceholder);
-            }
-            
-            // 预览按钮：无内容时变灰不可点击
-            const previewBtn = document.querySelector('.tk-row.actions .tk-preview');
-            if (previewBtn && textarea) {
-              function updatePreviewBtn() {
-                if (textarea.value.trim() === '') {
-                  previewBtn.disabled = true;
-                  previewBtn.style.opacity = '0.5';
-                  previewBtn.style.cursor = 'not-allowed';
-                } else {
-                  previewBtn.disabled = false;
-                  previewBtn.style.opacity = '1';
-                  previewBtn.style.cursor = 'pointer';
-                }
-              }
-              textarea.addEventListener('input', updatePreviewBtn);
-              updatePreviewBtn();
-            }
-            
-            // 颜文字国际化
-            const kaomojiPackage = document.querySelector('.OwO-packages li:first-child span');
-            if (kaomojiPackage && kaomojiPackage.textContent === '颜文字') {
-              kaomojiPackage.textContent = kaomojiText;
-            }
-          }, 500);
-        }).catch((error) => {
-          console.error('[Twikoo] 初始化失败:', error);
-        });
-      }
-    } else {
-      setTimeout(initTwikoo, 500);
-    }
-  }
-  
-  document.addEventListener('DOMContentLoaded', initTwikoo);
-  
-  document.addEventListener('astro:page-load', function() {
-    const commentEl = document.getElementById('tcomment');
-    if (commentEl) {
-      initTwikoo();
-    }
-  });
+	function getCurrentPath() {
+		const pathname = window.location.pathname;
+		return pathname.endsWith("/") && pathname.length > 1
+			? pathname.slice(0, -1)
+			: pathname;
+	}
+
+	function createTwikooConfig() {
+		return {
+			...config,
+			path: getCurrentPath(),
+			el: "#tcomment",
+		};
+	}
+
+	function initTwikoo() {
+		if (typeof twikoo !== "undefined") {
+			const commentEl = document.getElementById("tcomment");
+			if (commentEl) {
+				commentEl.innerHTML = "";
+
+				const dynamicConfig = createTwikooConfig();
+				console.log("[Twikoo] 初始化配置:", dynamicConfig);
+
+				twikoo
+					.init(dynamicConfig)
+					.then(() => {
+						console.log("[Twikoo] 初始化完成");
+
+						setTimeout(() => {
+							const textarea =
+								document.querySelector(".tk-input textarea");
+							if (textarea) {
+								textarea.setAttribute(
+									"placeholder",
+									commentPlaceholder,
+								);
+							}
+
+							// 预览按钮：无内容时变灰不可点击
+							const previewBtn = document.querySelector(
+								".tk-row.actions .tk-preview",
+							);
+							if (previewBtn && textarea) {
+								function updatePreviewBtn() {
+									if (textarea.value.trim() === "") {
+										previewBtn.disabled = true;
+										previewBtn.style.opacity = "0.5";
+										previewBtn.style.cursor = "not-allowed";
+									} else {
+										previewBtn.disabled = false;
+										previewBtn.style.opacity = "1";
+										previewBtn.style.cursor = "pointer";
+									}
+								}
+								textarea.addEventListener(
+									"input",
+									updatePreviewBtn,
+								);
+								updatePreviewBtn();
+							}
+
+							// 颜文字国际化
+							const kaomojiPackage = document.querySelector(
+								".OwO-packages li:first-child span",
+							);
+							if (
+								kaomojiPackage &&
+								kaomojiPackage.textContent === "颜文字"
+							) {
+								kaomojiPackage.textContent = kaomojiText;
+							}
+						}, 500);
+					})
+					.catch((error) => {
+						console.error("[Twikoo] 初始化失败:", error);
+					});
+			}
+		} else {
+			setTimeout(initTwikoo, 500);
+		}
+	}
+
+	document.addEventListener("DOMContentLoaded", initTwikoo);
+
+	document.addEventListener("astro:page-load", function () {
+		const commentEl = document.getElementById("tcomment");
+		if (commentEl) {
+			initTwikoo();
+		}
+	});
 </script>

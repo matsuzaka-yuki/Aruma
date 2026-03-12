@@ -15,10 +15,15 @@ if (commentConfig?.enable && commentConfig?.twikoo) {
 }
 ---
 
-{commentConfig?.enable && (
-  <div class="mdui-card post-card-content mdui-hoverable" style="margin-top: 20px; border-radius: 7px;">
-    <div class="mdui-card-content">
-      {commentService === 'twikoo' && <Twikoo path={path} />}
-    </div>
-  </div>
-)}
+{
+	commentConfig?.enable && (
+		<div
+			class="mdui-card post-card-content mdui-hoverable"
+			style="margin-top: 20px; border-radius: 7px;"
+		>
+			<div class="mdui-card-content">
+				{commentService === "twikoo" && <Twikoo path={path} />}
+			</div>
+		</div>
+	)
+}
