@@ -76,6 +76,31 @@ export const zhCN: Translation = {
 	[Key.animeEmpty]: "暂无番剧",
 
 	// 评论区
-	[Key.commentPlaceholder]: "大佬呐快看过来！这里是专属留言小角落，快来留下你的足迹喵～",
+	[Key.commentPlaceholder]:
+		"大佬呐快看过来！这里是专属留言小角落，快来留下你的足迹喵～",
 	[Key.kaomoji]: "颜文字",
+
+	// 音乐播放器
+	[Key.musicPlayer]: "音乐播放器",
+	[Key.musicPlayerShow]: "显示音乐播放器",
+	[Key.musicPlayerHide]: "隐藏播放器",
+	[Key.musicPlayerExpand]: "展开音乐播放器",
+	[Key.musicPlayerCollapse]: "收起播放器",
+	[Key.musicPlayerPause]: "暂停",
+	[Key.musicPlayerPlay]: "播放",
+	[Key.musicPlayerPrevious]: "上一首",
+	[Key.musicPlayerNext]: "下一首",
+	[Key.musicPlayerShuffle]: "随机播放",
+	[Key.musicPlayerRepeat]: "列表循环",
+	[Key.musicPlayerRepeatOne]: "单曲循环",
+	[Key.musicPlayerVolume]: "音量控制",
+	[Key.musicPlayerProgress]: "播放进度",
+	[Key.musicPlayerCover]: "封面",
+	[Key.musicPlayerPlaylist]: "播放列表",
+	[Key.musicPlayerLoading]: "加载中...",
+	[Key.musicPlayerErrorPlaylist]: "播放列表获取失败",
+	[Key.musicPlayerErrorSong]: "当前歌曲加载失败，尝试加载下一首",
+	[Key.musicPlayerErrorEmpty]: "播放列表中没有可用的歌曲",
+	[Key.unknownSong]: "未知歌曲",
+	[Key.unknownArtist]: "未知艺术家",
 };

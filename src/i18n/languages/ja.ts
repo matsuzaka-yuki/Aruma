@@ -79,4 +79,29 @@ export const ja: Translation = {
 	// コメントエリア
 	[Key.commentPlaceholder]: "こちらにメッセージを残してください～",
 	[Key.kaomoji]: "顔文字",
+
+	// 音楽プレーヤー
+	[Key.musicPlayer]: "音楽プレーヤー",
+	[Key.musicPlayerShow]: "音楽プレーヤーを表示",
+	[Key.musicPlayerHide]: "音楽プレーヤーを非表示",
+	[Key.musicPlayerExpand]: "音楽プレーヤーを展開",
+	[Key.musicPlayerCollapse]: "音楽プレーヤーを折りたたむ",
+	[Key.musicPlayerPause]: "一時停止",
+	[Key.musicPlayerPlay]: "再生",
+	[Key.musicPlayerPrevious]: "前へ",
+	[Key.musicPlayerNext]: "次へ",
+	[Key.musicPlayerShuffle]: "シャッフル",
+	[Key.musicPlayerRepeat]: "リピート",
+	[Key.musicPlayerRepeatOne]: "1 曲のみリピート",
+	[Key.musicPlayerVolume]: "音量コントロール",
+	[Key.musicPlayerProgress]: "再生状況",
+	[Key.musicPlayerCover]: "カバー",
+	[Key.musicPlayerPlaylist]: "プレイリスト",
+	[Key.musicPlayerLoading]: "読み込み中...",
+	[Key.musicPlayerErrorPlaylist]: "プレイリストを取得できませんでした",
+	[Key.musicPlayerErrorSong]:
+		"現在の曲を読み込めませんでした。次の曲を読み込みます",
+	[Key.musicPlayerErrorEmpty]: "プレイリストに利用可能な曲がありません",
+	[Key.unknownSong]: "不明な曲",
+	[Key.unknownArtist]: "不明なアーティスト",
 };

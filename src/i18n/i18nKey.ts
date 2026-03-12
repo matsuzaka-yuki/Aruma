@@ -75,5 +75,29 @@ enum I18nKey {
 	// 评论区
 	commentPlaceholder = "commentPlaceholder",
 	kaomoji = "kaomoji",
+
+	// 音乐播放器
+	musicPlayer = "musicPlayer",
+	musicPlayerShow = "musicPlayerShow",
+	musicPlayerHide = "musicPlayerHide",
+	musicPlayerExpand = "musicPlayerExpand",
+	musicPlayerCollapse = "musicPlayerCollapse",
+	musicPlayerPause = "musicPlayerPause",
+	musicPlayerPlay = "musicPlayerPlay",
+	musicPlayerPrevious = "musicPlayerPrevious",
+	musicPlayerNext = "musicPlayerNext",
+	musicPlayerShuffle = "musicPlayerShuffle",
+	musicPlayerRepeat = "musicPlayerRepeat",
+	musicPlayerRepeatOne = "musicPlayerRepeatOne",
+	musicPlayerVolume = "musicPlayerVolume",
+	musicPlayerProgress = "musicPlayerProgress",
+	musicPlayerCover = "musicPlayerCover",
+	musicPlayerPlaylist = "musicPlayerPlaylist",
+	musicPlayerLoading = "musicPlayerLoading",
+	musicPlayerErrorPlaylist = "musicPlayerErrorPlaylist",
+	musicPlayerErrorSong = "musicPlayerErrorSong",
+	musicPlayerErrorEmpty = "musicPlayerErrorEmpty",
+	unknownSong = "unknownSong",
+	unknownArtist = "unknownArtist",
 }
 export default I18nKey;

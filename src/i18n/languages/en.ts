@@ -78,4 +78,28 @@ export const en: Translation = {
 	// Comment section
 	[Key.commentPlaceholder]: "Leave your message here~",
 	[Key.kaomoji]: "Kaomoji",
+
+	// Music Player
+	[Key.musicPlayer]: "Music Player",
+	[Key.musicPlayerShow]: "Show Music Player",
+	[Key.musicPlayerHide]: "Hide Music Player",
+	[Key.musicPlayerExpand]: "Expand Music Player",
+	[Key.musicPlayerCollapse]: "Collapse Music Player",
+	[Key.musicPlayerPause]: "Pause",
+	[Key.musicPlayerPlay]: "Play",
+	[Key.musicPlayerPrevious]: "Previous",
+	[Key.musicPlayerNext]: "Next",
+	[Key.musicPlayerShuffle]: "Shuffle",
+	[Key.musicPlayerRepeat]: "Repeat All",
+	[Key.musicPlayerRepeatOne]: "Repeat One",
+	[Key.musicPlayerVolume]: "Volume Control",
+	[Key.musicPlayerProgress]: "Playback Progress",
+	[Key.musicPlayerCover]: "Cover",
+	[Key.musicPlayerPlaylist]: "Playlist",
+	[Key.musicPlayerLoading]: "Loading...",
+	[Key.musicPlayerErrorPlaylist]: "Failed to load playlist",
+	[Key.musicPlayerErrorSong]: "Failed to load current song, trying next song",
+	[Key.musicPlayerErrorEmpty]: "No available songs in the playlist",
+	[Key.unknownSong]: "Unknown Song",
+	[Key.unknownArtist]: "Unknown Artist",
 };
