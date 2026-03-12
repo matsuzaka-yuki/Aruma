@@ -1,0 +1,23 @@
+---
+interface Props {
+	class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div
+	class={`mdui-appbar mdui-shadow-0 mdui-appbar-fixed mdui-appbar-scroll-hide ${className}`}
+>
+	<slot />
+</div>
+
+<style>
+	:global(.mdui-appbar-scroll-hide) {
+		transition: transform 0.3s ease;
+	}
+
+	:global(.mdui-appbar-hidden) {
+		transform: translateY(-100%);
+	}
+</style>

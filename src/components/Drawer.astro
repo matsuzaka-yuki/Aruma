@@ -1,0 +1,515 @@
+---
+import DrawerProfile from "./svelte/DrawerProfile.svelte";
+import { siteConfig } from "../site.config";
+import { i18n } from "../i18n/translation";
+import I18nKey from "../i18n/i18nKey";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("post");
+
+const categoryCounts = posts.reduce(
+	(acc, post) => {
+		const category = post.data.category?.trim();
+		if (!category) return acc;
+		acc[category] = (acc[category] || 0) + 1;
+		return acc;
+	},
+	{} as Record<string, number>,
+);
+
+const categories = Object.entries(categoryCounts)
+	.map(([name, count]) => ({
+		name,
+		count,
+		slug: encodeURIComponent(name),
+	}))
+	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "zh"));
+
+const archiveCounts = posts.reduce(
+	(acc, post) => {
+		const year = post.data.pubDate.getFullYear();
+		acc[year] = (acc[year] || 0) + 1;
+		return acc;
+	},
+	{} as Record<number, number>,
+);
+
+const archives = Object.entries(archiveCounts)
+	.map(([year, count]) => ({
+		year: Number(year),
+		count,
+	}))
+	.sort((a, b) => b.year - a.year);
+---
+
+<div id="drawer-overlay" class="drawer-overlay"></div>
+
+<div
+	class="mdui-drawer mdui-drawer-close mdui-drawer-full-height drawer"
+	id="main-drawer"
+>
+	<DrawerProfile social={siteConfig.social} client:load />
+
+	<div class="mdui-divider"></div>
+
+	<div class="mdui-list" id="drawer-menu">
+		{
+			siteConfig.nav.map((item) => {
+				// @ts-ignore
+				if (item.type === "divider") {
+					return <div class="mdui-divider" />;
+				}
+
+				// @ts-ignore
+				if (item.type === "category") {
+					return (
+						<div class="mdui-collapse-item">
+							<div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+								{/* @ts-ignore */}
+								<i class="mdui-list-item-icon mdui-icon material-icons">
+									{item.icon || "widgets"}
+								</i>
+								{/* @ts-ignore */}
+								<div class="mdui-list-item-content">
+									{item.name || i18n(I18nKey.category)}
+								</div>
+								<i class="mdui-collapse-item-arrow mdui-icon material-icons">
+									keyboard_arrow_down
+								</i>
+							</div>
+							<div class="mdui-collapse-item-body">
+								{categories.map((category) => (
+									<a
+										href={`/category/${category.slug}`}
+										class="mdui-list-item mdui-ripple"
+									>
+										<div class="mdui-list-item-content">
+											{category.name}
+										</div>
+										<span class="drawer-count">
+											{category.count}
+										</span>
+									</a>
+								))}
+							</div>
+						</div>
+					);
+				}
+
+				// @ts-ignore
+				if (item.type === "archive") {
+					return (
+						<div class="mdui-collapse-item">
+							<div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+								{/* @ts-ignore */}
+								<i class="mdui-list-item-icon mdui-icon material-icons">
+									{item.icon || "access_time"}
+								</i>
+								{/* @ts-ignore */}
+								<div class="mdui-list-item-content">
+									{item.name || i18n(I18nKey.archive)}
+								</div>
+								<i class="mdui-collapse-item-arrow mdui-icon material-icons">
+									keyboard_arrow_down
+								</i>
+							</div>
+							<div class="mdui-collapse-item-body">
+								{archives.map((archive) => (
+									<a
+										href={`/archive#year-${archive.year}`}
+										class="mdui-list-item mdui-ripple"
+										data-archive-link
+										data-year={archive.year}
+									>
+										<div class="mdui-list-item-content">
+											{archive.year}
+										</div>
+										<span class="drawer-count">
+											{archive.count}
+										</span>
+									</a>
+								))}
+							</div>
+						</div>
+					);
+				}
+
+				// @ts-ignore
+				return item.children ? (
+					<div class="mdui-collapse-item">
+						<div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+							{/* @ts-ignore */}
+							<i class="mdui-list-item-icon mdui-icon material-icons">
+								{item.icon || "folder"}
+							</i>
+							{/* @ts-ignore */}
+							<div class="mdui-list-item-content">
+								{I18nKey[
+									item.name.toLowerCase() as keyof typeof I18nKey
+								]
+									? i18n(
+											I18nKey[
+												item.name.toLowerCase() as keyof typeof I18nKey
+											],
+										)
+									: item.name}
+							</div>
+							<i class="mdui-collapse-item-arrow mdui-icon material-icons">
+								keyboard_arrow_down
+							</i>
+						</div>
+						<div class="mdui-collapse-item-body">
+							{/* @ts-ignore */}
+							{item.children.map((child) => (
+								<a
+									href={child.path}
+									class="mdui-list-item mdui-ripple"
+								>
+									<div class="mdui-list-item-content">
+										{I18nKey[
+											child.name?.toLowerCase() as keyof typeof I18nKey
+										]
+											? i18n(
+													I18nKey[
+														child.name?.toLowerCase() as keyof typeof I18nKey
+													],
+												)
+											: child.name}
+									</div>
+								</a>
+							))}
+						</div>
+					</div>
+				) : (
+					// @ts-ignore
+					<a href={item.path} class="mdui-list-item mdui-ripple">
+						{/* @ts-ignore */}
+						<i class="mdui-list-item-icon mdui-icon material-icons">
+							{item.icon || "link"}
+						</i>
+						{/* @ts-ignore */}
+						<div class="mdui-list-item-content">
+							{I18nKey[
+								item.name.toLowerCase() as keyof typeof I18nKey
+							]
+								? i18n(
+										I18nKey[
+											item.name.toLowerCase() as keyof typeof I18nKey
+										],
+									)
+								: item.name}
+						</div>
+					</a>
+				);
+			})
+		}
+	</div>
+
+	<div class="drawer-bottom">
+		<a href="/rss.xml" class="mdui-list-item mdui-ripple">
+			<i class="mdui-list-item-icon mdui-icon material-icons">rss_feed</i>
+			<div class="mdui-list-item-content">
+				{i18n(I18nKey.rssSubscribe)}
+			</div>
+		</a>
+	</div>
+</div>
+
+<style>
+	.drawer {
+		background: var(--drawer-bg);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		border-right: 1px solid rgba(0, 0, 0, 0.05);
+		display: flex;
+		flex-direction: column;
+	}
+
+	.drawer-profile {
+		padding: 20px 0 10px;
+		text-align: center;
+		background: transparent;
+		position: relative;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.drawer-avatar,
+	.drawer-social {
+		position: relative;
+		z-index: 1;
+	}
+
+	.drawer-avatar img {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		border: 3px solid rgba(0, 0, 0, 0.1);
+		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+		transition: transform 0.3s;
+		object-fit: cover;
+	}
+
+	:global(.mdui-theme-layout-dark) .drawer-avatar img {
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+
+	.drawer-avatar img:hover {
+		transform: rotate(360deg);
+	}
+
+	.drawer-social {
+		margin-top: 12px;
+		display: flex;
+		justify-content: center;
+		gap: 15px;
+	}
+
+	.social-icon {
+		color: #000;
+		transition: all 0.3s;
+	}
+
+	.social-icon:hover {
+		color: var(--color);
+		transform: scale(1.1);
+	}
+
+	:global(.mdui-theme-layout-dark) .social-icon {
+		color: rgba(255, 255, 255, 0.6);
+	}
+
+	.drawer .mdui-list-item {
+		color: #000;
+		transition:
+			background-color 0.25s ease,
+			transform 0.2s ease;
+		border-radius: 4px;
+		flex-shrink: 0;
+	}
+
+	.drawer .mdui-list-item-icon {
+		color: #000;
+	}
+
+	:global(.mdui-theme-layout-dark) .drawer .mdui-list-item,
+	:global(.mdui-theme-layout-dark) .drawer .mdui-list-item-icon {
+		color: inherit;
+	}
+
+	.drawer .mdui-list-item:hover {
+		background-color: rgba(0, 0, 0, 0.06);
+	}
+
+	.drawer .mdui-list-item:active {
+		transform: scale(0.98);
+	}
+
+	:global(.mdui-theme-layout-dark) .drawer .mdui-list-item:hover {
+		background-color: rgba(255, 255, 255, 0.08);
+	}
+
+	.drawer-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: rgba(0, 0, 0, 0.5);
+		z-index: 2999;
+		opacity: 0;
+		visibility: hidden;
+		transition: all 0.3s;
+		backdrop-filter: blur(2px);
+	}
+
+	.drawer-overlay.show {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.mdui-collapse-item-body {
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.35s ease;
+		padding: 0;
+		margin: 0;
+	}
+
+	.mdui-collapse-item-arrow {
+		transition: transform 0.3s;
+	}
+
+	.mdui-collapse-item.open .mdui-collapse-item-arrow {
+		transform: rotate(180deg);
+	}
+
+	.mdui-collapse-item-body .mdui-list-item {
+		padding-left: 56px;
+		font-size: 14px;
+		height: 40px;
+	}
+
+	.mdui-collapse-item-body .mdui-list-item-content {
+		opacity: 0.8;
+	}
+
+	.drawer-count {
+		margin-left: auto;
+		background: rgba(0, 0, 0, 0.08);
+		color: #000;
+		font-size: 12px;
+		padding: 2px 6px;
+		border-radius: 4px;
+		min-width: 18px;
+		text-align: center;
+	}
+
+	:global(.mdui-theme-layout-dark) .drawer-count {
+		background: rgba(255, 255, 255, 0.12);
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	.drawer-rss {
+		width: 100%;
+	}
+
+	.drawer-bottom {
+		position: absolute;
+		bottom: 0;
+		width: 100%;
+		border-top: 1px solid rgba(0, 0, 0, 0.05);
+	}
+
+	:global(.mdui-theme-layout-dark) .drawer {
+		border-right-color: rgba(255, 255, 255, 0.05);
+	}
+
+	:global(.mdui-theme-layout-dark) .drawer-bottom {
+		border-top-color: rgba(255, 255, 255, 0.05);
+	}
+</style>
+
+<script>
+	import { navigate } from "astro:transitions/client";
+
+	function initDrawer() {
+		const toggleBtn = document.getElementById("toggle-drawer");
+		const drawer = document.getElementById("main-drawer");
+		const overlay = document.getElementById("drawer-overlay");
+
+		if (!toggleBtn || !drawer || !overlay) return;
+
+		const openDrawer = () => {
+			drawer?.classList.add("mdui-drawer-open");
+			overlay?.classList.add("show");
+			document.body.style.overflow = "hidden";
+		};
+
+		const closeDrawer = () => {
+			drawer?.classList.remove("mdui-drawer-open");
+			overlay?.classList.remove("show");
+			document.body.style.overflow = "";
+		};
+
+		if (!toggleBtn.dataset.bound) {
+			toggleBtn.dataset.bound = "true";
+			toggleBtn.addEventListener("click", (e) => {
+				e.stopPropagation();
+				if (drawer?.classList.contains("mdui-drawer-open")) {
+					closeDrawer();
+				} else {
+					openDrawer();
+				}
+			});
+		}
+
+		if (!overlay.dataset.bound) {
+			overlay.dataset.bound = "true";
+			overlay.addEventListener("click", closeDrawer);
+		}
+
+		const collapseItems = document.querySelectorAll(".mdui-collapse-item");
+		collapseItems.forEach((item) => {
+			const header = item.querySelector(".mdui-collapse-item-header");
+			const body = item.querySelector(".mdui-collapse-item-body");
+
+			if (header && body && !(header as HTMLElement).dataset.bound) {
+				(header as HTMLElement).dataset.bound = "true";
+				header.addEventListener("click", (e) => {
+					e.stopPropagation();
+					const isOpen = item.classList.contains("open");
+
+					collapseItems.forEach((otherItem) => {
+						if (
+							otherItem !== item &&
+							otherItem.classList.contains("open")
+						) {
+							otherItem.classList.remove("open");
+							const otherBody = otherItem.querySelector(
+								".mdui-collapse-item-body",
+							);
+							if (otherBody) {
+								(otherBody as HTMLElement).style.maxHeight =
+									"0";
+							}
+						}
+					});
+
+					if (isOpen) {
+						item.classList.remove("open");
+						(body as HTMLElement).style.maxHeight = "0";
+					} else {
+						item.classList.add("open");
+						requestAnimationFrame(() => {
+							(body as HTMLElement).style.maxHeight =
+								body.scrollHeight + "px";
+						});
+					}
+				});
+			}
+		});
+
+		const archiveLinks = document.querySelectorAll("[data-archive-link]");
+		archiveLinks.forEach((link) => {
+			if (!(link as HTMLElement).dataset.bound) {
+				(link as HTMLElement).dataset.bound = "true";
+				link.addEventListener("click", (e) => {
+					e.preventDefault();
+					const year = (link as HTMLElement).dataset.year;
+					const targetHash = `#year-${year}`;
+
+					const isOnArchivePage =
+						window.location.pathname === "/archive" ||
+						window.location.pathname === "/archive/";
+
+					if (isOnArchivePage) {
+						window.location.hash = targetHash;
+						if ((window as any).applyArchiveFilter) {
+							(window as any).applyArchiveFilter(targetHash);
+						}
+						closeDrawer();
+					} else {
+						closeDrawer();
+						navigate(`/archive${targetHash}`);
+					}
+				});
+			}
+		});
+
+		document.addEventListener("keydown", (e) => {
+			if (e.key !== "Escape") return;
+			if (drawer?.classList.contains("mdui-drawer-open")) {
+				drawer.classList.remove("mdui-drawer-open");
+				overlay?.classList.remove("show");
+				document.body.style.overflow = "";
+			}
+		});
+	}
+
+	document.addEventListener("astro:page-load", initDrawer);
+</script>

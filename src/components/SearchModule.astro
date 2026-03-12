@@ -1,0 +1,164 @@
+---
+import { i18n } from "../i18n/translation";
+import I18nKey from "../i18n/i18nKey";
+import { navigate } from "astro:transitions/client";
+---
+
+<div
+	class="mdui-textfield mdui-textfield-expandable appbar-search"
+	id="search-container"
+>
+	<button class="mdui-textfield-icon mdui-btn mdui-btn-icon" id="open-search">
+		<i class="mdui-icon material-icons">search</i>
+	</button>
+	<input
+		class="mdui-textfield-input"
+		type="text"
+		id="search-input"
+		placeholder={i18n(I18nKey.searchPlaceholder)}
+		autocomplete="off"
+	/>
+</div>
+
+<style>
+	.appbar-search {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.appbar-search .mdui-textfield-input {
+		color: rgba(255, 255, 255, 0.87);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+		width: 0;
+		transition: width 0.3s ease;
+		background: transparent;
+		border-top: none;
+		border-left: none;
+		border-right: none;
+		padding: 8px 0;
+		font-size: 16px;
+		outline: none;
+		box-shadow: none;
+	}
+
+	.appbar-search .mdui-textfield-input:focus {
+		outline: none;
+		box-shadow: none;
+		border-bottom: 1px solid #fff;
+	}
+
+	.appbar-search.mdui-textfield-expanded .mdui-textfield-input {
+		width: 200px;
+		border-bottom-color: #fff;
+	}
+
+	.appbar-search .mdui-textfield-input::placeholder {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	@media (max-width: 768px) {
+		.appbar-search.mdui-textfield-expanded .mdui-textfield-input {
+			width: 120px;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.appbar-search.mdui-textfield-expanded .mdui-textfield-input {
+			width: 100px;
+		}
+	}
+</style>
+
+<script>
+	import { navigate } from "astro:transitions/client";
+
+	function initSearch() {
+		const searchContainer = document.getElementById("search-container");
+		const openSearchBtn = document.getElementById("open-search");
+		const searchInput = document.getElementById(
+			"search-input",
+		) as HTMLInputElement;
+
+		if (!searchContainer || !openSearchBtn || !searchInput) return;
+
+		const openSearch = () => {
+			if (!searchContainer) return;
+			searchContainer.classList.add("mdui-textfield-expanded");
+			searchInput.value = "";
+			searchInput.focus();
+		};
+
+		const closeSearch = () => {
+			if (!searchContainer) return;
+			searchContainer.classList.remove("mdui-textfield-expanded");
+		};
+
+		const performSearch = () => {
+			const query = searchInput.value.trim();
+			if (query) {
+				navigate(`/post/?q=${encodeURIComponent(query)}`);
+			}
+		};
+
+		if (!openSearchBtn.dataset.bound) {
+			openSearchBtn.dataset.bound = "true";
+			openSearchBtn.addEventListener("click", (e) => {
+				e.stopPropagation();
+				const hasContent = searchInput.value.trim().length > 0;
+				if (
+					searchContainer?.classList.contains(
+						"mdui-textfield-expanded",
+					) ||
+					hasContent
+				) {
+					performSearch();
+				} else {
+					openSearch();
+				}
+			});
+		}
+
+		if (!searchInput.dataset.bound) {
+			searchInput.dataset.bound = "true";
+			searchInput.addEventListener("click", (e) => e.stopPropagation());
+			searchInput.addEventListener("keydown", (e) => {
+				if (e.key === "Enter") {
+					performSearch();
+				}
+			});
+		}
+
+		if (!document.documentElement.dataset.searchClickBound) {
+			document.documentElement.dataset.searchClickBound = "true";
+			document.addEventListener("click", (e) => {
+				const target = e.target as HTMLElement;
+				if (
+					searchContainer?.classList.contains(
+						"mdui-textfield-expanded",
+					) &&
+					!searchContainer.contains(target)
+				) {
+					closeSearch();
+				}
+			});
+		}
+
+		const urlParams = new URLSearchParams(window.location.search);
+		const queryParam = urlParams.get("q");
+		if (queryParam && searchInput) {
+			searchInput.value = queryParam;
+			searchContainer.classList.add("mdui-textfield-expanded");
+		}
+	}
+
+	document.addEventListener("astro:page-load", initSearch);
+
+	document.addEventListener("keydown", (e) => {
+		if (e.key !== "Escape") return;
+		const searchContainer = document.getElementById("search-container");
+		if (searchContainer?.classList.contains("mdui-textfield-expanded")) {
+			searchContainer.classList.remove("mdui-textfield-expanded");
+		}
+	});
+</script>

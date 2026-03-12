@@ -1,0 +1,43 @@
+<button id="toggle-dark-mode" class="mdui-btn mdui-btn-icon">
+	<i class="mdui-icon material-icons" id="dark-mode-icon">brightness_5</i>
+</button>
+
+<script>
+	function initThemeToggle() {
+		const darkModeBtn = document.getElementById("toggle-dark-mode");
+		const darkModeIcon = document.getElementById("dark-mode-icon");
+		const html = document.documentElement;
+
+		if (!darkModeBtn || !darkModeIcon) return;
+
+		const toggleTheme = () => {
+			if (html.classList.contains("mdui-theme-layout-dark")) {
+				html.classList.remove("mdui-theme-layout-dark");
+				localStorage.setItem("theme", "light");
+				darkModeIcon.innerText = "brightness_5";
+			} else {
+				html.classList.add("mdui-theme-layout-dark");
+				localStorage.setItem("theme", "dark");
+				darkModeIcon.innerText = "brightness_4";
+			}
+		};
+
+		const theme = localStorage.getItem("theme");
+		const isDark = theme === "dark" || !theme;
+
+		if (isDark) {
+			html.classList.add("mdui-theme-layout-dark");
+			darkModeIcon.innerText = "brightness_4";
+		} else {
+			html.classList.remove("mdui-theme-layout-dark");
+			darkModeIcon.innerText = "brightness_5";
+		}
+
+		if (!darkModeBtn.dataset.bound) {
+			darkModeBtn.dataset.bound = "true";
+			darkModeBtn.addEventListener("click", toggleTheme);
+		}
+	}
+
+	document.addEventListener("astro:page-load", initThemeToggle);
+</script>

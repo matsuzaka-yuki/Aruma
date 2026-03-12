@@ -1,0 +1,102 @@
+<mdui-dropdown id="qrcode-dropdown" trigger="click" placement="bottom-end">
+	<button class="mdui-btn mdui-btn-icon" slot="trigger" id="open-qrcode">
+		<i class="mdui-icon material-icons">devices</i>
+	</button>
+	<div class="qrcode-container">
+		<canvas id="qrcode-canvas"></canvas>
+	</div>
+</mdui-dropdown>
+
+<style>
+	.qrcode-container {
+		padding: 12px;
+		background: #fff;
+		border: 3px solid var(--mdui-color-primary);
+		border-radius: 16px;
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transform: translateY(-10px);
+		pointer-events: none;
+		transition:
+			opacity 0.3s ease,
+			transform 0.3s ease;
+	}
+
+	:global(.mdui-theme-layout-dark) .qrcode-container {
+		background: #303030;
+		border-color: var(--mdui-color-primary);
+		box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+	}
+
+	mdui-dropdown[open] .qrcode-container {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	#qrcode-canvas {
+		background: #fff;
+		border-radius: 8px;
+		width: 150px;
+		height: 150px;
+	}
+
+	mdui-dropdown#qrcode-dropdown::part(panel) {
+		background: transparent;
+		box-shadow: none;
+		overflow: visible;
+	}
+
+	@media (max-width: 600px) {
+		#qrcode-dropdown {
+			display: none;
+		}
+	}
+</style>
+
+<script>
+	async function initQRCode() {
+		const qrcodeDropdown = document.getElementById(
+			"qrcode-dropdown",
+		) as any;
+		const qrcodeCanvas = document.getElementById(
+			"qrcode-canvas",
+		) as HTMLCanvasElement;
+
+		if (!qrcodeDropdown || !qrcodeCanvas) return;
+
+		if (qrcodeDropdown.dataset.bound) return;
+		qrcodeDropdown.dataset.bound = "true";
+
+		qrcodeDropdown.addEventListener("open", async () => {
+			try {
+				const QRCode = await import("qrcode");
+				const url = window.location.href;
+
+				(QRCode.default || QRCode).toCanvas(
+					qrcodeCanvas,
+					url,
+					{
+						width: 150,
+						margin: 0,
+						color: {
+							dark: "#ffffff",
+							light: "#ffffff",
+						},
+					},
+					(error) => {
+						if (error)
+							console.error("Failed to generate QR code:", error);
+					},
+				);
+			} catch (error) {
+				console.error("Failed to load QRCode:", error);
+			}
+		});
+	}
+
+	document.addEventListener("astro:page-load", initQRCode);
+</script>
