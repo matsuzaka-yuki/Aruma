@@ -74,4 +74,7 @@ export const zhCN: Translation = {
 	[Key.animeStudio]: "制作",
 	[Key.animeEpisodes]: "集数",
 	[Key.animeEmpty]: "暂无番剧",
+
+	// 评论区
+	[Key.commentPlaceholder]: "大佬呐快看过来！这里是专属留言小角落，快来留下你的足迹喵～",
 };

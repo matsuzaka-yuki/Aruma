@@ -74,4 +74,7 @@ export const zhTW: Translation = {
 	[Key.animeStudio]: "製作",
 	[Key.animeEpisodes]: "集數",
 	[Key.animeEmpty]: "暫無番劇",
+
+	// 評論區
+	[Key.commentPlaceholder]: "大佬吶快看過來！這裡是專屬留言小角落，快來留下你的足跡喵～",
 };

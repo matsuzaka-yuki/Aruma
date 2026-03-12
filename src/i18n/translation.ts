@@ -15,15 +15,19 @@ const defaultTranslation = zhCN;
 
 // 语言映射表
 const map: { [key: string]: Translation } = {
+	"zh-CN": zhCN,
 	"zh-cn": zhCN,
 	zh_cn: zhCN,
 	zh: zhCN,
+	"zh-TW": zhTW,
 	"zh-tw": zhTW,
 	zh_tw: zhTW,
 	en: en,
+	"en-US": en,
 	"en-us": en,
 	en_us: en,
 	ja: ja,
+	"ja-JP": ja,
 	"ja-jp": ja,
 	ja_jp: ja,
 };

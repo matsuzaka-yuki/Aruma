@@ -60,6 +60,7 @@ export type TwikooConfig = {
 	envId: string;
 	region?: string;
 	lang?: string;
+	masterTag?: string; // 博主标识文字
 };
 
 export type CommentConfig = {

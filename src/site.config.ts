@@ -7,7 +7,7 @@ export const siteConfig: SiteConfig = {
 	title: "有希",
 	description: "有希的个人博客",
 	author: "有希",
-	lang: "zh-cn", // 语言配置：支持 "zh-cn"（中文）、"zh-tw"（繁体中文）、"en"（英文）和 "ja"（日文）
+	lang: "zh-CN",
 	avatar: avatarImage.src,
 	background: backgroundImage.src,
 	sidebarBg: sidebarImage.src,
@@ -90,10 +90,10 @@ export const siteConfig: SiteConfig = {
 
 	// 评论配置
 	comment: {
-		enable: false,
+		enable: true,
 		twikoo: {
 			envId: "https://twikoo.vercel.com/",
-			lang: "zh-CN",
+			masterTag: "博主", //设置成你Twikoo里面站长的标识名字，用于获取认证图标，注意要区分语言
 		},
 	},
 };

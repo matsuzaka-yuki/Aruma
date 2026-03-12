@@ -74,4 +74,7 @@ export const en: Translation = {
 	[Key.animeStudio]: "Studio",
 	[Key.animeEpisodes]: "Episodes",
 	[Key.animeEmpty]: "No anime yet",
+
+	// Comment section
+	[Key.commentPlaceholder]: "Leave your message here~",
 };

@@ -71,5 +71,8 @@ enum I18nKey {
 	animeStudio = "animeStudio",
 	animeEpisodes = "animeEpisodes",
 	animeEmpty = "animeEmpty",
+
+	// 评论区
+	commentPlaceholder = "commentPlaceholder",
 }
 export default I18nKey;

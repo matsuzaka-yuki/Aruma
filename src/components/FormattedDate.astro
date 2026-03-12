@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { date } = Astro.props;
-const locale = siteConfig.lang === "zh-cn" ? "zh-cn" : "en-us";
+const locale = siteConfig.lang.startsWith("zh") ? "zh-CN" : "en-US";
 ---
 
 <time datetime={date.toISOString()}>

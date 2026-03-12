@@ -75,4 +75,7 @@ export const ja: Translation = {
 	[Key.animeStudio]: "スタジオ",
 	[Key.animeEpisodes]: "エピソード",
 	[Key.animeEmpty]: "アニメのデータはありません",
+
+	// コメントエリア
+	[Key.commentPlaceholder]: "こちらにメッセージを残してください～",
 };
