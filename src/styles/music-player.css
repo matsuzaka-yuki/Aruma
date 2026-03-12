@@ -245,9 +245,9 @@ button.bg-\[var\(--music-player-primary\)\] {
   overflow: hidden;
   width: var(--music-player-width);
   box-sizing: border-box;
-  position: fixed;
-  bottom: 18rem;
-  right: var(--music-player-position);
+  position: absolute;
+  bottom: 17rem;
+  right: 0;
   z-index: 50;
 }
 
@@ -367,8 +367,8 @@ button.bg-\[var\(--music-player-primary\)\] {
 
   .playlist-panel {
     width: var(--music-player-width);
-    bottom: 17.5rem;
-    right: var(--music-player-position);
+    bottom: 17rem;
+    right: 0;
     left: auto;
     max-height: 20rem;
   }
