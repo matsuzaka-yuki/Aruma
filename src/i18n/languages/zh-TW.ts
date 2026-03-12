@@ -77,4 +77,5 @@ export const zhTW: Translation = {
 
 	// 評論區
 	[Key.commentPlaceholder]: "大佬吶快看過來！這裡是專屬留言小角落，快來留下你的足跡喵～",
+	[Key.kaomoji]: "顏文字",
 };

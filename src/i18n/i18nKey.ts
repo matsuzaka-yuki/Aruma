@@ -74,5 +74,6 @@ enum I18nKey {
 
 	// 评论区
 	commentPlaceholder = "commentPlaceholder",
+	kaomoji = "kaomoji",
 }
 export default I18nKey;

@@ -77,4 +77,5 @@ export const zhCN: Translation = {
 
 	// 评论区
 	[Key.commentPlaceholder]: "大佬呐快看过来！这里是专属留言小角落，快来留下你的足迹喵～",
+	[Key.kaomoji]: "颜文字",
 };

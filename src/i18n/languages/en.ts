@@ -77,4 +77,5 @@ export const en: Translation = {
 
 	// Comment section
 	[Key.commentPlaceholder]: "Leave your message here~",
+	[Key.kaomoji]: "Kaomoji",
 };

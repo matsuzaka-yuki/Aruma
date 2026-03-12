@@ -78,4 +78,5 @@ export const ja: Translation = {
 
 	// コメントエリア
 	[Key.commentPlaceholder]: "こちらにメッセージを残してください～",
+	[Key.kaomoji]: "顔文字",
 };
