@@ -33,6 +33,7 @@ export const zhTW: Translation = {
 	[Key.recentReplies]: "最新回覆",
 	[Key.noReplies]: "暫無回覆",
 	[Key.tagCloud]: "標籤雲",
+	[Key.categoryCloud]: "分類",
 
 	// 頁面標題
 	[Key.friendsTitle]: "友情連結",

@@ -33,6 +33,7 @@ export const ja: Translation = {
 	[Key.recentReplies]: "最新の返信",
 	[Key.noReplies]: "返信はまだありません",
 	[Key.tagCloud]: "タグクラウド",
+	[Key.categoryCloud]: "カテゴリー",
 
 	// ページタイトル
 	[Key.friendsTitle]: "リンク集",

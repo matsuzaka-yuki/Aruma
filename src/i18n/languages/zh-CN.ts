@@ -33,6 +33,7 @@ export const zhCN: Translation = {
 	[Key.recentReplies]: "最新回复",
 	[Key.noReplies]: "暂无回复",
 	[Key.tagCloud]: "标签云",
+	[Key.categoryCloud]: "分类",
 
 	// 页面标题
 	[Key.friendsTitle]: "友情链接",

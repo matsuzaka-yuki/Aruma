@@ -3,13 +3,16 @@
   import I18nKey from '../../i18n/i18nKey';
   import ChipCloud from './ChipCloud.svelte';
 
-  let { tags = [] }: { tags?: string[] } = $props();
+  let { categories = [] }: { categories?: { name: string; slug: string }[] } = $props();
 </script>
 
 <div class="mdui-card mdui-hoverable sidebar-module">
   <ul class="mdui-list">
-    <div class="sidebar-module-title">{i18n(I18nKey.tagCloud)}</div>
+    <div class="sidebar-module-title">{i18n(I18nKey.categoryCloud)}</div>
     <li class="mdui-divider mdui-m-y-0"></li>
-    <ChipCloud items={tags} hrefPrefix="/tags/" />
+    <ChipCloud 
+      items={categories} 
+      hrefPrefix="/category/" 
+    />
   </ul>
 </div>

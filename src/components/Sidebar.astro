@@ -3,11 +3,31 @@ import { getCollection } from "astro:content";
 import ProfileCard from "../components/svelte/ProfileCard.svelte";
 import ReplyModule from "../components/svelte/ReplyModule.svelte";
 import TagCloud from "../components/svelte/TagCloud.svelte";
+import CategoryCloud from "../components/svelte/CategoryCloud.svelte";
 
 const posts = await getCollection("post");
 const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
+
+const categoryCounts = posts.reduce(
+	(acc, post) => {
+		const category = post.data.category?.trim();
+		if (!category) return acc;
+		acc[category] = (acc[category] || 0) + 1;
+		return acc;
+	},
+	{} as Record<string, number>,
+);
+
+const categories = Object.entries(categoryCounts)
+	.map(([name, count]) => ({
+		name,
+		count,
+		slug: encodeURIComponent(name),
+	}))
+	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "zh"));
 ---
 
 <ProfileCard client:visible />
 <ReplyModule client:visible />
+<CategoryCloud categories={categories} client:visible />
 <TagCloud tags={tags} client:visible />
