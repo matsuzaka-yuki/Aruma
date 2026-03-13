@@ -28,3 +28,9 @@ pnpm-debug.log*
 
 # Demo Projects
 demo/
+
+# External anime data (fetched from APIs)
+src/data/external-anime.json
+src/data/external-anime-meta.json
+src/data/bangumi-data.json
+src/data/bilibili-data.json
