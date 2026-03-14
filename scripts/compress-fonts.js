@@ -183,6 +183,50 @@ function getAsciiCharset() {
   return Array.from(chars).sort().join("");
 }
 
+async function fetchLocalPlaylistText() {
+  try {
+    const musicPlayerPath = path.join(__dirname, "../src/components/svelte/MusicPlayer.svelte");
+    if (!fs.existsSync(musicPlayerPath)) {
+      console.log("MusicPlayer.svelte not found, skipping local playlist text collection");
+      return new Set();
+    }
+
+    const content = fs.readFileSync(musicPlayerPath, "utf-8");
+
+    // 提取 localPlaylist 数组
+    const playlistMatch = content.match(/const localPlaylist\s*=\s*\[([\s\S]*?)\];/);
+    if (!playlistMatch) {
+      console.log("localPlaylist not found in MusicPlayer.svelte");
+      return new Set();
+    }
+
+    const textSet = new Set();
+
+    // 提取 title 和 artist 字段的值
+    const titleMatches = content.match(/title:\s*["']([^"']+)["']/g) || [];
+    const artistMatches = content.match(/artist:\s*["']([^"']+)["']/g) || [];
+
+    // 解析并添加字符
+    const extractText = (matches) => {
+      matches.forEach((match) => {
+        const text = match.replace(/title:\s*["']|artist:\s*["']|["']/g, "");
+        for (const char of text) {
+          textSet.add(char);
+        }
+      });
+    };
+
+    extractText(titleMatches);
+    extractText(artistMatches);
+
+    console.log(`Collected ${textSet.size} unique characters from local playlist`);
+    return textSet;
+  } catch (error) {
+    console.log(`Error processing local playlist: ${error.message}`);
+    return new Set();
+  }
+}
+
 async function fetchMetingPlaylistText() {
   try {
     const configPath = path.join(__dirname, "../src/site.config.ts");
@@ -193,7 +237,7 @@ async function fetchMetingPlaylistText() {
     );
     if (!enableMatch || enableMatch[1] === "false") {
       console.log(
-        "Music player disabled, skipping Meting API text collection",
+        "Music player disabled, skipping music text collection",
       );
       return new Set();
     }
@@ -206,7 +250,7 @@ async function fetchMetingPlaylistText() {
 
     if (!musicConfigMatch) {
       console.log(
-        "Music player config not found, skipping Meting API text collection",
+        "Music player config not found, skipping music text collection",
       );
       return new Set();
     }
@@ -216,9 +260,14 @@ async function fetchMetingPlaylistText() {
     const modeMatch = configStr.match(/mode:\s*["']([^"']+)["']/);
     const mode = modeMatch ? modeMatch[1] : null;
 
+    if (mode === "local") {
+      console.log("Music player mode is 'local', collecting from local playlist...");
+      return await fetchLocalPlaylistText();
+    }
+
     if (mode !== "meting") {
       console.log(
-        'Music player mode is not "meting", skipping API text collection',
+        `Music player mode is '${mode}', skipping music text collection`,
       );
       return new Set();
     }
