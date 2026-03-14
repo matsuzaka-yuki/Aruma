@@ -87,6 +87,17 @@ html.mdui-theme-layout-dark .sidebar-info-desc {
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* 暗色模式 - 社交链接 */
+html.mdui-theme-layout-dark .sidebar-social-icon {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+html.mdui-theme-layout-dark .sidebar-social-icon:hover {
+  background-color: var(--color);
+  color: #fff;
+}
+
 html.mdui-theme-layout-dark .sidebar-info::after {
   background-color: rgba(66, 66, 66, 0.8);
 }
@@ -606,6 +617,42 @@ a {
   color: #757575;
   margin-top: 3px; /* 减少间距 */
   padding: 0 16px;
+}
+
+/* ----------------- 侧边栏社交链接 ----------------- */
+.sidebar-social {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+/* 圆形图标按钮 */
+.sidebar-social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #666;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.sidebar-social-icon:hover {
+  background-color: var(--color);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.sidebar-social-icon .mdui-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
 }
 
 .sidebar-module {

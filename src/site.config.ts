@@ -15,11 +15,6 @@ export const siteConfig: SiteConfig = {
 	postBackground: "rgba(255, 255, 255, 0.7)", // 文章背景色 (带透明度)
 	sidebarBackground: "rgba(255, 255, 255, 0.8)", // 侧边栏背景色
 	glassmorphism: true,
-	social: [
-		{ name: "GitHub", url: "https://github.com/nut612", icon: "github" },
-		{ name: "Twitter", url: "https://twitter.com", icon: "twitter" },
-		{ name: "Email", url: "mailto:example@email.com", icon: "email" },
-	],
 	nav: [
 		{ name: "home", path: "/", icon: "home" },
 		{ type: "category", icon: "widgets" },
@@ -125,6 +120,16 @@ export const siteConfig: SiteConfig = {
 			{ name: "category" },
 			{ name: "tag" },
 		],
+	},
+
+	// 个人信息卡片配置
+	profileCard: {
+		social: [
+			{ name: "GitHub", url: "https://github.com/matsuzaka-yuki/Aruma", icon: "github" },
+			{ name: "bilibili", url: "https://space.bilibili.com/701864046", icon: "bilibili" },
+			{ name: "Email", url: "becky.balde@email.com", icon: "email" },
+		],
+		showSocialLinks: true, // 显示社交链接
 	},
 
 	// 动漫外部数据源配置，不开启默认Local（示例，当前禁用）

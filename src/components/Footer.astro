@@ -46,7 +46,7 @@ if (footerConfig.enable) {
 
 	<div class="footer-social">
 		{
-			siteConfig.social.map((link) => (
+			(siteConfig.profileCard?.social || []).map((link) => (
 				<a
 					href={link.url}
 					target="_blank"

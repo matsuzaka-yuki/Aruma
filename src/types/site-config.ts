@@ -4,6 +4,12 @@ export type SocialLink = {
 	icon: string;
 };
 
+// ProfileCard 配置
+export type ProfileCardConfig = {
+	social?: SocialLink[]; // 社交链接配置
+	showSocialLinks?: boolean; // 是否显示社交链接，默认 true
+};
+
 export type NavItem = {
 	name?: string;
 	path?: string;
@@ -104,7 +110,6 @@ export type SiteConfig = {
 	postBackground: string;
 	sidebarBackground: string;
 	glassmorphism: boolean;
-	social: SocialLink[];
 	nav: NavItem[];
 	randomImage: RandomImageConfig;
 	featurePages: FeaturePagesConfig;
@@ -115,6 +120,7 @@ export type SiteConfig = {
 	notice?: NoticeConfig; // 侧边栏公告配置
 	sidebar?: SidebarConfig; // 侧栏模块配置
 	animeSource?: AnimeSourceConfig; // 动漫数据源配置
+	profileCard?: ProfileCardConfig; // 个人信息卡片配置
 };
 
 // 动漫数据源配置
