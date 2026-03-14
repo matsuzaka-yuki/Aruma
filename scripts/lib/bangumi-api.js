@@ -7,6 +7,7 @@ const BANGIMI_API_BASE = "https://api.bgm.tv";
 
 /**
  * 获取 Bangumi 用户收藏的动画列表
+ * 支持分页拉取，突破单次请求 100 条的限制
  * @param {Object} config - 配置对象
  * @param {string} config.userId - 用户 ID
  * @param {number} [config.amount] - 拉取数量（默认 50）
@@ -19,32 +20,67 @@ async function fetchBangumiAnime(config) {
 		"User-Agent": "Aruma/1.0 (https://github.com/your-repo)",
 	};
 
-	let url = `${BANGIMI_API_BASE}/v0/users/${userId}/collections`;
-	const params = new URLSearchParams({
-		subject_type: "2",
-		limit: amount.toString(),
-	});
+	const allAnimeList = [];
+	let offset = 0;
+	const limit = 100; // Bangumi API 单次请求最大 limit
+	let hasMore = true;
 
-	url += `?${params.toString()}`;
+	while (hasMore && allAnimeList.length < amount) {
+		const params = new URLSearchParams({
+			subject_type: "2",
+			limit: limit.toString(),
+			offset: offset.toString(),
+		});
 
-	try {
-		const response = await fetch(url, { headers });
-		const data = await response.json();
+		let url = `${BANGIMI_API_BASE}/v0/users/${userId}/collections?${params.toString()}`;
 
-		let animeList;
-		if (data.data && Array.isArray(data.data)) {
-			animeList = data.data;
-		} else if (Array.isArray(data)) {
-			animeList = data;
-		} else {
-			throw new Error(`Bangumi API error: unexpected data format`);
+		try {
+			const response = await fetch(url, { headers });
+			const data = await response.json();
+
+			let animeList;
+			let total = 0;
+
+			if (data.data && Array.isArray(data.data)) {
+				animeList = data.data;
+				total = data.total || 0;
+			} else if (Array.isArray(data)) {
+				animeList = data;
+			} else {
+				throw new Error(`Bangumi API error: unexpected data format`);
+			}
+
+			// 如果没有更多数据，退出循环
+			if (!animeList || animeList.length === 0) {
+				hasMore = false;
+				break;
+			}
+
+			allAnimeList.push(...animeList);
+
+			// 检查是否已达到所需数量
+			if (allAnimeList.length >= amount) {
+				break;
+			}
+
+			// 检查是否已获取所有数据
+			if (total > 0 && allAnimeList.length >= total) {
+				hasMore = false;
+				break;
+			}
+
+			offset += limit;
+		} catch (error) {
+			console.error(`Failed to fetch Bangumi anime at offset ${offset}:`, error.message);
+			hasMore = false;
 		}
-
-		return transformBangumiData(animeList);
-	} catch (error) {
-		console.error("Failed to fetch Bangumi anime:", error.message);
-		return [];
 	}
+
+	// 截取到指定数量
+	const result = allAnimeList.slice(0, amount);
+	console.log(`Fetched ${result.length} Bangumi anime items`);
+
+	return transformBangumiData(result);
 }
 
 /**
