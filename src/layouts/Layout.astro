@@ -20,10 +20,20 @@ interface Props {
 }
 
 const {
-	title = siteConfig.title,
+	title,
 	description = siteConfig.description,
 	hasMath = false,
 } = Astro.props;
+
+// 处理页面标题
+let pageTitle: string;
+if (title) {
+	pageTitle = `${title} - ${siteConfig.title}`;
+} else {
+	pageTitle = siteConfig.subtitle
+		? `${siteConfig.title} - ${siteConfig.subtitle}`
+		: siteConfig.title;
+}
 
 let customFontFamily = "";
 if (siteConfig.font) {
@@ -81,7 +91,7 @@ if (siteConfig.font) {
 				}
 			})();
 		</script>
-		<BaseHead title={title} description={description} hasMath={hasMath} />
+		<BaseHead title={pageTitle} description={description} hasMath={hasMath} />
 		<ClientRouter />
 		<script is:inline>
 			window.paceOptions = {

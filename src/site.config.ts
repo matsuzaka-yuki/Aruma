@@ -5,6 +5,7 @@ import type { SiteConfig } from "./types/site-config";
 
 export const siteConfig: SiteConfig = {
 	title: "有希",
+	subtitle: "有希的个人博客",
 	description: "有希的个人博客",
 	author: "有希",
 	lang: "zh-CN",
@@ -81,9 +82,9 @@ export const siteConfig: SiteConfig = {
 			enableCompress: true,
 		},
 		cjkFont: {
-			fontFamily: "zk",
+			fontFamily: "loli",
 			fontWeight: "400",
-			localFonts: ["zk.ttf"],
+			localFonts: ["loli.ttf"],
 			enableCompress: true,
 		},
 	},

@@ -31,7 +31,7 @@
 
 @font-face {
   font-family: "ZenMaruGothic-Medium";
-  /* src: url("/fonts/ZenMaruGothic-Medium.woff2") format("woff2"), */
+  /* src: url("/fonts/ZenMaruGothic-Medium.woff2") format("woff2"); */
   src: url("/fonts/ZenMaruGothic-Medium.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
@@ -39,9 +39,9 @@
 }
 
 @font-face {
-  font-family: "zk";
-  /* src: url("/fonts/zk.woff2") format("woff2"), */
-  src: url("/fonts/zk.ttf") format("truetype");
+  font-family: "loli";
+  /* src: url("/fonts/loli.woff2") format("woff2"); */
+  src: url("/fonts/loli.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;

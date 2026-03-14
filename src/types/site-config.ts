@@ -93,6 +93,7 @@ export type SidebarConfig = {
 
 export type SiteConfig = {
 	title: string;
+	subtitle?: string; // 副标题
 	description: string;
 	author: string;
 	lang: string;

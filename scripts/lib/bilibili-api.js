@@ -50,13 +50,17 @@ async function fetchBilibiliAnime(config) {
 
 		const statuses = [1, 2, 3];
 		const allResults = [];
+		let remainingAmount = amount;
 
 		for (const status of statuses) {
+			if (remainingAmount <= 0) break;
+
 			console.log(
 				`  Fetching status ${status} (${STATUS_MAP[status]})...`,
 			);
-			const data = await fetchByStatus(userId, status, amount, headers);
+			const data = await fetchByStatus(userId, status, remainingAmount, headers);
 			allResults.push(...data);
+			remainingAmount -= data.length;
 			await delay(300);
 		}
 
