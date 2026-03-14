@@ -51,7 +51,7 @@ function parseConfig() {
 	}
 
 	// 从 animeSource 块中提取 mode 配置
-	const modeMatch = animeSourceBlock.match(/mode:\s*'([^']+)'/);
+	const modeMatch = animeSourceBlock.match(/mode:\s*['"]([^'"]+)['"]/);
 	const mode = modeMatch ? modeMatch[1] : "mixed";
 
 	// 提取配置值（改进版）

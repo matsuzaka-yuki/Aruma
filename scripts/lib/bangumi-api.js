@@ -48,6 +48,22 @@ async function fetchBangumiAnime(config) {
 }
 
 /**
+ * Bangumi 收藏状态映射到统一的 watchStatus
+ * Bangumi API type (数字): 1=wish, 2=collect, 3=do, 4=on_hold, 5=dropped
+ * 统一 watchStatus: planned, completed, watching, onhold, dropped
+ */
+function mapBangumiStatus(bangumiType) {
+	const statusMap = {
+		1: "planned",      // wish
+		2: "completed",    // collect
+		3: "watching",     // do
+		4: "onhold",       // on_hold
+		5: "dropped",      // dropped
+	};
+	return statusMap[bangumiType] || "planned";
+}
+
+/**
  * 转换 Bangumi 数据为统一的 AnimeItem 格式
  * @param {Array} list - Bangumi API 返回的列表（每个 item 包含 subject 对象）
  * @returns {Array} 转换后的动漫列表
@@ -70,6 +86,7 @@ function transformBangumiData(list) {
 				source: "bangumi",
 				rating: subject.score,
 				tags: subject.tags?.map((t) => t.name) || [],
+				watchStatus: mapBangumiStatus(item.type),
 			};
 		});
 }
