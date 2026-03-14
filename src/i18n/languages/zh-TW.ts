@@ -116,4 +116,12 @@ export const zhTW: Translation = {
 	[Key.musicPlayerErrorEmpty]: "播放列表中沒有可用的歌曲",
 	[Key.unknownSong]: "未知歌曲",
 	[Key.unknownArtist]: "未知藝術家",
+
+	// Twikoo
+	[Key.twikooCommentDisabled]: "[Twikoo] 評論組件未啟用，跳過拉取最新評論。",
+	[Key.twikooEnvIdMissing]:
+		"[Twikoo] envId 未在 site.config.ts 中配置，跳過拉取最新評論。",
+	[Key.twikooFetching]: "[Twikoo] 正在拉取最新評論...",
+	[Key.twikooFetchFail]: "[Twikoo] 拉取最新評論失敗：",
+	[Key.twikooParseFail]: "[Twikoo] 響應解析失敗，無法讀取最新評論：",
 };

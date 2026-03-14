@@ -61,6 +61,7 @@ export type TwikooConfig = {
 	region?: string;
 	lang?: string;
 	masterTag?: string; // 博主标识文字
+	recentCommentsPageSize?: number; // 首页最新回复显示条数
 };
 
 export type CommentConfig = {

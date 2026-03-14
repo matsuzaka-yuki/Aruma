@@ -94,7 +94,8 @@ export const siteConfig: SiteConfig = {
 		enable: false,
 		twikoo: {
 			envId: "https://twikoo.vercel.app/",
-			masterTag: "博主", //设置成你 Twikoo 里面站长的标识名字，用于获取认证图标，注意要区分语言
+			masterTag: "博主", // 设置成你 Twikoo 里面站长的标识名字，用于获取认证图标，注意要区分语言
+			recentCommentsPageSize: 5, // 首页最新回复显示条数
 		},
 	},
 

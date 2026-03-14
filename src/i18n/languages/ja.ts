@@ -118,4 +118,14 @@ export const ja: Translation = {
 	[Key.musicPlayerErrorEmpty]: "プレイリストに利用可能な曲がありません",
 	[Key.unknownSong]: "不明な曲",
 	[Key.unknownArtist]: "不明なアーティスト",
+
+	// Twikoo
+	[Key.twikooCommentDisabled]:
+		"[Twikoo] コメント機能が無効になっています。最新のコメントの取得をスキップします。",
+	[Key.twikooEnvIdMissing]:
+		"[Twikoo] site.config.ts で envId が設定されていません。最新のコメントの取得をスキップします。",
+	[Key.twikooFetching]: "[Twikoo] 最新のコメントを取得しています...",
+	[Key.twikooFetchFail]: "[Twikoo] 最新のコメントの取得に失敗しました：",
+	[Key.twikooParseFail]:
+		"[Twikoo] レスポンスの解析に失敗しました。最新のコメントを読み取ることができません：",
 };

@@ -3,6 +3,8 @@ import { getCollection } from "astro:content";
 import ProfileCard from "../components/svelte/ProfileCard.svelte";
 import NoticeModule from "../components/svelte/NoticeModule.svelte";
 import ReplyModule from "../components/svelte/ReplyModule.svelte";
+import TwikooRecentReplies from "../components/svelte/TwikooRecentReplies.svelte";
+import twikooRecentComments from "../data/twikooRecentComments.json";
 import TagCloud from "../components/svelte/TagCloud.svelte";
 import CategoryCloud from "../components/svelte/CategoryCloud.svelte";
 import { siteConfig } from "../site.config";
@@ -30,6 +32,9 @@ const categories = Object.entries(categoryCounts)
 
 const noticeContent = siteConfig.notice?.enable ? siteConfig.notice.content : "";
 
+const useTwikooRecentReplies =
+	siteConfig.comment?.enable && !!siteConfig.comment?.twikoo?.envId;
+
 // 获取侧栏模块配置，如果不存在则使用默认顺序
 const sidebarModules = siteConfig.sidebar?.modules || [
 	{ name: "profile" },
@@ -48,6 +53,10 @@ const sidebarModules = siteConfig.sidebar?.modules || [
 		return <NoticeModule content={noticeContent} client:visible />;
 	}
 	if (module.name === "reply") {
+		if (useTwikooRecentReplies) {
+			// TwikooRecentReplies 现在仅展示构建阶段预先注入的数据
+			return <TwikooRecentReplies replies={twikooRecentComments} client:visible />;
+		}
 		return <ReplyModule client:visible />;
 	}
 	if (module.name === "category") {

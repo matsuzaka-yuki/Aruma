@@ -115,4 +115,13 @@ export const en: Translation = {
 	[Key.musicPlayerErrorEmpty]: "No available songs in the playlist",
 	[Key.unknownSong]: "Unknown Song",
 	[Key.unknownArtist]: "Unknown Artist",
+
+	// Twikoo
+	[Key.twikooCommentDisabled]:
+		"[Twikoo] Comment feature disabled, skipping fetching recent comments.",
+	[Key.twikooEnvIdMissing]:
+		"[Twikoo] envId is not configured in site.config.ts, skipping fetching recent comments.",
+	[Key.twikooFetching]: "[Twikoo] Fetching recent comments...",
+	[Key.twikooFetchFail]: "[Twikoo] Failed to fetch recent comments:",
+	[Key.twikooParseFail]: "[Twikoo] Failed to parse response data:",
 };

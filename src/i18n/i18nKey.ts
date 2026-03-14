@@ -112,5 +112,12 @@ enum I18nKey {
 	musicPlayerErrorEmpty = "musicPlayerErrorEmpty",
 	unknownSong = "unknownSong",
 	unknownArtist = "unknownArtist",
+
+	// Twikoo
+	twikooCommentDisabled = "twikooCommentDisabled",
+	twikooEnvIdMissing = "twikooEnvIdMissing",
+	twikooFetching = "twikooFetching",
+	twikooFetchFail = "twikooFetchFail",
+	twikooParseFail = "twikooParseFail",
 }
 export default I18nKey;
