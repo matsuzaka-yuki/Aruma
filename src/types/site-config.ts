@@ -4,10 +4,24 @@ export type SocialLink = {
 	icon: string;
 };
 
-// ProfileCard 配置
+export type SocialIconConfig = {
+	name: string;
+	icon: string;
+};
+
+export type DrawerProfileConfig = {
+	enable?: boolean;
+	social?: SocialLink[];
+};
+
+export type FooterSocialConfig = {
+	enable?: boolean;
+	social?: SocialLink[];
+};
+
 export type ProfileCardConfig = {
-	social?: SocialLink[]; // 社交链接配置
-	showSocialLinks?: boolean; // 是否显示社交链接，默认 true
+	social?: SocialLink[];
+	showSocialLinks?: boolean;
 };
 
 export type NavItem = {
@@ -105,7 +119,7 @@ export type SiteStatsConfig = {
 
 export type SiteConfig = {
 	title: string;
-	subtitle?: string; // 副标题
+	subtitle?: string;
 	description: string;
 	author: string;
 	lang: string;
@@ -121,12 +135,14 @@ export type SiteConfig = {
 	font?: FontConfig;
 	imageOptimization?: ImageOptimizationConfig;
 	comment?: CommentConfig;
-	musicPlayer?: MusicPlayerConfig; // 音乐播放器配置
-	notice?: NoticeConfig; // 侧边栏公告配置
-	sidebar?: SidebarConfig; // 侧栏模块配置
-	animeSource?: AnimeSourceConfig; // 动漫数据源配置
-	profileCard?: ProfileCardConfig; // 个人信息卡片配置
-	siteStats?: SiteStatsConfig; // 站点统计配置
+	musicPlayer?: MusicPlayerConfig;
+	notice?: NoticeConfig;
+	sidebar?: SidebarConfig;
+	animeSource?: AnimeSourceConfig;
+	profileCard?: ProfileCardConfig;
+	drawerProfile?: DrawerProfileConfig;
+	footerSocial?: FooterSocialConfig;
+	siteStats?: SiteStatsConfig;
 };
 
 // 动漫数据源配置

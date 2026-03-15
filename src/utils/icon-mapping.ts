@@ -1,44 +1,32 @@
-/**
- * 社交平台图标映射到 Material Icons
- */
 export const socialIconMap: Record<string, string> = {
-	// 通用社交平台
-	github: "code",
-	twitter: "share",
-	email: "email",
-	facebook: "public",
-	instagram: "camera_alt",
-	linkedin: "work",
-	youtube: "play_circle_filled",
-
-	// 中国社交平台
-	bilibili: "play_circle",
-	qq: "chat",
-	wechat: "chat_bubble",
-	weibo: "public",
-	zhihu: "question_answer",
-
-	// 其他常见平台
-	rss: "rss_feed",
-	blog: "article",
-	douban: "library_books",
-	telegram: "send",
-	discord: "forum",
-	reddit: "forum",
-	medium: "article",
-	stackoverflow: "code",
-
-	// 通用 fallback
-	link: "link",
-	website: "language",
-	home: "home",
+	github: "fa6-brands:github",
+	twitter: "fa6-brands:twitter",
+	email: "fa6-solid:envelope",
+	facebook: "fa6-brands:facebook",
+	instagram: "fa6-brands:instagram",
+	linkedin: "fa6-brands:linkedin",
+	youtube: "fa6-brands:youtube",
+	bilibili: "fa6-brands:bilibili",
+	qq: "fa6-brands:qq",
+	wechat: "fa6-brands:weixin",
+	weibo: "fa6-brands:weibo",
+	zhihu: "fa6-brands:zhihu",
+	rss: "fa6-solid:rss",
+	blog: "fa6-solid:blog",
+	douban: "fa6-brands:douban",
+	telegram: "fa6-brands:telegram",
+	discord: "fa6-brands:discord",
+	reddit: "fa6-brands:reddit",
+	medium: "fa6-brands:medium",
+	stackoverflow: "fa6-brands:stackoverflow",
+	link: "fa6-solid:link",
+	website: "fa6-solid:globe",
+	home: "fa6-solid:house",
 };
 
-/**
- * 获取社交图标
- * @param iconName 配置中的图标名称
- * @returns Material Icons 图标名称
- */
 export function getSocialIcon(iconName: string): string {
-	return socialIconMap[iconName.toLowerCase()] || "link";
+	if (iconName.startsWith("fa6-") || iconName.startsWith("fa-")) {
+		return iconName.replace(/^fa-/, "fa6-");
+	}
+	return socialIconMap[iconName.toLowerCase()] || "fa6-solid:link";
 }

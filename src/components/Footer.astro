@@ -2,6 +2,8 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
 import { siteConfig, footerConfig } from "../site.config";
+import IconWrapper from "./IconWrapper.svelte";
+import { getSocialIcon } from "../utils/icon-mapping";
 
 const today = new Date();
 
@@ -25,6 +27,10 @@ if (footerConfig.enable) {
 		}
 	}
 }
+
+const footerConfig_social = siteConfig.footerSocial || {};
+const showSocial = footerConfig_social.enable !== false;
+const socialLinks = footerConfig_social.social || [];
 ---
 
 <footer class="footer-container mdui-typo">
@@ -44,26 +50,26 @@ if (footerConfig.enable) {
 		)
 	}
 
-	<div class="footer-social">
-		{
-			(siteConfig.profileCard?.social || []).map((link) => (
-				<a
-					href={link.url}
-					target="_blank"
-					class="mdui-btn mdui-btn-icon mdui-ripple"
-					title={link.name}
-				>
-					<i class="mdui-icon material-icons">
-						{link.icon === "github"
-							? "code"
-							: link.icon === "twitter"
-								? "share"
-								: "link"}
-					</i>
-				</a>
-			))
-		}
-	</div>
+	{
+		showSocial && socialLinks.length > 0 && (
+			<div class="footer-social">
+				{socialLinks.map((link: any) => (
+					<a
+						href={link.url}
+						target="_blank"
+						class="mdui-btn mdui-btn-icon mdui-ripple"
+						title={link.name}
+					>
+						<IconWrapper
+							icon={getSocialIcon(link.icon)}
+							size="1.25em"
+							client:load
+						/>
+					</a>
+				))}
+			</div>
+		)
+	}
 </footer>
 
 <style>
@@ -117,19 +123,37 @@ if (footerConfig.enable) {
 	.footer-social {
 		display: flex;
 		justify-content: center;
-		gap: 15px;
+		gap: 25px;
 	}
 	.footer-social a {
 		color: #666;
 		opacity: 0.8;
 		transition: all 0.3s;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 0;
+		border-bottom: none;
+		text-decoration: none;
 	}
 	:global(.mdui-theme-layout-dark) .footer-social a {
 		color: rgba(255, 255, 255, 0.7);
 	}
 	.footer-social a:hover {
 		opacity: 1;
-		color: var(--color);
 		transform: translateY(-2px);
+		background-color: transparent;
+	}
+	.footer-social .mdui-btn,
+	.footer-social .mdui-btn-icon {
+		min-width: auto;
+		width: auto;
+		height: auto;
+		border-radius: 0;
+		border: none;
+		box-shadow: none;
+	}
+	.footer-social .mdui-btn::after {
+		border-bottom: none;
 	}
 </style>
