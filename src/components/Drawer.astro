@@ -135,6 +135,38 @@ const archives = Object.entries(archiveCounts)
 				}
 
 				// @ts-ignore
+				if (item.type === "rss") {
+					return (
+						<a href="/rss.xml" class="mdui-list-item mdui-ripple">
+							{/* @ts-ignore */}
+							<i class="mdui-list-item-icon mdui-icon material-icons">
+								{item.icon || "rss_feed"}
+							</i>
+							{/* @ts-ignore */}
+							<div class="mdui-list-item-content">
+								{item.name || i18n(I18nKey.rssSubscribe)}
+							</div>
+						</a>
+					);
+				}
+
+				// @ts-ignore
+				if (item.type === "atom") {
+					return (
+						<a href="/atom.xml" class="mdui-list-item mdui-ripple">
+							{/* @ts-ignore */}
+							<i class="mdui-list-item-icon mdui-icon material-icons">
+								{item.icon || "rss_feed"}
+							</i>
+							{/* @ts-ignore */}
+							<div class="mdui-list-item-content">
+								{item.name || i18n(I18nKey.atomSubscribe)}
+							</div>
+						</a>
+					);
+				}
+
+				// @ts-ignore
 				return item.children ? (
 					<div class="mdui-collapse-item">
 						<div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
@@ -205,14 +237,11 @@ const archives = Object.entries(archiveCounts)
 		}
 	</div>
 
-	<div class="drawer-bottom">
-		<a href="/rss.xml" class="mdui-list-item mdui-ripple">
-			<i class="mdui-list-item-icon mdui-icon material-icons">rss_feed</i>
-			<div class="mdui-list-item-content">
-				{i18n(I18nKey.rssSubscribe)}
-			</div>
-		</a>
-	</div>
+	{siteConfig.drawerBottom?.enable && siteConfig.drawerBottom?.wallpaper && (
+		<div class="drawer-bottom-wallpaper">
+			<img src={siteConfig.drawerBottom.wallpaper} alt="Drawer Wallpaper" />
+		</div>
+	)}
 </div>
 
 <style>
@@ -374,23 +403,21 @@ const archives = Object.entries(archiveCounts)
 		color: rgba(255, 255, 255, 0.8);
 	}
 
-	.drawer-rss {
-		width: 100%;
-	}
-
-	.drawer-bottom {
+	.drawer-bottom-wallpaper {
 		position: absolute;
 		bottom: 0;
 		width: 100%;
-		border-top: 1px solid rgba(0, 0, 0, 0.05);
+		overflow: hidden;
+	}
+
+	.drawer-bottom-wallpaper img {
+		width: 100%;
+		height: auto;
+		display: block;
 	}
 
 	:global(.mdui-theme-layout-dark) .drawer {
 		border-right-color: rgba(255, 255, 255, 0.05);
-	}
-
-	:global(.mdui-theme-layout-dark) .drawer-bottom {
-		border-top-color: rgba(255, 255, 255, 0.05);
 	}
 </style>
 
