@@ -31,7 +31,9 @@ const categories = Object.entries(categoryCounts)
 	}))
 	.sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, "zh"));
 
-const noticeContent = siteConfig.notice?.enable ? siteConfig.notice.content : "";
+const noticeContent = siteConfig.notice?.enable
+	? siteConfig.notice.content
+	: "";
 
 const useTwikooRecentReplies =
 	siteConfig.comment?.enable && !!siteConfig.comment?.twikoo?.envId;
@@ -54,35 +56,42 @@ const sidebarModules = siteConfig.sidebar?.modules || [
 ];
 ---
 
-{sidebarModules.map((module) => {
-	if (module.name === "profile") {
-		return <ProfileCard client:visible />;
-	}
-	if (module.name === "notice" && noticeContent) {
-		return <NoticeModule content={noticeContent} client:visible />;
-	}
-	if (module.name === "reply") {
-		if (useTwikooRecentReplies) {
-			// TwikooRecentReplies 现在仅展示构建阶段预先注入的数据
-			return <TwikooRecentReplies replies={twikooRecentComments} client:visible />;
+{
+	sidebarModules.map((module) => {
+		if (module.name === "profile") {
+			return <ProfileCard client:visible />;
 		}
-		return <ReplyModule client:visible />;
-	}
-	if (module.name === "category") {
-		return <CategoryCloud categories={categories} client:visible />;
-	}
-	if (module.name === "tag") {
-		return <TagCloud tags={tags} client:visible />;
-	}
-	if (module.name === "stats") {
-		return (
-			<SiteStats 
-				postCount={postCount} 
-				wordCount={wordCount} 
-				siteStartDate={siteStartDate}
-				client:visible 
-			/>
-		);
-	}
-	return null;
-})}
+		if (module.name === "notice" && noticeContent) {
+			return <NoticeModule content={noticeContent} client:visible />;
+		}
+		if (module.name === "reply") {
+			if (useTwikooRecentReplies) {
+				// TwikooRecentReplies 现在仅展示构建阶段预先注入的数据
+				return (
+					<TwikooRecentReplies
+						replies={twikooRecentComments}
+						client:visible
+					/>
+				);
+			}
+			return <ReplyModule client:visible />;
+		}
+		if (module.name === "category") {
+			return <CategoryCloud categories={categories} client:visible />;
+		}
+		if (module.name === "tag") {
+			return <TagCloud tags={tags} client:visible />;
+		}
+		if (module.name === "stats") {
+			return (
+				<SiteStats
+					postCount={postCount}
+					wordCount={wordCount}
+					siteStartDate={siteStartDate}
+					client:visible
+				/>
+			);
+		}
+		return null;
+	})
+}

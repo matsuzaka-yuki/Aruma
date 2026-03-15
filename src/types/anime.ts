@@ -9,10 +9,10 @@ export interface AnimeItem {
 	studio: string;
 	progress: number;
 	totalEpisodes: number;
-	source?: 'local' | 'bilibili' | 'bangumi';  // 数据源标识
-	rating?: number;  // 评分（Bangumi）
-	tags?: string[];  // 标签
-	watchStatus?: 'watching' | 'completed' | 'planned';  // 观看状态
+	source?: "local" | "bilibili" | "bangumi"; // 数据源标识
+	rating?: number; // 评分（Bangumi）
+	tags?: string[]; // 标签
+	watchStatus?: "watching" | "completed" | "planned"; // 观看状态
 }
 
 // Bilibili API 响应类型
@@ -36,19 +36,19 @@ export interface BilibiliAnimeItem {
 		id: number;
 		title: string;
 	};
-	progress: string;  // "看到第 X 话"
-	is_finish: number;  // 1=已完结，0=连载中
-	is_started: number;  // 1=已开始追，0=未开始
+	progress: string; // "看到第 X 话"
+	is_finish: number; // 1=已完结，0=连载中
+	is_started: number; // 1=已开始追，0=未开始
 	is_followed: number;
 	season_type: number;
-	evaluate: string;  // 简介
+	evaluate: string; // 简介
 	publish: {
 		pub_time: string;
 		is_finish: string;
 		season_type: string;
 	};
 	up_info: {
-		uname: string;  // 制作公司/上传者
+		uname: string; // 制作公司/上传者
 	};
 }
 
@@ -73,10 +73,10 @@ export interface BangumiAnimeItem {
 		common: string;
 	};
 	collection?: {
-		status: string;  // "watching", "done", "dropped", etc.
-		ep_status: number;  // 已看集数
-		vol_status: number;  // 总集数
+		status: string; // "watching", "done", "dropped", etc.
+		ep_status: number; // 已看集数
+		vol_status: number; // 总集数
 	};
-	eps?: number;  // 总集数
-	type: number;  // 1=动画
+	eps?: number; // 总集数
+	type: number; // 1=动画
 }

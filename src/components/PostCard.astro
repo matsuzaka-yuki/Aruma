@@ -59,7 +59,12 @@ if (
 					</div>
 					<div class="mdui-card-primary-subtitle index-info">
 						<FormattedDate date={pubDate} />
-						| {i18n(I18nKey.wordCount).replace("{count}", wordCount.toString())}
+						| {
+							i18n(I18nKey.wordCount).replace(
+								"{count}",
+								wordCount.toString(),
+							)
+						}
 					</div>
 					<div class="mdui-card-primary-subtitle index-subtitle">
 						{description}

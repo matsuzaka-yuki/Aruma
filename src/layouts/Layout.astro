@@ -91,7 +91,11 @@ if (siteConfig.font) {
 				}
 			})();
 		</script>
-		<BaseHead title={pageTitle} description={description} hasMath={hasMath} />
+		<BaseHead
+			title={pageTitle}
+			description={description}
+			hasMath={hasMath}
+		/>
 		<ClientRouter />
 		<script is:inline>
 			window.paceOptions = {
