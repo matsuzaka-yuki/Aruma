@@ -19,6 +19,11 @@ export type FooterSocialConfig = {
 	social?: SocialLink[];
 };
 
+export type DrawerBottomConfig = {
+	enable?: boolean;
+	wallpaper?: string;
+};
+
 export type ProfileCardConfig = {
 	social?: SocialLink[];
 	showSocialLinks?: boolean;
@@ -142,6 +147,7 @@ export type SiteConfig = {
 	profileCard?: ProfileCardConfig;
 	drawerProfile?: DrawerProfileConfig;
 	footerSocial?: FooterSocialConfig;
+	drawerBottom?: DrawerBottomConfig;
 	siteStats?: SiteStatsConfig;
 };
 
