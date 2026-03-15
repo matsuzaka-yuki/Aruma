@@ -115,11 +115,17 @@ export const siteConfig: SiteConfig = {
 	sidebar: {
 		modules: [
 			{ name: "profile" },
+			{ name: "stats" },
 			{ name: "notice" },
 			{ name: "reply" },
 			{ name: "category" },
 			{ name: "tag" },
 		],
+	},
+
+	// 站点统计配置
+	siteStats: {
+		siteStartDate: "2024-01-01", // 建站日期，格式：YYYY-MM-DD
 	},
 
 	// 个人信息卡片配置

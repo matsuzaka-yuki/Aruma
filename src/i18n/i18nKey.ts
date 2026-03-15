@@ -34,6 +34,12 @@ enum I18nKey {
 	categoryCloud = "categoryCloud",
 	notice = "notice",
 
+	// 站点统计
+	siteStats = "siteStats",
+	siteStatsPosts = "siteStatsPosts",
+	siteStatsRunningDays = "siteStatsRunningDays",
+	siteStatsWords = "siteStatsWords",
+
 	// 页面标题
 	friendsTitle = "friendsTitle",
 	animeTitle = "animeTitle",

@@ -37,6 +37,12 @@ export const en: Translation = {
 	[Key.categoryCloud]: "Categories",
 	[Key.notice]: "Notice",
 
+	// Site Stats
+	[Key.siteStats]: "Site Statistics",
+	[Key.siteStatsPosts]: "Posts",
+	[Key.siteStatsRunningDays]: "Running Days",
+	[Key.siteStatsWords]: "Total Words",
+
 	// Page titles
 	[Key.friendsTitle]: "Friend Links",
 	[Key.animeTitle]: "Anime",

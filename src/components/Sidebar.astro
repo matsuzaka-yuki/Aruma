@@ -7,6 +7,7 @@ import TwikooRecentReplies from "../components/svelte/TwikooRecentReplies.svelte
 import twikooRecentComments from "../data/twikooRecentComments.json";
 import TagCloud from "../components/svelte/TagCloud.svelte";
 import CategoryCloud from "../components/svelte/CategoryCloud.svelte";
+import SiteStats from "../components/svelte/SiteStats.svelte";
 import { siteConfig } from "../site.config";
 
 const posts = await getCollection("post");
@@ -34,6 +35,14 @@ const noticeContent = siteConfig.notice?.enable ? siteConfig.notice.content : ""
 
 const useTwikooRecentReplies =
 	siteConfig.comment?.enable && !!siteConfig.comment?.twikoo?.envId;
+
+// 计算站点统计数据
+const postCount = posts.length;
+const wordCount = posts.reduce((total, post) => {
+	const content = post.body || "";
+	return total + content.length;
+}, 0);
+const siteStartDate = siteConfig.siteStats?.siteStartDate;
 
 // 获取侧栏模块配置，如果不存在则使用默认顺序
 const sidebarModules = siteConfig.sidebar?.modules || [
@@ -64,6 +73,16 @@ const sidebarModules = siteConfig.sidebar?.modules || [
 	}
 	if (module.name === "tag") {
 		return <TagCloud tags={tags} client:visible />;
+	}
+	if (module.name === "stats") {
+		return (
+			<SiteStats 
+				postCount={postCount} 
+				wordCount={wordCount} 
+				siteStartDate={siteStartDate}
+				client:visible 
+			/>
+		);
 	}
 	return null;
 })}

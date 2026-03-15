@@ -40,6 +40,12 @@ export const ja: Translation = {
 	[Key.categoryCloud]: "カテゴリー",
 	[Key.notice]: "お知らせ",
 
+	// サイト統計
+	[Key.siteStats]: "サイト統計",
+	[Key.siteStatsPosts]: "記事数",
+	[Key.siteStatsRunningDays]: "運営日数",
+	[Key.siteStatsWords]: "総文字数",
+
 	// ページタイトル
 	[Key.friendsTitle]: "リンク集",
 	[Key.animeTitle]: "視聴したアニメ",

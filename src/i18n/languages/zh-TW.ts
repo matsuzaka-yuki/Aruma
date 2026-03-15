@@ -37,6 +37,12 @@ export const zhTW: Translation = {
 	[Key.categoryCloud]: "分類",
 	[Key.notice]: "公告",
 
+	// 站點統計
+	[Key.siteStats]: "站點統計",
+	[Key.siteStatsPosts]: "文章數",
+	[Key.siteStatsRunningDays]: "運行天數",
+	[Key.siteStatsWords]: "總字數",
+
 	// 頁面標題
 	[Key.friendsTitle]: "友情連結",
 	[Key.animeTitle]: "追番",

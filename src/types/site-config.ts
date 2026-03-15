@@ -91,11 +91,16 @@ export type NoticeConfig = {
 
 // 侧栏模块配置
 export type SidebarModuleConfig = {
-	name: "profile" | "notice" | "reply" | "category" | "tag"; // 模块名称
+	name: "profile" | "notice" | "reply" | "category" | "tag" | "stats"; // 模块名称
 };
 
 export type SidebarConfig = {
 	modules: SidebarModuleConfig[]; // 模块数组，按顺序显示
+};
+
+// 站点统计配置
+export type SiteStatsConfig = {
+	siteStartDate?: string; // 建站日期，格式：YYYY-MM-DD
 };
 
 export type SiteConfig = {
@@ -121,6 +126,7 @@ export type SiteConfig = {
 	sidebar?: SidebarConfig; // 侧栏模块配置
 	animeSource?: AnimeSourceConfig; // 动漫数据源配置
 	profileCard?: ProfileCardConfig; // 个人信息卡片配置
+	siteStats?: SiteStatsConfig; // 站点统计配置
 };
 
 // 动漫数据源配置

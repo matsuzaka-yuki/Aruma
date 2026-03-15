@@ -37,6 +37,12 @@ export const zhCN: Translation = {
 	[Key.categoryCloud]: "分类",
 	[Key.notice]: "公告",
 
+	// 站点统计
+	[Key.siteStats]: "站点统计",
+	[Key.siteStatsPosts]: "文章数",
+	[Key.siteStatsRunningDays]: "运行天数",
+	[Key.siteStatsWords]: "总字数",
+
 	// 页面标题
 	[Key.friendsTitle]: "友情链接",
 	[Key.animeTitle]: "追番",
