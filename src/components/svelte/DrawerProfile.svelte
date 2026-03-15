@@ -10,12 +10,9 @@
   }
 
   const drawerConfig = siteConfig.drawerProfile || {};
-  const profileConfig = siteConfig.profileCard || {};
-  
+
   const showSocial = drawerConfig.enable !== false;
-  const socialLinks: Social[] = drawerConfig.social?.length 
-    ? drawerConfig.social 
-    : (profileConfig.social || []);
+  const socialLinks: Social[] = drawerConfig.social || [];
 </script>
 
 <div class="drawer-profile">
