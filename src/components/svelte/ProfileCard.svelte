@@ -1,8 +1,8 @@
 <script lang="ts">
+	import Icon from "@iconify/svelte";
 	import { siteConfig } from "../../site.config";
 	import { getSocialIcon } from "../../utils/icon-mapping";
 
-	// 获取配置，提供默认值
 	const profileConfig = siteConfig.profileCard || {};
 	const showSocialLinks = profileConfig.showSocialLinks !== false;
 	const socialLinks = profileConfig.social || [];
@@ -25,7 +25,6 @@
 		<div class="sidebar-info-name">{siteConfig.author}</div>
 		<div class="sidebar-info-desc">{siteConfig.description}</div>
 
-		<!-- 社交链接区域 -->
 		{#if showSocialLinks && socialLinks.length > 0}
 			<div class="sidebar-social">
 				{#each socialLinks as link (link.name)}
@@ -36,7 +35,7 @@
 						class="sidebar-social-icon"
 						title={link.name}
 					>
-						<i class="mdui-icon material-icons">{getSocialIcon(link.icon)}</i>
+						<Icon icon={getSocialIcon(link.icon)} />
 					</a>
 				{/each}
 			</div>
