@@ -84,6 +84,10 @@
     opacity: 0.8;
   }
 
+  :global(.mdui-theme-layout-dark) .stat-item .mdui-icon {
+    color: #fff;
+  }
+
   .stat-label {
     flex: 1;
     font-size: 14px;
@@ -91,12 +95,16 @@
   }
 
   :global(.mdui-theme-layout-dark) .stat-label {
-    color: var(--mdui-color-on-surface, rgba(255, 255, 255, 0.7));
+    color: #fff;
   }
 
   .stat-value {
     font-size: 16px;
     font-weight: 600;
     color: var(--mdui-color-primary, #1a73e8);
+  }
+
+  :global(.mdui-theme-layout-dark) .stat-value {
+    color: #fff;
   }
 </style>
