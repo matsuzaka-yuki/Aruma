@@ -135,4 +135,10 @@ export const ja: Translation = {
 	[Key.twikooFetchFail]: "[Twikoo] 最新のコメントの取得に失敗しました：",
 	[Key.twikooParseFail]:
 		"[Twikoo] レスポンスの解析に失敗しました。最新のコメントを読み取ることができません：",
+	[Key.twikooEmptyFileCreated]: "[Twikoo] 空のファイルを作成しました：",
+	[Key.twikooNetworkError]: "[Twikoo] ネットワークリクエストが失敗しました、",
+	[Key.twikooResponseError]: "[Twikoo] レスポンスが失敗しました、",
+	[Key.twikooJsonParseError]: "[Twikoo] JSON の解析に失敗しました、",
+	[Key.twikooUnknownError]: "[Twikoo] エラーが発生しました、",
+	[Key.twikooFetched]: "[Twikoo] {count} 件の最新のコメントを取得し、書き込みました：",
 };

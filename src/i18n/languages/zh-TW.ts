@@ -131,4 +131,10 @@ export const zhTW: Translation = {
 	[Key.twikooFetching]: "[Twikoo] 正在拉取最新評論...",
 	[Key.twikooFetchFail]: "[Twikoo] 拉取最新評論失敗：",
 	[Key.twikooParseFail]: "[Twikoo] 響應解析失敗，無法讀取最新評論：",
+	[Key.twikooEmptyFileCreated]: "[Twikoo] 已建立空檔案：",
+	[Key.twikooNetworkError]: "[Twikoo] 網路請求失敗，",
+	[Key.twikooResponseError]: "[Twikoo] 響應失敗，",
+	[Key.twikooJsonParseError]: "[Twikoo] JSON 解析失敗，",
+	[Key.twikooUnknownError]: "[Twikoo] 發生錯誤，",
+	[Key.twikooFetched]: "[Twikoo] 已拉取 {count} 條最新評論，寫入",
 };

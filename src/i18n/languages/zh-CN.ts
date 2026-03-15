@@ -131,4 +131,10 @@ export const zhCN: Translation = {
 	[Key.twikooFetching]: "[Twikoo] 正在拉取最新评论...",
 	[Key.twikooFetchFail]: "[Twikoo] 拉取最新评论失败：",
 	[Key.twikooParseFail]: "[Twikoo] 响应解析失败，无法读取最新评论：",
+	[Key.twikooEmptyFileCreated]: "[Twikoo] 已创建空文件：",
+	[Key.twikooNetworkError]: "[Twikoo] 网络请求失败，",
+	[Key.twikooResponseError]: "[Twikoo] 响应失败，",
+	[Key.twikooJsonParseError]: "[Twikoo] JSON 解析失败，",
+	[Key.twikooUnknownError]: "[Twikoo] 发生错误，",
+	[Key.twikooFetched]: "[Twikoo] 已拉取 {count} 条最新评论，写入",
 };

@@ -65,6 +65,12 @@ function createTranslator(lang) {
 		fetching: "twikooFetching",
 		fetchFail: "twikooFetchFail",
 		parseFail: "twikooParseFail",
+		emptyFileCreated: "twikooEmptyFileCreated",
+		networkError: "twikooNetworkError",
+		responseError: "twikooResponseError",
+		jsonParseError: "twikooJsonParseError",
+		unknownError: "twikooUnknownError",
+		fetched: "twikooFetched",
 	};
 
 	return (messageKey) => {
@@ -135,6 +141,16 @@ function extractTitleFromUrl(url) {
 	return parts[parts.length - 1] || "/";
 }
 
+function writeEmptyFile() {
+	const outputDir = path.resolve(__dirname, "../src/data");
+	if (!fs.existsSync(outputDir)) {
+		fs.mkdirSync(outputDir, { recursive: true });
+	}
+	const outputFile = path.join(outputDir, "twikooRecentComments.json");
+	fs.writeFileSync(outputFile, "[]", "utf-8");
+	return outputFile;
+}
+
 async function fetchRecentComments() {
 	const { lang, envId, pageSize, commentEnabled } = loadSiteConfig();
 	const postUrls = loadPostUrls();
@@ -142,11 +158,15 @@ async function fetchRecentComments() {
 
 	if (!commentEnabled) {
 		console.log(translate("commentDisabled"));
+		const outputFile = writeEmptyFile();
+		console.log(translate("emptyFileCreated"), outputFile);
 		return;
 	}
 
 	if (!envId) {
 		console.log(translate("envIdMissing"));
+		const outputFile = writeEmptyFile();
+		console.log(translate("emptyFileCreated"), outputFile);
 		return;
 	}
 
@@ -176,11 +196,15 @@ async function fetchRecentComments() {
 		text = await res.text();
 	} catch (error) {
 		console.error(translate("fetchFail"), error?.message || error);
+		const outputFile = writeEmptyFile();
+		console.log(translate("networkError") + translate("emptyFileCreated"), outputFile);
 		return;
 	}
 
 	if (!res.ok) {
 		console.error(translate("fetchFail"), res.status, res.statusText);
+		const outputFile = writeEmptyFile();
+		console.log(translate("responseError") + translate("emptyFileCreated"), outputFile);
 		return;
 	}
 
@@ -189,6 +213,8 @@ async function fetchRecentComments() {
 		json = text ? JSON.parse(text) : [];
 	} catch (error) {
 		console.error(translate("parseFail"), error?.message || error);
+		const outputFile = writeEmptyFile();
+		console.log(translate("jsonParseError") + translate("emptyFileCreated"), outputFile);
 		return;
 	}
 
@@ -212,14 +238,14 @@ async function fetchRecentComments() {
 	const outputFile = path.join(outputDir, "twikooRecentComments.json");
 	fs.writeFileSync(outputFile, JSON.stringify(replies, null, 2), "utf-8");
 
-	console.log(
-		`[Twikoo] 已拉取 ${replies.length} 条最新评论，写入 ${outputFile}`,
-	);
+	console.log(translate("fetched") + ` ${outputFile}`);
 }
 
 fetchRecentComments().catch((err) => {
 	const { lang } = loadSiteConfig();
 	const translate = createTranslator(lang);
-	console.error(translate("twikooFetchFail"), err);
-	process.exit(1);
+	console.error(translate("unknownError"), err);
+	// 确保即使发生未捕获的错误也创建空文件
+	const outputFile = writeEmptyFile();
+	console.log(translate("unknownError") + translate("emptyFileCreated"), outputFile);
 });

@@ -131,4 +131,10 @@ export const en: Translation = {
 	[Key.twikooFetching]: "[Twikoo] Fetching recent comments...",
 	[Key.twikooFetchFail]: "[Twikoo] Failed to fetch recent comments:",
 	[Key.twikooParseFail]: "[Twikoo] Failed to parse response data:",
+	[Key.twikooEmptyFileCreated]: "[Twikoo] Empty file created:",
+	[Key.twikooNetworkError]: "[Twikoo] Network request failed,",
+	[Key.twikooResponseError]: "[Twikoo] Response failed,",
+	[Key.twikooJsonParseError]: "[Twikoo] JSON parse failed,",
+	[Key.twikooUnknownError]: "[Twikoo] Error occurred,",
+	[Key.twikooFetched]: "[Twikoo] Fetched {count} recent comments, written to",
 };

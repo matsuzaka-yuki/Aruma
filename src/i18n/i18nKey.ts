@@ -126,5 +126,11 @@ enum I18nKey {
 	twikooFetching = "twikooFetching",
 	twikooFetchFail = "twikooFetchFail",
 	twikooParseFail = "twikooParseFail",
+	twikooEmptyFileCreated = "twikooEmptyFileCreated",
+	twikooNetworkError = "twikooNetworkError",
+	twikooResponseError = "twikooResponseError",
+	twikooJsonParseError = "twikooJsonParseError",
+	twikooUnknownError = "twikooUnknownError",
+	twikooFetched = "twikooFetched",
 }
 export default I18nKey;
