@@ -64,6 +64,7 @@ export const zhTW: Translation = {
 
 	// RSS
 	[Key.rssSubscribe]: "RSS 訂閱",
+	[Key.atomSubscribe]: "Atom 訂閱",
 
 	// 設備頁面
 	[Key.devices]: "設備",

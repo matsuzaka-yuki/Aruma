@@ -67,6 +67,7 @@ export const ja: Translation = {
 
 	// RSS
 	[Key.rssSubscribe]: "RSS フィード",
+	[Key.atomSubscribe]: "Atom フィード",
 
 	// デバイスページ
 	[Key.devices]: "デバイス",

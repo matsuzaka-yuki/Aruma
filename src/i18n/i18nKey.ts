@@ -61,6 +61,7 @@ enum I18nKey {
 
 	// RSS
 	rssSubscribe = "rssSubscribe",
+	atomSubscribe = "atomSubscribe",
 
 	// 设备页面
 	devices = "devices",

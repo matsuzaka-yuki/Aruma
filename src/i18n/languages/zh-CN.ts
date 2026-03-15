@@ -64,6 +64,7 @@ export const zhCN: Translation = {
 
 	// RSS
 	[Key.rssSubscribe]: "RSS 订阅",
+	[Key.atomSubscribe]: "Atom 订阅",
 
 	// 设备页面
 	[Key.devices]: "设备",

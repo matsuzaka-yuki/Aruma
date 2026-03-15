@@ -64,6 +64,7 @@ export const en: Translation = {
 
 	// RSS
 	[Key.rssSubscribe]: "RSS Feed",
+	[Key.atomSubscribe]: "Atom Feed",
 
 	// Devices page
 	[Key.devices]: "Devices",
