@@ -1,17 +1,14 @@
-import avatarImage from "./assets/home/logo.webp";
-import backgroundImage from "./assets/home/bg.webp";
-import sidebarImage from "./assets/home/sidebar.webp";
 import type { SiteConfig } from "./types/site-config";
 
 export const siteConfig: SiteConfig = {
-	title: "有希",
-	subtitle: "有希的个人博客",
-	description: "有希的个人博客",
-	author: "有希",
+	title: "Aruma",
+	subtitle: "One demo website",
+	description: "未来に向けて進みましょう",
+	author: "Matsuzaka Yuki",
 	lang: "zh-CN",
-	avatar: avatarImage.src,
-	background: backgroundImage.src,
-	sidebarBg: sidebarImage.src,
+	avatar: "https://q.qlogo.cn/headimg_dl?dst_uin=3231515355&spec=640&img_type=jpg", // 头像图片
+	background: "/images/bg.webp", // 首页背景图片
+	sidebarBg: "/images/sidebar.webp", // 侧边栏背景图片
 	postBackground: "rgba(255, 255, 255, 0.7)", // 文章背景色 (带透明度)
 	sidebarBackground: "rgba(255, 255, 255, 0.8)", // 侧边栏背景色
 	glassmorphism: true,
