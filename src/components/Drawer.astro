@@ -408,12 +408,19 @@ const archives = Object.entries(archiveCounts)
 		bottom: 0;
 		width: 100%;
 		overflow: hidden;
+		pointer-events: none;
 	}
 
 	.drawer-bottom-wallpaper img {
 		width: 100%;
 		height: auto;
 		display: block;
+		pointer-events: none;
+	}
+
+	#drawer-menu {
+		position: relative;
+		z-index: 1;
 	}
 
 	:global(.mdui-theme-layout-dark) .drawer {
