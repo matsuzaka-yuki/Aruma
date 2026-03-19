@@ -20,6 +20,7 @@ import { remarkFixGithubAdmonitions } from "./src/plugins/remark-fix-github-admo
 export default defineConfig({
 	site: "https://aruma.mysqil.com",
 	output: "static",
+	trailingSlash: "always",
 	integrations: [mdx(), sitemap(), svelte()],
 
 	// 图片优化配置
