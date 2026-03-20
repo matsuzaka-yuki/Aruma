@@ -52,9 +52,6 @@ const years = Object.keys(groupedPosts)
 </Layout>
 
 <script>
-	// 存储初始 hash，用于 View Transitions 导航后的处理
-	let pendingHash: string | null = null;
-
 	const applyArchiveFilter = (hashOverride?: string) => {
 		const hash = hashOverride || window.location.hash;
 		const sections = document.querySelectorAll(".archive-year-section");
@@ -91,14 +88,6 @@ const years = Object.keys(groupedPosts)
 
 	// Expose the function globally for Header.astro to call
 	(window as any).applyArchiveFilter = applyArchiveFilter;
-
-	// 处理从其他页面带 hash 导航过来的情况
-	// 在页面切换前保存 hash
-	document.addEventListener("astro:before-preparation", () => {
-		if (window.location.pathname.includes("/archive")) {
-			pendingHash = window.location.hash;
-		}
-	});
 
 	// 页面加载时处理（包括 View Transitions 导航）
 	document.addEventListener("astro:page-load", () => {

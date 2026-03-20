@@ -42,8 +42,18 @@ async function fetchRecentComments() {
 	const commentConfig = siteConfig.comment;
 	const twikooConfig = commentConfig?.twikoo as any;
 
+	const outputDir = path.resolve(__dirname, "../src/data");
+	if (!fs.existsSync(outputDir)) {
+		fs.mkdirSync(outputDir, { recursive: true });
+	}
+	const outputFile = path.join(outputDir, "twikooRecentComments.json");
+
 	if (!commentConfig?.enable || !twikooConfig?.envId) {
 		console.log("[Twikoo] 评论未启用或 envId 未配置，跳过拉取最新评论。");
+		// 确保文件存在，避免前端导入失败
+		if (!fs.existsSync(outputFile)) {
+			fs.writeFileSync(outputFile, "[]", "utf-8");
+		}
 		return;
 	}
 
@@ -87,12 +97,6 @@ async function fetchRecentComments() {
 		date: item.relativeTime || formatDate(item.created),
 	}));
 
-	const outputDir = path.resolve(__dirname, "../src/data");
-	if (!fs.existsSync(outputDir)) {
-		fs.mkdirSync(outputDir, { recursive: true });
-	}
-
-	const outputFile = path.join(outputDir, "twikooRecentComments.json");
 	fs.writeFileSync(outputFile, JSON.stringify(replies, null, 2), "utf-8");
 
 	console.log(

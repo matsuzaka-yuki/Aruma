@@ -4,7 +4,6 @@ import ProfileCard from "../components/svelte/ProfileCard.svelte";
 import NoticeModule from "../components/svelte/NoticeModule.svelte";
 import ReplyModule from "../components/svelte/ReplyModule.svelte";
 import TwikooRecentReplies from "../components/svelte/TwikooRecentReplies.svelte";
-import twikooRecentComments from "../data/twikooRecentComments.json";
 import TagCloud from "../components/svelte/TagCloud.svelte";
 import CategoryCloud from "../components/svelte/CategoryCloud.svelte";
 import SiteStats from "../components/svelte/SiteStats.svelte";
@@ -37,6 +36,19 @@ const noticeContent = siteConfig.notice?.enable
 
 const useTwikooRecentReplies =
 	siteConfig.comment?.enable && !!siteConfig.comment?.twikoo?.envId;
+
+// 动态导入最近评论数据，避免在评论系统禁用时强制导入
+let twikooRecentComments: any[] = [];
+if (useTwikooRecentReplies) {
+	try {
+		twikooRecentComments = (await import("../data/twikooRecentComments.json"))
+			.default;
+	} catch (e) {
+		console.warn(
+			"[Twikoo] Failed to load twikooRecentComments.json, make sure to run the fetch script.",
+		);
+	}
+}
 
 // 计算站点统计数据
 const postCount = posts.length;

@@ -132,6 +132,11 @@ if (
 
 						pre.appendChild(copyBtn);
 
+						// 监听滚动，使复制按钮跟随滚动条位置
+						pre.addEventListener("scroll", () => {
+							copyBtn.style.transform = `translateX(${pre.scrollLeft}px)`;
+						});
+
 						copyBtn.addEventListener("click", async () => {
 							const code = pre.querySelector("code");
 							const text = code ? code.innerText : pre.innerText;

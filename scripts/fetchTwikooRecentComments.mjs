@@ -124,23 +124,6 @@ function loadPostUrls() {
 	return urls;
 }
 
-function formatDate(lang, timestamp) {
-	try {
-		return new Intl.DateTimeFormat(lang || "zh-CN", {
-			year: "numeric",
-			month: "2-digit",
-			day: "2-digit",
-		}).format(new Date(timestamp));
-	} catch {
-		return new Date(timestamp).toLocaleDateString();
-	}
-}
-
-function extractTitleFromUrl(url) {
-	const parts = url.split("/").filter(Boolean);
-	return parts[parts.length - 1] || "/";
-}
-
 function writeEmptyFile() {
 	const outputDir = path.resolve(__dirname, "../src/data");
 	if (!fs.existsSync(outputDir)) {

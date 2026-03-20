@@ -1,7 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import Fontmin from "fontmin";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -86,12 +85,10 @@ async function compressKatexFonts() {
     for (const char of allSymbols) {
       symbolSet.add(char);
     }
-    const text = Array.from(symbolSet).join("");
 
     console.log(`Total unique symbols for subsetting: ${symbolSet.size}`);
     console.log("Starting KaTeX font compression...");
 
-    const fontsDir = path.join(__dirname, "../public/fonts/katex");
     const compressedDir = path.join(distAstroDir, "katex-fonts");
 
     if (!fs.existsSync(compressedDir)) {
