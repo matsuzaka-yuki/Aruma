@@ -41,8 +41,9 @@ const useTwikooRecentReplies =
 let twikooRecentComments: any[] = [];
 if (useTwikooRecentReplies) {
 	try {
-		twikooRecentComments = (await import("../data/twikooRecentComments.json"))
-			.default;
+		twikooRecentComments = (
+			await import("../data/twikooRecentComments.json")
+		).default;
 	} catch (e) {
 		console.warn(
 			"[Twikoo] Failed to load twikooRecentComments.json, make sure to run the fetch script.",

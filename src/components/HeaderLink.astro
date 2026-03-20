@@ -10,7 +10,9 @@ const subpath = pathname.match(/[^\/]+/g);
 const hrefStr = typeof href === "string" ? href : href?.pathname || "";
 const normalizedHref = hrefStr.replace(/\/$/, "");
 const normalizedPathname = pathname.replace(/\/$/, "");
-const isActive = normalizedHref === normalizedPathname || normalizedHref === "/" + (subpath?.[0] || "");
+const isActive =
+	normalizedHref === normalizedPathname ||
+	normalizedHref === "/" + (subpath?.[0] || "");
 ---
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>

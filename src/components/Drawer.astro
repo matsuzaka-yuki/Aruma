@@ -237,11 +237,17 @@ const archives = Object.entries(archiveCounts)
 		}
 	</div>
 
-	{siteConfig.drawerBottom?.enable && siteConfig.drawerBottom?.wallpaper && (
-		<div class="drawer-bottom-wallpaper">
-			<img src={siteConfig.drawerBottom.wallpaper} alt="Drawer Wallpaper" />
-		</div>
-	)}
+	{
+		siteConfig.drawerBottom?.enable &&
+			siteConfig.drawerBottom?.wallpaper && (
+				<div class="drawer-bottom-wallpaper">
+					<img
+						src={siteConfig.drawerBottom.wallpaper}
+						alt="Drawer Wallpaper"
+					/>
+				</div>
+			)
+	}
 </div>
 
 <style>
