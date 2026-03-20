@@ -1,0 +1,101 @@
+[
+	{
+		"name": "JavaScript",
+		"icon": "logos:javascript",
+		"level": "expert",
+		"description": "熟悉 ES6+ 语法，异步编程，以及现代前端开发流程。",
+		"category": "frontend",
+		"experience": {
+			"years": 3,
+			"months": 6
+		}
+	},
+	{
+		"name": "TypeScript",
+		"icon": "logos:typescript-icon",
+		"level": "advanced",
+		"description": "强类型 JavaScript 超集，提升代码质量和可维护性。",
+		"category": "frontend",
+		"experience": {
+			"years": 2,
+			"months": 8
+		}
+	},
+	{
+		"name": "React",
+		"icon": "logos:react",
+		"level": "advanced",
+		"description": "用于构建用户界面的 JavaScript 库，熟悉 Hooks 和状态管理。",
+		"category": "frontend",
+		"experience": {
+			"years": 2,
+			"months": 10
+		}
+	},
+	{
+		"name": "Vue.js",
+		"icon": "logos:vue",
+		"level": "intermediate",
+		"description": "渐进式 JavaScript 框架，易于上手，适合快速开发。",
+		"category": "frontend",
+		"experience": {
+			"years": 1,
+			"months": 8
+		}
+	},
+	{
+		"name": "Node.js",
+		"icon": "logos:nodejs-icon",
+		"level": "intermediate",
+		"description": "基于 Chrome V8 引擎的 JavaScript 运行时，用于构建高性能后端服务。",
+		"category": "backend",
+		"experience": {
+			"years": 2,
+			"months": 3
+		}
+	},
+	{
+		"name": "Python",
+		"icon": "logos:python",
+		"level": "intermediate",
+		"description": "简洁强大的编程语言，常用于自动化脚本和后端开发。",
+		"category": "backend",
+		"experience": {
+			"years": 1,
+			"months": 10
+		}
+	},
+	{
+		"name": "PostgreSQL",
+		"icon": "logos:postgresql",
+		"level": "beginner",
+		"description": "功能强大的开源关系型数据库。",
+		"category": "database",
+		"experience": {
+			"years": 1,
+			"months": 5
+		}
+	},
+	{
+		"name": "Git",
+		"icon": "logos:git-icon",
+		"level": "advanced",
+		"description": "分布式版本控制系统，日常开发必备。",
+		"category": "tools",
+		"experience": {
+			"years": 3,
+			"months": 0
+		}
+	},
+	{
+		"name": "Docker",
+		"icon": "logos:docker-icon",
+		"level": "beginner",
+		"description": "开源的应用容器引擎，让应用部署更简单。",
+		"category": "tools",
+		"experience": {
+			"years": 1,
+			"months": 0
+		}
+	}
+]

@@ -143,4 +143,22 @@ export const ja: Translation = {
 	[Key.twikooUnknownError]: "[Twikoo] エラーが発生しました、",
 	[Key.twikooFetched]:
 		"[Twikoo] {count} 件の最新のコメントを取得し、書き込みました：",
+
+	// スキルページ
+	[Key.skills]: "スキル",
+	[Key.skillsTitle]: "私のスキル",
+	[Key.skillsExpert]: "熟練",
+	[Key.skillsAdvanced]: "上級",
+	[Key.skillsIntermediate]: "中級",
+	[Key.skillsBeginner]: "初級",
+	[Key.skillsFrontend]: "フロントエンド",
+	[Key.skillsBackend]: "バックエンド",
+	[Key.skillsDatabase]: "データベース",
+	[Key.skillsTools]: "ツール",
+	[Key.skillsOther]: "その他",
+	[Key.skillExperience]: "経験",
+	[Key.skillYears]: "年",
+	[Key.skillMonths]: "ヶ月",
+	[Key.skillsEmpty]: "スキルデータがありません",
+	[Key.skillsFilter]: "フィルター",
 };

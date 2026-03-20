@@ -1,0 +1,119 @@
+---
+import { i18n } from "../i18n/translation";
+import I18nKey from "../i18n/i18nKey";
+import type { SkillItem } from "../types/skill";
+import Sidebar from "../components/Sidebar.astro";
+import Layout from "../layouts/Layout.astro";
+import SkillCard from "../components/cards/SkillCard.astro";
+import FilterModule from "../components/FilterModule.astro";
+
+// 导入技能数据
+import skillsData from "../data/skills.json";
+
+const allSkills = skillsData as SkillItem[];
+
+// 过滤选项配置
+const skillFilters = [
+	{ value: "all", label: i18n(I18nKey.all) },
+	{ value: "frontend", label: i18n(I18nKey.skillsFrontend) },
+	{ value: "backend", label: i18n(I18nKey.skillsBackend) },
+	{ value: "database", label: i18n(I18nKey.skillsDatabase) },
+	{ value: "tools", label: i18n(I18nKey.skillsTools) },
+	{ value: "other", label: i18n(I18nKey.skillsOther) },
+];
+---
+
+<Layout title={i18n(I18nKey.skillsTitle)}>
+	<div class="article skills-container-layout">
+		<div class="mdui-card archive-card mdui-hoverable">
+			<div class="archive-title">
+				<span>{i18n(I18nKey.skillsTitle)}</span>
+			</div>
+		</div>
+
+		<main class="skills-page">
+			<!-- 过滤和搜索 -->
+			<FilterModule
+				filters={skillFilters}
+				searchPlaceholder={i18n(I18nKey.searchPlaceholder)}
+				searchId="skills-search"
+				cardSelector=".skill-card"
+				searchableFields={[".skill-name", ".skill-description"]}
+				filterAttribute="data-category"
+			/>
+
+			<!-- 技能列表 -->
+			<div id="skills-list-container" class="skills-list-container">
+				{
+					allSkills.length === 0 ? (
+						<div class="skills-empty">
+							<mdui-icon
+								name="sentiment_dissatisfied"
+								class="skills-empty-icon"
+							/>
+							<h3>{i18n(I18nKey.skillsEmpty)}</h3>
+						</div>
+					) : (
+						allSkills.map((skill) => (
+							<SkillCard
+								name={skill.name}
+								icon={skill.icon}
+								level={skill.level}
+								description={skill.description}
+								category={skill.category}
+								experience={skill.experience}
+							/>
+						))
+					)
+				}
+			</div>
+		</main>
+	</div>
+
+	<Sidebar slot="sidebar" />
+</Layout>
+
+<style>
+	.skills-container-layout {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.skills-page {
+		margin-top: 20px;
+		padding: 0;
+		flex: 1;
+	}
+
+	.skills-list-container {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 20px;
+		align-content: start;
+	}
+
+	@media (max-width: 640px) {
+		.skills-list-container {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	.skills-empty {
+		text-align: center;
+		padding: 60px 20px;
+		grid-column: 1 / -1;
+	}
+
+	.skills-empty-icon {
+		font-size: 64px;
+		color: var(--mdui-color-on-surface-variant, #bdbdbd);
+		margin-bottom: 16px;
+	}
+
+	.skills-empty h3 {
+		font-size: 18px;
+		font-weight: 500;
+		color: var(--mdui-color-on-surface-variant, #9e9e9e);
+		margin: 0;
+	}
+</style>

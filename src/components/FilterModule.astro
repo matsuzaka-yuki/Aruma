@@ -1,0 +1,410 @@
+---
+import { i18n } from '../i18n/translation';
+import I18nKey from '../i18n/i18nKey';
+
+export interface FilterOption {
+	value: string;
+	label: string;
+}
+
+export interface Props {
+	filters: FilterOption[];
+	searchPlaceholder: string;
+	searchId?: string;
+	cardSelector?: string;
+	searchableFields?: string[];
+	filterAttribute?: string;
+	initialFilter?: string;
+	class?: string;
+}
+
+const {
+	filters,
+	searchPlaceholder,
+	searchId = "filter-search",
+	cardSelector = ".card-item",
+	searchableFields = [".card-title", ".card-description"],
+	filterAttribute = "data-filter",
+	initialFilter = "all",
+	class: className = "",
+} = Astro.props;
+
+// Generate unique IDs for this instance
+const desktopFilterId = `filter-buttons-${searchId}`;
+const toggleId = `filter-toggle-${searchId}`;
+const popupId = `filter-popup-${searchId}`;
+---
+
+<div class:list={["filter-module", className]}>
+	<!-- Desktop filter buttons -->
+	<div class="filter-buttons" id={desktopFilterId}>
+		{filters.map((filter) => (
+			<button
+				class:list={{ active: filter.value === initialFilter }}
+				data-filter={filter.value}
+			>
+				{filter.label}
+			</button>
+		))}
+	</div>
+
+	<!-- Search and mobile filter toggle -->
+	<div class="search-wrapper">
+		<input
+			type="text"
+			class="search-input"
+			placeholder={searchPlaceholder}
+			id={searchId}
+		/>
+		<div class="filter-toggle-wrapper">
+			<button
+				class="filter-toggle"
+				id={toggleId}
+				aria-label={i18n(I18nKey.skillsFilter)}
+			>
+				<mdui-icon name="filter_list"></mdui-icon>
+			</button>
+			<div class="filter-popup" id={popupId}>
+				<div class="filter-popup-content">
+					{filters.map((filter) => (
+						<button
+							class:list={["filter-option", { active: filter.value === initialFilter }]}
+							data-filter={filter.value}
+						>
+							{filter.label}
+						</button>
+					))}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script
+	is:inline
+	define:vars={{
+		desktopFilterId,
+		toggleId,
+		popupId,
+		searchId,
+		cardSelector,
+		searchableFields,
+		filterAttribute,
+		initialFilter,
+	}}
+>
+	function initFilterModule() {
+		const desktopButtons = document.querySelectorAll(
+			`#${desktopFilterId} button[data-filter]`,
+		);
+		const mobileButtons = document.querySelectorAll(
+			`#${popupId} button[data-filter]`,
+		);
+		const searchInput = document.getElementById(searchId);
+		const cards = document.querySelectorAll(cardSelector);
+		const filterToggle = document.getElementById(toggleId);
+		const filterPopup = document.getElementById(popupId);
+
+		if (!cards.length) return;
+
+		let currentFilter = initialFilter;
+		let searchQuery = searchInput?.value.toLowerCase().trim() || "";
+		let isPopupOpen = false;
+
+		function toggleFilterPopup() {
+			isPopupOpen = !isPopupOpen;
+			filterPopup?.classList.toggle("show", isPopupOpen);
+		}
+
+		function closeFilterPopup() {
+			isPopupOpen = false;
+			filterPopup?.classList.remove("show");
+		}
+
+		filterToggle?.addEventListener("click", (e) => {
+			e.stopPropagation();
+			toggleFilterPopup();
+		});
+
+		document.addEventListener("click", (e) => {
+			const target = e.target;
+			if (
+				isPopupOpen &&
+				target &&
+				!filterPopup?.contains(target) &&
+				target !== filterToggle
+			) {
+				closeFilterPopup();
+			}
+		});
+
+		function filterItems() {
+			const matchedCards = [];
+			cards.forEach((card) => {
+				const cardElement = card;
+				const filterValue = cardElement.getAttribute(filterAttribute);
+				const searchableContent = searchableFields
+					.map((field) =>
+						cardElement.querySelector(field)?.textContent?.toLowerCase() || "",
+					)
+					.join(" ");
+
+				const matchesFilter =
+					currentFilter === "all" || filterValue === currentFilter;
+				const matchesSearch = searchableContent.includes(searchQuery);
+
+				if (matchesFilter && matchesSearch) {
+					cardElement.style.display = "";
+					cardElement.classList.remove("item-hidden");
+					matchedCards.push(cardElement);
+				} else {
+					cardElement.style.display = "none";
+					cardElement.classList.add("item-hidden");
+				}
+			});
+
+			// Dispatch custom event for external pagination handlers
+			window.dispatchEvent(new CustomEvent("filter-changed", {
+				detail: {
+					filter: currentFilter,
+					searchQuery,
+					matchedCards,
+					totalMatched: matchedCards.length
+				}
+			}));
+		}
+
+		function syncButtonStates(filterValue) {
+			[...desktopButtons, ...mobileButtons].forEach((btn) => {
+				btn.classList.toggle(
+					"active",
+					btn.getAttribute("data-filter") === filterValue,
+				);
+			});
+		}
+
+		function handleFilterClick(e) {
+			const btn = e.currentTarget;
+			if (!btn) return;
+
+			const filter = btn.getAttribute("data-filter") || "all";
+			currentFilter = filter;
+			syncButtonStates(filter);
+			filterItems();
+			closeFilterPopup();
+		}
+
+		desktopButtons.forEach((btn) => {
+			btn.addEventListener("click", handleFilterClick);
+		});
+
+		mobileButtons.forEach((btn) => {
+			btn.addEventListener("click", handleFilterClick);
+		});
+
+		searchInput?.addEventListener("input", () => {
+			searchQuery = searchInput.value.toLowerCase().trim();
+			filterItems();
+		});
+
+		syncButtonStates(currentFilter);
+		filterItems();
+	}
+
+	document.addEventListener("astro:page-load", initFilterModule);
+</script>
+
+<style>
+	.filter-module {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.5rem;
+		gap: 1rem;
+		flex-wrap: wrap;
+	}
+
+	.filter-buttons {
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+
+	.filter-buttons button {
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--mdui-color-outline, #e0e0e0);
+		border-radius: 8px;
+		background: var(--archive-card-bg);
+		color: var(--mdui-color-on-surface, #212121);
+		cursor: pointer;
+		transition: all 0.2s;
+		font-weight: 500;
+	}
+
+	.filter-buttons button.active {
+		background: var(--color, #ff4081);
+		color: white;
+		border-color: var(--color, #ff4081);
+		font-weight: 600;
+	}
+
+	.search-input {
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--mdui-color-outline, #e0e0e0);
+		border-radius: 8px;
+		background: var(--archive-card-bg);
+		color: var(--mdui-color-on-surface, #212121);
+		min-width: 200px;
+		height: 42px;
+		box-sizing: border-box;
+	}
+
+	.search-input::placeholder {
+		color: var(--mdui-color-on-surface-variant, #9e9e9e);
+	}
+
+	.search-wrapper {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+
+	.filter-toggle-wrapper {
+		display: none;
+		position: relative;
+	}
+
+	.filter-toggle {
+		padding: 0.5rem;
+		border: 1px solid var(--mdui-color-outline, #e0e0e0);
+		border-radius: 8px;
+		background: var(--archive-card-bg);
+		color: var(--mdui-color-on-surface, #212121);
+		cursor: pointer;
+		flex-shrink: 0;
+		height: 42px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.filter-popup {
+		display: none;
+		position: absolute;
+		top: calc(100% + 8px);
+		right: 0;
+		min-width: 150px;
+		background: var(--archive-card-bg);
+		border-radius: 8px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		z-index: 1000;
+		border: 1px solid var(--mdui-color-outline, #e0e0e0);
+		padding: 0.5rem;
+	}
+
+	.filter-popup.show {
+		display: block;
+	}
+
+	.filter-popup-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.filter-option {
+		padding: 0.5rem 0.75rem;
+		border: none;
+		border-radius: 6px;
+		background: transparent;
+		color: var(--mdui-color-on-surface, #212121);
+		cursor: pointer;
+		font-weight: 500;
+		transition: all 0.2s;
+		text-align: left;
+	}
+
+	.filter-option:hover {
+		background: var(--mdui-color-surface-container, #f5f5f5);
+	}
+
+	.filter-option.active {
+		background: var(--color, #ff4081);
+		color: white;
+		border-color: var(--color, #ff4081);
+		font-weight: 600;
+	}
+
+	/* Dark mode styles */
+	:global(.mdui-theme-layout-dark) .filter-buttons button {
+		color: rgba(255, 255, 255, 0.9);
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	:global(.mdui-theme-layout-dark) .search-input {
+		background: var(--archive-card-bg);
+		border-color: rgba(255, 255, 255, 0.3);
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	:global(.mdui-theme-layout-dark) .search-input::placeholder {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-toggle {
+		background: var(--archive-card-bg);
+		border-color: rgba(255, 255, 255, 0.3);
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-popup {
+		background: var(--archive-card-bg);
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-option {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-option:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	/* Responsive - tablet and mobile: hide desktop buttons, show mobile popup */
+	@media (max-width: 900px) {
+		.filter-buttons {
+			display: none;
+		}
+
+		.filter-toggle-wrapper {
+			display: block;
+		}
+
+		.search-wrapper {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.search-input {
+			width: 100%;
+		}
+	}
+
+	/* Responsive - small screens */
+	@media (max-width: 600px) {
+		.search-wrapper {
+			width: 100%;
+		}
+
+		.search-input {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.filter-module {
+			flex-direction: column-reverse;
+			align-items: stretch;
+		}
+	}
+</style>

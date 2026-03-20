@@ -138,4 +138,22 @@ export const en: Translation = {
 	[Key.twikooJsonParseError]: "[Twikoo] JSON parse failed,",
 	[Key.twikooUnknownError]: "[Twikoo] Error occurred,",
 	[Key.twikooFetched]: "[Twikoo] Fetched {count} recent comments, written to",
+
+	// Skills page
+	[Key.skills]: "Skills",
+	[Key.skillsTitle]: "My Skills",
+	[Key.skillsExpert]: "Expert",
+	[Key.skillsAdvanced]: "Advanced",
+	[Key.skillsIntermediate]: "Intermediate",
+	[Key.skillsBeginner]: "Beginner",
+	[Key.skillsFrontend]: "Frontend",
+	[Key.skillsBackend]: "Backend",
+	[Key.skillsDatabase]: "Database",
+	[Key.skillsTools]: "Tools",
+	[Key.skillsOther]: "Other",
+	[Key.skillExperience]: "Experience",
+	[Key.skillYears]: "years",
+	[Key.skillMonths]: "months",
+	[Key.skillsEmpty]: "No skills data",
+	[Key.skillsFilter]: "Filter",
 };

@@ -138,4 +138,22 @@ export const zhCN: Translation = {
 	[Key.twikooJsonParseError]: "[Twikoo] JSON 解析失败，",
 	[Key.twikooUnknownError]: "[Twikoo] 发生错误，",
 	[Key.twikooFetched]: "[Twikoo] 已拉取 {count} 条最新评论，写入",
+
+	// 技能页面
+	[Key.skills]: "技能",
+	[Key.skillsTitle]: "我的技能",
+	[Key.skillsExpert]: "精通",
+	[Key.skillsAdvanced]: "熟练",
+	[Key.skillsIntermediate]: "掌握",
+	[Key.skillsBeginner]: "入门",
+	[Key.skillsFrontend]: "前端",
+	[Key.skillsBackend]: "后端",
+	[Key.skillsDatabase]: "数据库",
+	[Key.skillsTools]: "工具",
+	[Key.skillsOther]: "其他",
+	[Key.skillExperience]: "经验",
+	[Key.skillYears]: "年",
+	[Key.skillMonths]: "个月",
+	[Key.skillsEmpty]: "暂无技能数据",
+	[Key.skillsFilter]: "筛选",
 };

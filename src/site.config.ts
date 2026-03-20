@@ -19,6 +19,7 @@ export const siteConfig: SiteConfig = {
 		{ name: "albums", path: "/albums/", icon: "photo_album" },
 		{ name: "friends", path: "/friends/", icon: "link" },
 		{ name: "anime", path: "/anime/", icon: "movie" },
+		{ name: "skills", path: "/skills/", icon: "psychology" },
 		{ name: "diary", path: "/diary/", icon: "book" },
 		{ name: "devices", path: "/devices/", icon: "devices" },
 		{

@@ -133,5 +133,23 @@ enum I18nKey {
 	twikooJsonParseError = "twikooJsonParseError",
 	twikooUnknownError = "twikooUnknownError",
 	twikooFetched = "twikooFetched",
+
+	// 技能页面
+	skills = "skills",
+	skillsTitle = "skillsTitle",
+	skillsExpert = "skillsExpert",
+	skillsAdvanced = "skillsAdvanced",
+	skillsIntermediate = "skillsIntermediate",
+	skillsBeginner = "skillsBeginner",
+	skillsFrontend = "skillsFrontend",
+	skillsBackend = "skillsBackend",
+	skillsDatabase = "skillsDatabase",
+	skillsTools = "skillsTools",
+	skillsOther = "skillsOther",
+	skillExperience = "skillExperience",
+	skillYears = "skillYears",
+	skillMonths = "skillMonths",
+	skillsEmpty = "skillsEmpty",
+	skillsFilter = "skillsFilter",
 }
 export default I18nKey;
