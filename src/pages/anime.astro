@@ -611,10 +611,16 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 <script>
 	// 客户端交互逻辑 - 与 FilterModule 配合使用
 	document.addEventListener("astro:page-load", () => {
-		const animePage = document.querySelector(".anime-page") as HTMLElement | null;
+		const animePage = document.querySelector(
+			".anime-page",
+		) as HTMLElement | null;
 		const paginationContainer = document.getElementById("anime-pagination");
-		const prevPageBtn = document.getElementById("prev-page") as HTMLButtonElement | null;
-		const nextPageBtn = document.getElementById("next-page") as HTMLButtonElement | null;
+		const prevPageBtn = document.getElementById(
+			"prev-page",
+		) as HTMLButtonElement | null;
+		const nextPageBtn = document.getElementById(
+			"next-page",
+		) as HTMLButtonElement | null;
 		const currentPageSpan = document.getElementById("current-page");
 		const totalPagesSpan = document.getElementById("total-pages");
 
@@ -653,7 +659,7 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			const allCards = document.querySelectorAll(".anime-card");
 			// 获取当前可见的卡片（没有被 FilterModule 隐藏的）
 			const visibleCards = Array.from(allCards).filter(
-				(card) => !card.classList.contains("item-hidden")
+				(card) => !card.classList.contains("item-hidden"),
 			);
 
 			const totalItems = visibleCards.length;
@@ -666,10 +672,13 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			if (paginationContainer) {
 				if (pageSize > 0 && totalItems > pageSize) {
 					paginationContainer.style.display = "flex";
-					if (currentPageSpan) currentPageSpan.textContent = currentPage.toString();
-					if (totalPagesSpan) totalPagesSpan.textContent = totalPages.toString();
+					if (currentPageSpan)
+						currentPageSpan.textContent = currentPage.toString();
+					if (totalPagesSpan)
+						totalPagesSpan.textContent = totalPages.toString();
 					if (prevPageBtn) prevPageBtn.disabled = currentPage === 1;
-					if (nextPageBtn) nextPageBtn.disabled = currentPage === totalPages;
+					if (nextPageBtn)
+						nextPageBtn.disabled = currentPage === totalPages;
 				} else {
 					paginationContainer.style.display = "none";
 				}

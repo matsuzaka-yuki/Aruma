@@ -519,6 +519,27 @@ async function fetchExternalAnimeText() {
 	}
 }
 
+/**
+ * Recursively extract text from JSON values
+ * @param {any} value - JSON value to process
+ * @param {Set} textSet - Set to collect characters into
+ */
+function extractTextFromJSON(value, textSet) {
+	if (typeof value === "string") {
+		for (const char of value) {
+			textSet.add(char);
+		}
+	} else if (Array.isArray(value)) {
+		for (const item of value) {
+			extractTextFromJSON(item, textSet);
+		}
+	} else if (typeof value === "object" && value !== null) {
+		for (const key in value) {
+			extractTextFromJSON(value[key], textSet);
+		}
+	}
+}
+
 async function collectText() {
 	const { lang } = await getConfig();
 
@@ -563,6 +584,15 @@ async function collectText() {
 					});
 				}
 			});
+		} else if (file.endsWith(".json")) {
+			// Handle JSON files (e.g., skills.json)
+			const content = fs.readFileSync(file, "utf-8");
+			try {
+				const jsonData = JSON.parse(content);
+				extractTextFromJSON(jsonData, textSet);
+			} catch (e) {
+				// Skip invalid JSON files
+			}
 		}
 	});
 

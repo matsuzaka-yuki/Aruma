@@ -1,6 +1,6 @@
 ---
-import { i18n } from '../i18n/translation';
-import I18nKey from '../i18n/i18nKey';
+import { i18n } from "../i18n/translation";
+import I18nKey from "../i18n/i18nKey";
 
 export interface FilterOption {
 	value: string;
@@ -38,14 +38,16 @@ const popupId = `filter-popup-${searchId}`;
 <div class:list={["filter-module", className]}>
 	<!-- Desktop filter buttons -->
 	<div class="filter-buttons" id={desktopFilterId}>
-		{filters.map((filter) => (
-			<button
-				class:list={{ active: filter.value === initialFilter }}
-				data-filter={filter.value}
-			>
-				{filter.label}
-			</button>
-		))}
+		{
+			filters.map((filter) => (
+				<button
+					class:list={{ active: filter.value === initialFilter }}
+					data-filter={filter.value}
+				>
+					{filter.label}
+				</button>
+			))
+		}
 	</div>
 
 	<!-- Search and mobile filter toggle -->
@@ -66,14 +68,19 @@ const popupId = `filter-popup-${searchId}`;
 			</button>
 			<div class="filter-popup" id={popupId}>
 				<div class="filter-popup-content">
-					{filters.map((filter) => (
-						<button
-							class:list={["filter-option", { active: filter.value === initialFilter }]}
-							data-filter={filter.value}
-						>
-							{filter.label}
-						</button>
-					))}
+					{
+						filters.map((filter) => (
+							<button
+								class:list={[
+									"filter-option",
+									{ active: filter.value === initialFilter },
+								]}
+								data-filter={filter.value}
+							>
+								{filter.label}
+							</button>
+						))
+					}
 				</div>
 			</div>
 		</div>
@@ -144,8 +151,11 @@ const popupId = `filter-popup-${searchId}`;
 				const cardElement = card;
 				const filterValue = cardElement.getAttribute(filterAttribute);
 				const searchableContent = searchableFields
-					.map((field) =>
-						cardElement.querySelector(field)?.textContent?.toLowerCase() || "",
+					.map(
+						(field) =>
+							cardElement
+								.querySelector(field)
+								?.textContent?.toLowerCase() || "",
 					)
 					.join(" ");
 
@@ -164,14 +174,16 @@ const popupId = `filter-popup-${searchId}`;
 			});
 
 			// Dispatch custom event for external pagination handlers
-			window.dispatchEvent(new CustomEvent("filter-changed", {
-				detail: {
-					filter: currentFilter,
-					searchQuery,
-					matchedCards,
-					totalMatched: matchedCards.length
-				}
-			}));
+			window.dispatchEvent(
+				new CustomEvent("filter-changed", {
+					detail: {
+						filter: currentFilter,
+						searchQuery,
+						matchedCards,
+						totalMatched: matchedCards.length,
+					},
+				}),
+			);
 		}
 
 		function syncButtonStates(filterValue) {

@@ -20,13 +20,29 @@ const { name, icon, level, description, category, experience } = Astro.props;
 const getLevelInfo = (level: string) => {
 	switch (level) {
 		case "expert":
-			return { percent: 100, label: i18n(I18nKey.skillsExpert), color: "bg-red-500" };
+			return {
+				percent: 100,
+				label: i18n(I18nKey.skillsExpert),
+				color: "bg-red-500",
+			};
 		case "advanced":
-			return { percent: 80, label: i18n(I18nKey.skillsAdvanced), color: "bg-orange-500" };
+			return {
+				percent: 80,
+				label: i18n(I18nKey.skillsAdvanced),
+				color: "bg-orange-500",
+			};
 		case "intermediate":
-			return { percent: 60, label: i18n(I18nKey.skillsIntermediate), color: "bg-blue-500" };
+			return {
+				percent: 60,
+				label: i18n(I18nKey.skillsIntermediate),
+				color: "bg-blue-500",
+			};
 		case "beginner":
-			return { percent: 30, label: i18n(I18nKey.skillsBeginner), color: "bg-green-500" };
+			return {
+				percent: 30,
+				label: i18n(I18nKey.skillsBeginner),
+				color: "bg-green-500",
+			};
 		default:
 			return { percent: 0, label: level, color: "bg-gray-500" };
 	}
@@ -52,35 +68,48 @@ const levelInfo = getLevelInfo(level);
 	data-category={category}
 >
 	<div class="skill-header flex items-center gap-4">
-		<div class="skill-icon-container w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden">
+		<div
+			class="skill-icon-container w-12 h-12 flex items-center justify-center bg-gray-100 rounded-lg overflow-hidden"
+		>
 			<IconWrapper client:load icon={icon} size="2rem" />
 		</div>
 		<div class="skill-title-container flex-1">
 			<h3 class="skill-name text-lg font-bold text-gray-800 m-0">
 				{name}
 			</h3>
-			<div class="skill-level-badge inline-block text-[10px] px-2 py-0.5 rounded-full bg-theme/10 text-theme font-medium uppercase tracking-wider">
+			<div
+				class="skill-level-badge inline-block text-[10px] px-2 py-0.5 rounded-full bg-theme/10 text-theme font-medium uppercase tracking-wider"
+			>
 				{levelInfo.label}
 			</div>
 		</div>
 	</div>
 
-	<p class="skill-description text-sm text-gray-600 m-0 line-clamp-2 leading-relaxed min-h-[2.5rem]">
+	<p
+		class="skill-description text-sm text-gray-600 m-0 line-clamp-2 leading-relaxed min-h-[2.5rem]"
+	>
 		{description}
 	</p>
 
 	<div class="skill-footer mt-auto">
-		{experience && (
-			<div class="skill-experience-display flex justify-between items-center text-[10px] text-gray-500 mb-1">
-				<span>{i18n(I18nKey.skillExperience)}</span>
-				<span class="font-medium">{formatExperience(experience)}</span>
-			</div>
-		)}
-		<div class="skill-progress-bar w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+		{
+			experience && (
+				<div class="skill-experience-display flex justify-between items-center text-[10px] text-gray-500 mb-1">
+					<span>{i18n(I18nKey.skillExperience)}</span>
+					<span class="font-medium">
+						{formatExperience(experience)}
+					</span>
+				</div>
+			)
+		}
+		<div
+			class="skill-progress-bar w-full h-1.5 bg-gray-200 rounded-full overflow-hidden"
+		>
 			<div
 				class={`skill-progress-fill h-full ${levelInfo.color} transition-all duration-500 ease-out`}
 				style={`width: ${levelInfo.percent}%`}
-			></div>
+			>
+			</div>
 		</div>
 	</div>
 </div>
@@ -127,9 +156,17 @@ const levelInfo = getLevelInfo(level);
 		color: var(--color, #ff4081);
 	}
 	.bg-theme\/10 {
-		background-color: color-mix(in srgb, var(--color, #ff4081) 10%, transparent);
+		background-color: color-mix(
+			in srgb,
+			var(--color, #ff4081) 10%,
+			transparent
+		);
 	}
 	.border-theme {
-		border-color: color-mix(in srgb, var(--color, #ff4081) 20%, transparent);
+		border-color: color-mix(
+			in srgb,
+			var(--color, #ff4081) 20%,
+			transparent
+		);
 	}
 </style>
