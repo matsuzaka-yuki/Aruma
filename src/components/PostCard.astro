@@ -1,10 +1,10 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import FormattedDate from "./FormattedDate.astro";
 
-import { siteConfig } from "../site.config";
-import { i18n } from "../i18n/translation";
 import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import { siteConfig } from "../site.config";
+import FormattedDate from "./FormattedDate.astro";
 
 interface Props {
 	post: CollectionEntry<"post">;

@@ -1,14 +1,13 @@
 ---
-import { i18n } from "../i18n/translation";
-import I18nKey from "../i18n/i18nKey";
-import type { SkillItem } from "../types/skill";
-import Sidebar from "../components/Sidebar.astro";
-import Layout from "../layouts/Layout.astro";
 import SkillCard from "../components/cards/SkillCard.astro";
 import FilterModule from "../components/FilterModule.astro";
-
+import Sidebar from "../components/Sidebar.astro";
 // 导入技能数据
 import skillsData from "../data/skills.json";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import Layout from "../layouts/Layout.astro";
+import type { SkillItem } from "../types/skill";
 
 const allSkills = skillsData as SkillItem[];
 

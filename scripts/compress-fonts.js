@@ -410,11 +410,11 @@ async function fetchExternalAnimeText() {
 	const textSet = new Set();
 
 	try {
-		// 检查 site.config.ts 中的 animeSource 配置
+		// Check animeSource config in site.config.ts
 		const configPath = path.join(__dirname, "../src/site.config.ts");
 		const configContent = fs.readFileSync(configPath, "utf-8");
 
-		// 如果 animeSource 未启用，直接返回空字符串
+		// If animeSource is not enabled, return empty string
 		if (
 			!configContent.includes("animeSource:") ||
 			configContent.match(/animeSource:\s*{\s*enable:\s*false/)
@@ -424,99 +424,12 @@ async function fetchExternalAnimeText() {
 			);
 			return "";
 		}
-
-		// 提取 mode 配置
-		const modeMatch = configContent.match(
-			/animeSource:\s*\{[\s\S]*?mode:\s*["']([^"']+)["']/,
-		);
-		const mode = modeMatch ? modeMatch[1] : "local";
-
-		console.log(`animeSource mode: ${mode}`);
-
-		// 读取外部动漫缓存文件
-		const cacheFile = path.join(
-			__dirname,
-			"../src/data/external-anime.json",
-		);
-
-		if (!fs.existsSync(cacheFile)) {
-			console.log(
-				"External anime cache file not found, skipping text collection",
-			);
-			return "";
-		}
-
-		const cache = JSON.parse(fs.readFileSync(cacheFile, "utf-8"));
-
-		// 根据模式有选择地收集数据
-		if (mode === "bilibili" || mode === "mixed") {
-			// 收集 Bilibili 数据文本
-			if (cache.bilibili && Array.isArray(cache.bilibili)) {
-				console.log(
-					`Collecting text from ${cache.bilibili.length} Bilibili anime items`,
-				);
-				for (const item of cache.bilibili) {
-					if (item.title) {
-						for (const char of item.title) {
-							textSet.add(char);
-						}
-					}
-					if (item.description) {
-						for (const char of item.description) {
-							textSet.add(char);
-						}
-					}
-					if (item.studio) {
-						for (const char of item.studio) {
-							textSet.add(char);
-						}
-					}
-				}
-			}
-		}
-
-		if (mode === "bangumi" || mode === "mixed") {
-			// 收集 Bangumi 数据文本
-			if (cache.bangumi && Array.isArray(cache.bangumi)) {
-				console.log(
-					`Collecting text from ${cache.bangumi.length} Bangumi anime items`,
-				);
-				for (const item of cache.bangumi) {
-					if (item.title) {
-						for (const char of item.title) {
-							textSet.add(char);
-						}
-					}
-					if (item.description) {
-						for (const char of item.description) {
-							textSet.add(char);
-						}
-					}
-					if (item.studio) {
-						for (const char of item.studio) {
-							textSet.add(char);
-						}
-					}
-					if (item.tags && Array.isArray(item.tags)) {
-						for (const tag of item.tags) {
-							for (const char of tag) {
-								textSet.add(char);
-							}
-						}
-					}
-				}
-			}
-		}
-
-		const text = Array.from(textSet).sort().join("");
-		console.log(
-			`Collected ${text.length} unique characters from external anime data`,
-		);
-		return text;
 	} catch (error) {
-		console.error("Error fetching external anime text:", error.message);
+		console.error("Error in fetchExternalAnimeText:", error.message);
 		return "";
 	}
+
+	return textSet;
 }
 
 /**

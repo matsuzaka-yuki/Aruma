@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { i18n } from '../../i18n/translation';
   import I18nKey from '../../i18n/i18nKey';
+  import { i18n } from '../../i18n/translation';
   import SidebarModule from './SidebarModule.svelte';
 
   interface Reply {
@@ -12,7 +12,7 @@
     date: string;
   }
 
-  let { replies = [] }: { replies?: Reply[] } = $props();
+  const { replies = [] }: { replies?: Reply[] } = $props();
 </script>
 
 <SidebarModule title={i18n(I18nKey.recentReplies)}>

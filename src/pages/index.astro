@@ -1,20 +1,21 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
 import PostCard from "../components/PostCard.astro";
 import Sidebar from "../components/Sidebar.astro";
-import { getCollection } from "astro:content";
+import Layout from "../layouts/Layout.astro";
 
 const posts = (await getCollection("post")).sort((a, b) => {
 	// 首先按置顶状态排序，置顶文章在前
-	if (a.data.pinned && !b.data.pinned) return -1;
-	if (!a.data.pinned && b.data.pinned) return 1;
+	if (a.data.pinned && !b.data.pinned) {return -1;}
+	if (!a.data.pinned && b.data.pinned) {return 1;}
 
 	// 如果置顶状态相同，优先按 Priority 排序（数值越小越靠前）
 	if (a.data.pinned && b.data.pinned) {
 		const priorityA = a.data.priority;
 		const priorityB = b.data.priority;
 		if (priorityA !== undefined && priorityB !== undefined) {
-			if (priorityA !== priorityB) return priorityA - priorityB;
+			if (priorityA !== priorityB) {return priorityA - priorityB;}
 		} else if (priorityA !== undefined) {
 			return -1;
 		} else if (priorityB !== undefined) {

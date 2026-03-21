@@ -1,12 +1,13 @@
 ---
 export const prerender = true;
 
-import Layout from "../../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+
 import PostCard from "../../components/PostCard.astro";
 import Sidebar from "../../components/Sidebar.astro";
-import { getCollection } from "astro:content";
-import { i18n } from "../../i18n/translation";
 import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import Layout from "../../layouts/Layout.astro";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("post");

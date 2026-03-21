@@ -1,14 +1,16 @@
 ---
-import type { CollectionEntry } from "astro:content";
-import Layout from "./Layout.astro";
-import FormattedDate from "../components/FormattedDate.astro";
-import Sidebar from "../components/Sidebar.astro";
-import PhotoSwipe from "../components/PhotoSwipe.astro";
-import Comment from "../components/comment/index.astro";
-import { siteConfig } from "../site.config";
-import { i18n } from "../i18n/translation";
-import I18nKey from "../i18n/i18nKey";
 import "../styles/twikoo.css";
+
+import type { CollectionEntry } from "astro:content";
+
+import Comment from "../components/comment/index.astro";
+import FormattedDate from "../components/FormattedDate.astro";
+import PhotoSwipe from "../components/PhotoSwipe.astro";
+import Sidebar from "../components/Sidebar.astro";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import { siteConfig } from "../site.config";
+import Layout from "./Layout.astro";
 
 type Props = Omit<CollectionEntry<"post">["data"], "pinned"> & {
 	id: string;
@@ -121,7 +123,7 @@ if (
 					preBlocks.forEach((pre) => {
 						// 避免重复初始化
 						if (pre.querySelector(".post-content-code-copy"))
-							return;
+							{return;}
 
 						// 创建复制按钮
 						const copyBtn = document.createElement("div");
@@ -150,7 +152,7 @@ if (
 									icon.innerText = "check";
 									setTimeout(() => {
 										if (icon)
-											icon.innerText = "content_copy";
+											{icon.innerText = "content_copy";}
 									}, 2000);
 								}
 

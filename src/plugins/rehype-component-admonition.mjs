@@ -12,11 +12,11 @@ import { h } from "hastscript";
  */
 export function AdmonitionComponent(properties, children, type) {
 	if (!Array.isArray(children) || children.length === 0)
-		return h(
+		{return h(
 			"div",
 			{ class: "hidden" },
 			'Invalid admonition directive. (Admonition directives must be of block type ":::note{name=\\"name\\"} <content> :::")',
-		);
+		);}
 
 	let label = null;
 	if (properties?.["has-directive-label"]) {

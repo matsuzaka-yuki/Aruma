@@ -1,16 +1,17 @@
 ---
-import DrawerProfile from "./svelte/DrawerProfile.svelte";
-import { siteConfig } from "../site.config";
-import { i18n } from "../i18n/translation";
-import I18nKey from "../i18n/i18nKey";
 import { getCollection } from "astro:content";
+
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import { siteConfig } from "../site.config";
+import DrawerProfile from "./svelte/DrawerProfile.svelte";
 
 const posts = await getCollection("post");
 
 const categoryCounts = posts.reduce(
 	(acc, post) => {
 		const category = post.data.category?.trim();
-		if (!category) return acc;
+		if (!category) {return acc;}
 		acc[category] = (acc[category] || 0) + 1;
 		return acc;
 	},
@@ -442,7 +443,7 @@ const archives = Object.entries(archiveCounts)
 		const drawer = document.getElementById("main-drawer");
 		const overlay = document.getElementById("drawer-overlay");
 
-		if (!toggleBtn || !drawer || !overlay) return;
+		if (!toggleBtn || !drawer || !overlay) {return;}
 
 		const openDrawer = () => {
 			drawer?.classList.add("mdui-drawer-open");
@@ -542,7 +543,7 @@ const archives = Object.entries(archiveCounts)
 		});
 
 		document.addEventListener("keydown", (e) => {
-			if (e.key !== "Escape") return;
+			if (e.key !== "Escape") {return;}
 			if (drawer?.classList.contains("mdui-drawer-open")) {
 				drawer.classList.remove("mdui-drawer-open");
 				overlay?.classList.remove("show");

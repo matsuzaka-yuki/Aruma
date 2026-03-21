@@ -1,12 +1,12 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Sidebar from "../../components/Sidebar.astro";
-import { siteConfig } from "../../site.config";
-import { i18n } from "../../i18n/translation";
-import I18nKey from "../../i18n/i18nKey";
-import { scanAlbums } from "../../utils/album-scanner";
 import AlbumCard from "../../components/cards/AlbumCard.astro";
 import PageGrid from "../../components/layouts/PageGrid.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import Layout from "../../layouts/Layout.astro";
+import { siteConfig } from "../../site.config";
+import { scanAlbums } from "../../utils/album-scanner";
 
 // 检查相册页面是否启用
 if (!siteConfig.featurePages.albums) {

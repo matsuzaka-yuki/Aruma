@@ -1,5 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
+
 import type { AlbumGroup, Photo } from "../types/album";
 
 export async function scanAlbums(): Promise<AlbumGroup[]> {

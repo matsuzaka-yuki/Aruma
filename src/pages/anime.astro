@@ -1,16 +1,16 @@
 ---
-import { siteConfig } from "../site.config";
-import { i18n } from "../i18n/translation";
-import I18nKey from "../i18n/i18nKey";
-import type { AnimeItem } from "../types/anime";
-import Sidebar from "../components/Sidebar.astro";
-import Layout from "../layouts/Layout.astro";
-import FilterModule from "../components/FilterModule.astro";
-import { readFileSync, existsSync } from "fs";
+import { existsSync,readFileSync } from "fs";
 import { join } from "path";
 
+import FilterModule from "../components/FilterModule.astro";
+import Sidebar from "../components/Sidebar.astro";
 // 导入本地动漫数据
 import localAnimeData from "../data/anime.json";
+import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
+import Layout from "../layouts/Layout.astro";
+import { siteConfig } from "../site.config";
+import type { AnimeItem } from "../types/anime";
 
 // 动漫过滤选项配置
 const animeFilters = [
@@ -165,12 +165,12 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 									anime.progress > 0 &&
 									anime.progress < anime.totalEpisodes
 								)
-									return "watching";
+									{return "watching";}
 								if (
 									anime.progress >= anime.totalEpisodes &&
 									anime.totalEpisodes > 0
 								)
-									return "completed";
+									{return "completed";}
 								return "planned";
 							};
 
@@ -665,20 +665,20 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			const totalItems = visibleCards.length;
 			const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
 
-			if (currentPage > totalPages) currentPage = totalPages;
-			if (currentPage < 1) currentPage = 1;
+			if (currentPage > totalPages) {currentPage = totalPages;}
+			if (currentPage < 1) {currentPage = 1;}
 
 			// 更新分页 UI
 			if (paginationContainer) {
 				if (pageSize > 0 && totalItems > pageSize) {
 					paginationContainer.style.display = "flex";
 					if (currentPageSpan)
-						currentPageSpan.textContent = currentPage.toString();
+						{currentPageSpan.textContent = currentPage.toString();}
 					if (totalPagesSpan)
-						totalPagesSpan.textContent = totalPages.toString();
-					if (prevPageBtn) prevPageBtn.disabled = currentPage === 1;
+						{totalPagesSpan.textContent = totalPages.toString();}
+					if (prevPageBtn) {prevPageBtn.disabled = currentPage === 1;}
 					if (nextPageBtn)
-						nextPageBtn.disabled = currentPage === totalPages;
+						{nextPageBtn.disabled = currentPage === totalPages;}
 				} else {
 					paginationContainer.style.display = "none";
 				}

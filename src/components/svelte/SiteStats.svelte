@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { i18n } from '../../i18n/translation';
   import I18nKey from '../../i18n/i18nKey';
+  import { i18n } from '../../i18n/translation';
   import SidebarModule from './SidebarModule.svelte';
 
-  let { 
+  const { 
     postCount = 0, 
     wordCount = 0, 
     siteStartDate 
@@ -15,7 +15,7 @@
 
   // 计算运行天数
   function calculateRunningDays(startDate?: string): number {
-    if (!startDate) return 0;
+    if (!startDate) {return 0;}
     const start = new Date(startDate);
     const now = new Date();
     const diffTime = Math.abs(now.getTime() - start.getTime());

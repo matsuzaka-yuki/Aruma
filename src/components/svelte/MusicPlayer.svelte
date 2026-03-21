@@ -2,24 +2,25 @@
 import Icon from "@iconify/svelte";
 import { onDestroy, onMount } from "svelte";
 import { slide } from "svelte/transition";
-// 从配置文件中导入音乐播放器配置
-import { siteConfig } from "../../site.config";
+
 // 导入国际化相关的 Key 和 i18n 实例
 import Key from "../../i18n/i18nKey";
 import { i18n } from "../../i18n/translation";
+// 从配置文件中导入音乐播放器配置
+import { siteConfig } from "../../site.config";
 
 // 音乐播放器模式，可选 "local" 或 "meting"，从本地配置中获取或使用默认值 "meting"
-let mode = siteConfig.musicPlayer?.mode ?? "meting";
+const mode = siteConfig.musicPlayer?.mode ?? "meting";
 // Meting API 地址，从配置中获取或使用默认地址 (bilibili.uno(由哔哩哔哩松坂有希公益管理)),服务器在海外，部分音乐平台可能不支持并且速度可能慢，也可以自建 Meting API
-let meting_api =
+const meting_api =
 	siteConfig.musicPlayer?.meting_api ??
 	"https://www.bilibili.uno/api?server=:server&type=:type&id=:id&auth=:auth&r=:r";
 // Meting API 的 ID，从配置中获取或使用默认值
-let meting_id = siteConfig.musicPlayer?.id ?? "14164869977";
+const meting_id = siteConfig.musicPlayer?.id ?? "14164869977";
 // Meting API 的服务器，从配置中获取或使用默认值，有的 meting 的 api 源支持更多平台，一般来说，netease=网易云音乐，tencent=QQ 音乐，kugou=酷狗音乐，xiami=虾米音乐，baidu=百度音乐
-let meting_server = siteConfig.musicPlayer?.server ?? "netease";
+const meting_server = siteConfig.musicPlayer?.server ?? "netease";
 // Meting API 的类型，从配置中获取或使用默认值
-let meting_type = siteConfig.musicPlayer?.type ?? "playlist";
+const meting_type = siteConfig.musicPlayer?.type ?? "playlist";
 
 // 播放状态，默认为 false (未播放)
 let isPlaying = false;
@@ -132,7 +133,7 @@ function saveVolumeSettings() {
 }
 
 async function fetchMetingPlaylist() {
-	if (!meting_api || !meting_id) return;
+	if (!meting_api || !meting_id) {return;}
 	isLoading = true;
 	const apiUrl = meting_api
 		.replace(":server", meting_server)
@@ -142,14 +143,14 @@ async function fetchMetingPlaylist() {
 		.replace(":r", Date.now().toString());
 	try {
 		const res = await fetch(apiUrl);
-		if (!res.ok) throw new Error("meting api error");
+		if (!res.ok) {throw new Error("meting api error");}
 		const list = await res.json();
 		playlist = list.map((song: any) => {
-			let title = song.name ?? song.title ?? i18n(Key.unknownSong);
-		let artist = song.artist ?? song.author ?? i18n(Key.unknownArtist);
+			const title = song.name ?? song.title ?? i18n(Key.unknownSong);
+		const artist = song.artist ?? song.author ?? i18n(Key.unknownArtist);
 			let dur = song.duration ?? 0;
-			if (dur > 10000) dur = Math.floor(dur / 1000);
-			if (!Number.isFinite(dur) || dur <= 0) dur = 0;
+			if (dur > 10000) {dur = Math.floor(dur / 1000);}
+			if (!Number.isFinite(dur) || dur <= 0) {dur = 0;}
 			return {
 				id: song.id,
 				title,
@@ -170,7 +171,7 @@ async function fetchMetingPlaylist() {
 }
 
 function togglePlay() {
-	if (!audio || !currentSong.url) return;
+	if (!audio || !currentSong.url) {return;}
 	if (isPlaying) {
 		audio.pause();
 	} else {
@@ -213,13 +214,13 @@ function toggleRepeat() {
 }
 
 function previousSong() {
-	if (playlist.length <= 1) return;
+	if (playlist.length <= 1) {return;}
 	const newIndex = currentIndex > 0 ? currentIndex - 1 : playlist.length - 1;
 	playSong(newIndex);
 }
 
 function nextSong(autoPlay: boolean = true) {
-	if (playlist.length <= 1) return;
+	if (playlist.length <= 1) {return;}
 	
 	let newIndex: number;
 	if (isShuffled) {
@@ -236,7 +237,7 @@ function nextSong(autoPlay: boolean = true) {
 let willAutoPlay = false;
 
 function playSong(index: number, autoPlay = true) {
-	if (index < 0 || index >= playlist.length) return;
+	if (index < 0 || index >= playlist.length) {return;}
 	
     willAutoPlay = autoPlay;
 	currentIndex = index;
@@ -244,13 +245,13 @@ function playSong(index: number, autoPlay = true) {
 }
 
 function getAssetPath(path: string): string {
-	if (path.startsWith("http://") || path.startsWith("https://")) return path;
-	if (path.startsWith("/")) return path;
+	if (path.startsWith("http://") || path.startsWith("https://")) {return path;}
+	if (path.startsWith("/")) {return path;}
 	return `/${path}`;
 }
 
 function loadSong(song: typeof currentSong) {
-	if (!song) return;
+	if (!song) {return;}
 	if (song.url !== currentSong.url) {
 		currentSong = { ...song };
 		isImageError = false;
@@ -280,7 +281,7 @@ function handleLoadSuccess() {
 	isLoading = false;
 	if (audio?.duration && audio.duration > 1) {
 		duration = Math.floor(audio.duration);
-		if (playlist[currentIndex]) playlist[currentIndex].duration = duration;
+		if (playlist[currentIndex]) {playlist[currentIndex].duration = duration;}
 		currentSong.duration = duration;
 	}
 
@@ -308,7 +309,7 @@ function handleUserInteraction() {
 }
 
 function handleLoadError(_event: Event) {
-	if (!currentSong.url) return;
+	if (!currentSong.url) {return;}
 	isLoading = false;
 	showErrorMessage(i18n(Key.musicPlayerErrorSong));
 	
@@ -348,7 +349,7 @@ function hideError() {
 }
 
 function setProgress(event: MouseEvent) {
-	if (!audio || !progressBar) return;
+	if (!audio || !progressBar) {return;}
 	const rect = progressBar.getBoundingClientRect();
 	const percent = (event.clientX - rect.left) / rect.width;
 	const newTime = percent * duration;
@@ -362,7 +363,7 @@ let volumeBarRect: DOMRect | null = null;
 let rafId: number | null = null;
 
 function startVolumeDrag(event: PointerEvent) {
-    if (!volumeBar) return;
+    if (!volumeBar) {return;}
 	event.preventDefault();
     
     isPointerDown = true; 
@@ -373,11 +374,11 @@ function startVolumeDrag(event: PointerEvent) {
 }
 
 function handleVolumeMove(event: PointerEvent) {
-    if (!isPointerDown) return;
+    if (!isPointerDown) {return;}
 	event.preventDefault();
 
     isVolumeDragging = true; 
-    if (rafId) return;
+    if (rafId) {return;}
 
 	rafId = requestAnimationFrame(() => {
         updateVolumeLogic(event.clientX);
@@ -386,7 +387,7 @@ function handleVolumeMove(event: PointerEvent) {
 }
 
 function stopVolumeDrag(event: PointerEvent) {
-    if (!isPointerDown) return;
+    if (!isPointerDown) {return;}
 	isPointerDown = false;
     isVolumeDragging = false;
     volumeBarRect = null;
@@ -402,7 +403,7 @@ function stopVolumeDrag(event: PointerEvent) {
 }
 
 function updateVolumeLogic(clientX: number) {
-    if (!audio || !volumeBar) return;
+    if (!audio || !volumeBar) {return;}
 
     const rect = volumeBarRect || volumeBar.getBoundingClientRect();
 	const percent = Math.max(
@@ -417,7 +418,7 @@ function toggleMute() {
 }
 
 function formatTime(seconds: number): string {
-	if (!Number.isFinite(seconds) || seconds < 0) return "0:00";
+	if (!Number.isFinite(seconds) || seconds < 0) {return "0:00";}
 	const mins = Math.floor(seconds / 60);
 	const secs = Math.floor(seconds % 60);
 	return `${mins}:${secs.toString().padStart(2, "0")}`;
@@ -709,7 +710,7 @@ onDestroy(() => {
                   on:keydown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                           e.preventDefault();
- 						 if (e.key === 'Enter') toggleMute();
+ 						 if (e.key === 'Enter') {toggleMute();}
                       }
                   }}
                   role="slider"

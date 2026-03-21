@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { i18n } from '../../i18n/translation';
   import I18nKey from '../../i18n/i18nKey';
+  import { i18n } from '../../i18n/translation';
   import SidebarModule from './SidebarModule.svelte';
 
-  let { content = "" }: { content?: string } = $props();
+  const { content = "" }: { content?: string } = $props();
 </script>
 
 {#if content}

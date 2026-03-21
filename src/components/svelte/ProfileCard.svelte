@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Icon from "@iconify/svelte";
+
 	import { siteConfig } from "../../site.config";
 	import { getSocialIcon } from "../../utils/icon-mapping";
 

@@ -1,7 +1,7 @@
 <script lang="ts">
-import SidebarModule from './SidebarModule.svelte';
-import { i18n } from '../../i18n/translation';
 import I18nKey from '../../i18n/i18nKey';
+import { i18n } from '../../i18n/translation';
+import SidebarModule from './SidebarModule.svelte';
 
   interface Reply {
     id: string;
@@ -9,7 +9,7 @@ import I18nKey from '../../i18n/i18nKey';
     postUrl: string;
   }
 
-  let { replies = [] }: { replies?: Reply[] } = $props();
+  const { replies = [] }: { replies?: Reply[] } = $props();
 
 </script>
 

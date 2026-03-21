@@ -1,12 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import ProfileCard from "../components/svelte/ProfileCard.svelte";
-import NoticeModule from "../components/svelte/NoticeModule.svelte";
-import ReplyModule from "../components/svelte/ReplyModule.svelte";
-import TwikooRecentReplies from "../components/svelte/TwikooRecentReplies.svelte";
-import TagCloud from "../components/svelte/TagCloud.svelte";
+
 import CategoryCloud from "../components/svelte/CategoryCloud.svelte";
+import NoticeModule from "../components/svelte/NoticeModule.svelte";
+import ProfileCard from "../components/svelte/ProfileCard.svelte";
+import ReplyModule from "../components/svelte/ReplyModule.svelte";
 import SiteStats from "../components/svelte/SiteStats.svelte";
+import TagCloud from "../components/svelte/TagCloud.svelte";
+import TwikooRecentReplies from "../components/svelte/TwikooRecentReplies.svelte";
 import { siteConfig } from "../site.config";
 
 const posts = await getCollection("post");
@@ -15,7 +16,7 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
 const categoryCounts = posts.reduce(
 	(acc, post) => {
 		const category = post.data.category?.trim();
-		if (!category) return acc;
+		if (!category) {return acc;}
 		acc[category] = (acc[category] || 0) + 1;
 		return acc;
 	},

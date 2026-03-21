@@ -1,17 +1,18 @@
 ---
-import Layout from "../../layouts/Layout.astro";
-import Sidebar from "../../components/Sidebar.astro";
 import { getCollection } from "astro:content";
-import { i18n } from "../../i18n/translation";
-import I18nKey from "../../i18n/i18nKey";
+
 import CategoryCard from "../../components/cards/CategoryCard.astro";
 import PageGrid from "../../components/layouts/PageGrid.astro";
+import Sidebar from "../../components/Sidebar.astro";
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+import Layout from "../../layouts/Layout.astro";
 
 const posts = await getCollection("post");
 const categoryCounts = posts.reduce(
 	(acc, post) => {
 		const category = post.data.category?.trim();
-		if (!category) return acc;
+		if (!category) {return acc;}
 		acc[category] = (acc[category] || 0) + 1;
 		return acc;
 	},

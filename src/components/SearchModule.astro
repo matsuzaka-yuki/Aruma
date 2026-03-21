@@ -1,6 +1,6 @@
 ---
-import { i18n } from "../i18n/translation";
 import I18nKey from "../i18n/i18nKey";
+import { i18n } from "../i18n/translation";
 ---
 
 <div
@@ -79,17 +79,17 @@ import I18nKey from "../i18n/i18nKey";
 			"search-input",
 		) as HTMLInputElement;
 
-		if (!searchContainer || !openSearchBtn || !searchInput) return;
+		if (!searchContainer || !openSearchBtn || !searchInput) {return;}
 
 		const openSearch = () => {
-			if (!searchContainer) return;
+			if (!searchContainer) {return;}
 			searchContainer.classList.add("mdui-textfield-expanded");
 			searchInput.value = "";
 			searchInput.focus();
 		};
 
 		const closeSearch = () => {
-			if (!searchContainer) return;
+			if (!searchContainer) {return;}
 			searchContainer.classList.remove("mdui-textfield-expanded");
 		};
 
@@ -154,7 +154,7 @@ import I18nKey from "../i18n/i18nKey";
 	document.addEventListener("astro:page-load", initSearch);
 
 	document.addEventListener("keydown", (e) => {
-		if (e.key !== "Escape") return;
+		if (e.key !== "Escape") {return;}
 		const searchContainer = document.getElementById("search-container");
 		if (searchContainer?.classList.contains("mdui-textfield-expanded")) {
 			searchContainer.classList.remove("mdui-textfield-expanded");

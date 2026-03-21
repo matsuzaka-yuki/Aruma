@@ -7,7 +7,7 @@
 		size?: string;
 	}
 
-	let { icon, class: className, size }: Props = $props();
+	const { icon, class: className, size }: Props = $props();
 	const finalClass = className ?? "";
 	const finalSize = size ?? "1em";
 </script>

@@ -66,9 +66,9 @@
 			"qrcode-canvas",
 		) as HTMLCanvasElement;
 
-		if (!qrcodeDropdown || !qrcodeCanvas) return;
+		if (!qrcodeDropdown || !qrcodeCanvas) {return;}
 
-		if (qrcodeDropdown.dataset.bound) return;
+		if (qrcodeDropdown.dataset.bound) {return;}
 		qrcodeDropdown.dataset.bound = "true";
 
 		qrcodeDropdown.addEventListener("open", async () => {
@@ -89,7 +89,7 @@
 					},
 					(error) => {
 						if (error)
-							console.error("Failed to generate QR code:", error);
+							{console.error("Failed to generate QR code:", error);}
 					},
 				);
 			} catch (error) {
