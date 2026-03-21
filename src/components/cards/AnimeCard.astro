@@ -11,6 +11,7 @@ interface Props {
 	studio: string;
 	progress: number;
 	totalEpisodes: number;
+	status?: string;
 }
 
 const {
@@ -22,41 +23,56 @@ const {
 	studio,
 	progress,
 	totalEpisodes,
+	status,
 } = Astro.props;
 const progressPercent =
 	totalEpisodes > 0 ? (progress / totalEpisodes) * 100 : 0;
 ---
 
-<div
-	class="mdui-card anime-card mdui-hoverable flex p-4 bg-white/80 dark:bg-gray-800/80 rounded-xl transition-all duration-300 min-h-50 box-border overflow-hidden hover:shadow-lg"
+<article
+	class="mdui-card anime-card mdui-hoverable flex flex-row rounded-xl transition-all duration-300 overflow-hidden hover:-translate-y-1 hover:shadow-lg"
+	data-status={status}
 >
 	<div
-		class="anime-cover relative flex-shrink-0 w-32 h-45 overflow-hidden rounded-lg shadow-lg"
+		class="anime-cover w-32 md:w-44 flex-shrink-0 overflow-hidden relative"
 	>
-		<a href={link} target="_blank" rel="noopener noreferrer">
+		<a
+			href={link}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="block w-full h-full"
+		>
 			<img
 				src={cover}
 				alt={title}
 				loading="lazy"
 				referrerpolicy="no-referrer"
-				class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+				class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
 			/>
+			<div class="anime-cover-overlay">
+				<div class="anime-play-button">
+					<svg
+						class="w-6 h-6"
+						fill="currentColor"
+						viewBox="0 0 24 24"
+					>
+						<path d="M8 5v14l11-7z"></path>
+					</svg>
+				</div>
+			</div>
 		</a>
 	</div>
 
-	<div class="anime-info flex-1 min-w-0 flex flex-col justify-between pl-4">
-		<div class="anime-header-info mb-3">
-			<a
-				href={link}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="anime-name block text-lg font-semibold text-gray-800 mb-2 no-underline hover:text-pink-500 line-clamp-2 leading-relaxed dark:text-white"
+	<div
+		class="anime-content flex-1 min-w-0 p-4 md:p-5 flex flex-col justify-between"
+	>
+		<div class="anime-header">
+			<h3
+				class="anime-title text-lg font-medium mb-1.5 line-clamp-2 leading-snug"
 			>
 				{title}
-			</a>
-			<p
-				class="anime-description text-sm text-gray-600 line-clamp-2 leading-relaxed m-0 dark:text-gray-300"
-			>
+			</h3>
+			<p class="anime-description text-sm line-clamp-3 leading-relaxed">
 				{description}
 			</p>
 		</div>
@@ -65,32 +81,32 @@ const progressPercent =
 			<div
 				class="anime-meta-row flex justify-between items-center text-xs mb-1"
 			>
+				<span class="anime-meta-label flex-shrink-0">
+					{i18n(I18nKey.animeYear)}
+				</span>
 				<span
-					class="anime-meta-label text-gray-500 flex-shrink-0 dark:text-gray-400"
-					>{i18n(I18nKey.animeYear)}</span
+					class="anime-meta-value text-right ml-3 overflow-hidden text-ellipsis whitespace-nowrap"
 				>
-				<span
-					class="anime-meta-value text-gray-700 text-right ml-3 overflow-hidden text-ellipsis whitespace-nowrap dark:text-gray-200"
-					>{year}</span
-				>
+					{year}
+				</span>
 			</div>
 			<div
 				class="anime-meta-row flex justify-between items-center text-xs"
 			>
+				<span class="anime-meta-label flex-shrink-0">
+					{i18n(I18nKey.animeStudio)}
+				</span>
 				<span
-					class="anime-meta-label text-gray-500 flex-shrink-0 dark:text-gray-400"
-					>{i18n(I18nKey.animeStudio)}</span
+					class="anime-meta-value text-right ml-3 overflow-hidden text-ellipsis whitespace-nowrap"
 				>
-				<span
-					class="anime-meta-value text-gray-700 text-right ml-3 overflow-hidden text-ellipsis whitespace-nowrap dark:text-gray-200"
-					>{studio}</span
-				>
+					{studio}
+				</span>
 			</div>
 		</div>
 
-		<div class="anime-progress-container mt-3">
+		<div class="anime-progress-container">
 			<div
-				class="anime-progress-bar w-full h-1 bg-gray-200 rounded-full overflow-hidden mb-1 dark:bg-gray-700"
+				class="anime-progress-bar w-full h-1 rounded-full overflow-hidden mb-1"
 			>
 				<div
 					class="anime-progress-fill h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-300"
@@ -98,11 +114,69 @@ const progressPercent =
 				>
 				</div>
 			</div>
-			<span
-				class="anime-progress-text text-xs text-gray-500 dark:text-gray-400"
-			>
+			<span class="anime-progress-text text-xs">
 				{progress}/{totalEpisodes} ({Math.round(progressPercent)}%)
 			</span>
 		</div>
 	</div>
-</div>
+</article>
+
+<style>
+	.mdui-card.anime-card {
+		background: var(--archive-card-bg);
+	}
+
+	.anime-progress-bar {
+		background: #e5e7eb;
+	}
+
+	.anime-cover-overlay {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.anime-card:hover .anime-cover-overlay {
+		opacity: 1;
+	}
+
+	.anime-play-button {
+		width: 2.5rem;
+		height: 2.5rem;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.9);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--mdui-color-primary, #ff4081);
+	}
+
+	:global(.mdui-theme-layout-dark) .anime-title {
+		color: #fff;
+	}
+
+	:global(.mdui-theme-layout-dark) .anime-description {
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	:global(.mdui-theme-layout-dark) .anime-meta-label {
+		color: rgba(255, 255, 255, 0.6);
+	}
+
+	:global(.mdui-theme-layout-dark) .anime-meta-value {
+		color: rgba(255, 255, 255, 0.7);
+	}
+
+	:global(.mdui-theme-layout-dark) .anime-progress-bar {
+		background: rgba(255, 255, 255, 0.15);
+	}
+
+	:global(.mdui-theme-layout-dark) .anime-progress-text {
+		color: rgba(255, 255, 255, 0.6);
+	}
+</style>

@@ -112,7 +112,9 @@ const popupId = `filter-popup-${searchId}`;
 		const filterToggle = document.getElementById(toggleId);
 		const filterPopup = document.getElementById(popupId);
 
-		if (!cards.length) {return;}
+		if (!cards.length) {
+			return;
+		}
 
 		let currentFilter = initialFilter;
 		let searchQuery = searchInput?.value.toLowerCase().trim() || "";
@@ -197,7 +199,9 @@ const popupId = `filter-popup-${searchId}`;
 
 		function handleFilterClick(e) {
 			const btn = e.currentTarget;
-			if (!btn) {return;}
+			if (!btn) {
+				return;
+			}
 
 			const filter = btn.getAttribute("data-filter") || "all";
 			currentFilter = filter;

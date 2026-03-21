@@ -2,10 +2,14 @@ import { siteConfig } from "../site.config";
 
 export function isApiImage(url: string): boolean {
 	const config = siteConfig.imageOptimization;
-	if (!config?.enable) {return false;}
+	if (!config?.enable) {
+		return false;
+	}
 
 	const isExcluded = config.apiDomains.some((domain) => url.includes(domain));
-	if (isExcluded) {return true;}
+	if (isExcluded) {
+		return true;
+	}
 
 	if (
 		siteConfig.randomImage.enable &&
@@ -27,15 +31,23 @@ export function isLocalImage(url: string): boolean {
 
 export function shouldOptimizeImage(url: string): boolean {
 	const config = siteConfig.imageOptimization;
-	if (!config?.enable) {return false;}
-	if (isApiImage(url)) {return false;}
-	if (isExternalImage(url)) {return false;}
+	if (!config?.enable) {
+		return false;
+	}
+	if (isApiImage(url)) {
+		return false;
+	}
+	if (isExternalImage(url)) {
+		return false;
+	}
 	return true;
 }
 
 export function getLazyLoadingConfig() {
 	const config = siteConfig.imageOptimization;
-	if (!config?.lazyLoading.enable) {return { enable: false };}
+	if (!config?.lazyLoading.enable) {
+		return { enable: false };
+	}
 	return {
 		enable: true,
 		loading: "lazy" as const,
@@ -45,7 +57,9 @@ export function getLazyLoadingConfig() {
 
 export function getPreloadConfig() {
 	const config = siteConfig.imageOptimization;
-	if (!config?.preload.enable) {return { enable: false };}
+	if (!config?.preload.enable) {
+		return { enable: false };
+	}
 	return {
 		enable: true,
 		criticalImages: config.preload.criticalImages || 3,

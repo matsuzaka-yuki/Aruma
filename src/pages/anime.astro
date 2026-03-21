@@ -1,16 +1,17 @@
 ---
-import { existsSync,readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { join } from "path";
 
+import AnimeCard from "../components/cards/AnimeCard.astro";
 import FilterModule from "../components/FilterModule.astro";
 import Sidebar from "../components/Sidebar.astro";
-// 导入本地动漫数据
 import localAnimeData from "../data/anime.json";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import Layout from "../layouts/Layout.astro";
 import { siteConfig } from "../site.config";
 import type { AnimeItem } from "../types/anime";
+import { getAnimeStatus } from "../utils/anime-utils";
 
 // 动漫过滤选项配置
 const animeFilters = [
@@ -154,103 +155,19 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 							<h3>{i18n(I18nKey.animeEmpty)}</h3>
 						</div>
 					) : (
-						allAnime.map((anime) => {
-							// 优先使用 watchStatus，其次基于 progress 计算
-							const getStatus = (anime: any) => {
-								if (anime.watchStatus) {
-									// 支持完整的 5 种状态：watching, completed, planned, onhold, dropped
-									return anime.watchStatus;
-								}
-								if (
-									anime.progress > 0 &&
-									anime.progress < anime.totalEpisodes
-								)
-									{return "watching";}
-								if (
-									anime.progress >= anime.totalEpisodes &&
-									anime.totalEpisodes > 0
-								)
-									{return "completed";}
-								return "planned";
-							};
-
-							const progressPercent =
-								anime.totalEpisodes > 0
-									? (anime.progress / anime.totalEpisodes) *
-										100
-									: 0;
-
-							return (
-								<div
-									class="mdui-card anime-card mdui-hoverable"
-									data-status={getStatus(anime)}
-								>
-									<div class="anime-cover">
-										<a
-											href={anime.link}
-											target="_blank"
-											rel="noopener noreferrer"
-										>
-											<img
-												src={anime.cover}
-												alt={anime.title}
-												loading="lazy"
-												referrerpolicy="no-referrer"
-											/>
-										</a>
-									</div>
-
-									<div class="anime-info">
-										<div class="anime-header-info">
-											<a
-												href={anime.link}
-												target="_blank"
-												rel="noopener noreferrer"
-												class="anime-name"
-											>
-												{anime.title}
-											</a>
-											<p class="anime-description">
-												{anime.description}
-											</p>
-										</div>
-
-										<div class="anime-meta-container">
-											<div class="anime-meta-row">
-												<span class="anime-meta-label">
-													{i18n(I18nKey.animeYear)}
-												</span>
-												<span class="anime-meta-value">
-													{anime.year}
-												</span>
-											</div>
-											<div class="anime-meta-row">
-												<span class="anime-meta-label">
-													{i18n(I18nKey.animeStudio)}
-												</span>
-												<span class="anime-meta-value">
-													{anime.studio}
-												</span>
-											</div>
-										</div>
-
-										<div class="anime-progress-container">
-											<div class="anime-progress-bar">
-												<div
-													class="anime-progress-fill"
-													style={`width: ${progressPercent}%`}
-												/>
-											</div>
-											<span class="anime-progress-text">
-												{anime.progress}/
-												{anime.totalEpisodes} (
-												{Math.round(progressPercent)}%)
-											</span>
-										</div>
-									</div>
-								</div>
-							);
-						})
+						allAnime.map((anime) => (
+							<AnimeCard
+								title={anime.title}
+								cover={anime.cover}
+								link={anime.link}
+								description={anime.description}
+								year={anime.year}
+								studio={anime.studio}
+								progress={anime.progress}
+								totalEpisodes={anime.totalEpisodes}
+								status={getAnimeStatus(anime)}
+							/>
+						))
 					)
 				}
 			</div>
@@ -300,13 +217,11 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		flex: 1;
 	}
 
-	/* 列表容器 */
 	.anime-list-container {
 		display: grid;
 		grid-template-columns: 1fr;
-		gap: 20px;
+		gap: 1.25rem;
 		align-content: start;
-		align-items: start;
 	}
 
 	@media (min-width: 1024px) {
@@ -315,189 +230,43 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		}
 	}
 
-	/* 卡片样式 - 列表模式 */
 	.anime-card {
-		display: flex;
-		padding: 16px;
-		background-color: var(--archive-card-bg);
-		border-radius: 12px;
+		content-visibility: auto;
+		contain-intrinsic-size: 1px 200px;
 		transition:
 			opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-			transform 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-			box-shadow 0.15s ease-out;
-		min-height: 200px;
-		height: fit-content;
-		box-sizing: border-box;
-		overflow: hidden;
+			transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 	}
 
 	.anime-card.anime-fade-out {
 		opacity: 0;
-		transform: scale(0.9);
+		transform: scale(0.95);
 		pointer-events: none;
 	}
 
-	/* 淡入初始状态 */
 	.anime-card.anime-fade-in {
 		opacity: 0;
-		transform: scale(0.9);
+		transform: scale(0.95);
 	}
 
-	/* 淡入激活状态 */
 	.anime-card.anime-fade-in-active {
 		opacity: 1;
 		transform: scale(1);
 	}
 
-	/* 隐藏状态 */
 	.anime-card.anime-hidden {
 		display: none !important;
 	}
 
-	/* 封面区域 */
-	.anime-cover {
-		position: relative;
-		flex-shrink: 0;
-		width: 130px;
-		height: 180px;
-		overflow: hidden;
-		border-radius: 8px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	@media (max-width: 768px) {
+		.anime-card {
+			-webkit-transform: translateZ(0);
+			transform: translateZ(0);
+			-webkit-backface-visibility: hidden;
+			backface-visibility: hidden;
+		}
 	}
 
-	.anime-cover img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.3s ease;
-	}
-
-	.anime-card:hover .anime-cover img {
-		transform: scale(1.05);
-	}
-
-	.anime-cover-overlay {
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-	}
-
-	.anime-card:hover .anime-cover-overlay {
-		opacity: 1;
-	}
-
-	.anime-cover-overlay mdui-icon {
-		font-size: 48px;
-		color: white;
-		background: rgba(255, 255, 255, 0.9);
-		border-radius: 50%;
-		padding: 8px;
-		color: var(--color, #ff4081);
-	}
-
-	/* 信息区域 */
-	.anime-info {
-		flex: 1;
-		min-width: 0;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		padding-left: 16px;
-	}
-
-	.anime-header-info {
-		margin-bottom: 12px;
-	}
-
-	.anime-name {
-		display: block;
-		font-size: 18px;
-		font-weight: 600;
-		color: var(--mdui-color-on-surface, #212121);
-		text-decoration: none;
-		margin-bottom: 8px;
-		line-height: 1.3;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-	}
-
-	.anime-name:hover {
-		color: var(--color, #ff4081);
-	}
-
-	.anime-description {
-		font-size: 13px;
-		color: var(--mdui-color-on-surface-variant, #757575);
-		line-height: 1.5;
-		margin: 0;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		display: -webkit-box;
-		-webkit-line-clamp: 2;
-		-webkit-box-orient: vertical;
-	}
-
-	.anime-meta-container {
-		margin-top: auto;
-	}
-
-	.anime-meta-row {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		font-size: 12px;
-		margin-bottom: 4px;
-	}
-
-	.anime-meta-label {
-		color: var(--mdui-color-on-surface-variant, #9e9e9e);
-		flex-shrink: 0;
-	}
-
-	.anime-meta-value {
-		color: var(--mdui-color-on-surface, #616161);
-		text-align: right;
-		margin-left: 12px;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-
-	/* 进度条 */
-	.anime-progress-container {
-		margin-top: 12px;
-	}
-
-	.anime-progress-bar {
-		width: 100%;
-		height: 4px;
-		background: var(--mdui-color-surface-container-highest, #e0e0e0);
-		border-radius: 2px;
-		overflow: hidden;
-		margin-bottom: 4px;
-	}
-
-	.anime-progress-fill {
-		height: 100%;
-		background: linear-gradient(90deg, #4caf50, #81c784);
-		border-radius: 2px;
-		transition: width 0.3s ease;
-	}
-
-	.anime-progress-text {
-		font-size: 11px;
-		color: var(--mdui-color-on-surface-variant, #757575);
-	}
-
-	/* 空状态 */
 	.anime-empty {
 		text-align: center;
 		padding: 60px 20px;
@@ -516,41 +285,6 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		margin: 0;
 	}
 
-	:global(.mdui-theme-layout-dark) .anime-progress-bar {
-		background: var(--mdui-color-surface-container-highest, #444);
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-name {
-		color: #fff;
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-description {
-		color: rgba(255, 255, 255, 0.7);
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-meta-label {
-		color: rgba(255, 255, 255, 0.5);
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-meta-value {
-		color: rgba(255, 255, 255, 0.7);
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-progress-text {
-		color: rgba(255, 255, 255, 0.7);
-	}
-
-	/* 响应式适配 */
-	@media (max-width: 768px) {
-		.anime-card {
-			-webkit-transform: translateZ(0);
-			transform: translateZ(0);
-			-webkit-backface-visibility: hidden;
-			backface-visibility: hidden;
-		}
-	}
-
-	/* 分页样式 */
 	.anime-pagination {
 		display: flex;
 		justify-content: center;
@@ -600,10 +334,9 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		color: rgba(255, 255, 255, 0.9);
 	}
 
-	/* 减少动画的用户偏好设置 */
 	@media (prefers-reduced-motion: reduce) {
 		.anime-card {
-			transition-duration: 0.15s !important;
+			transition-duration: 0.15s;
 		}
 	}
 </style>
@@ -665,20 +398,29 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			const totalItems = visibleCards.length;
 			const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
 
-			if (currentPage > totalPages) {currentPage = totalPages;}
-			if (currentPage < 1) {currentPage = 1;}
+			if (currentPage > totalPages) {
+				currentPage = totalPages;
+			}
+			if (currentPage < 1) {
+				currentPage = 1;
+			}
 
 			// 更新分页 UI
 			if (paginationContainer) {
 				if (pageSize > 0 && totalItems > pageSize) {
 					paginationContainer.style.display = "flex";
-					if (currentPageSpan)
-						{currentPageSpan.textContent = currentPage.toString();}
-					if (totalPagesSpan)
-						{totalPagesSpan.textContent = totalPages.toString();}
-					if (prevPageBtn) {prevPageBtn.disabled = currentPage === 1;}
-					if (nextPageBtn)
-						{nextPageBtn.disabled = currentPage === totalPages;}
+					if (currentPageSpan) {
+						currentPageSpan.textContent = currentPage.toString();
+					}
+					if (totalPagesSpan) {
+						totalPagesSpan.textContent = totalPages.toString();
+					}
+					if (prevPageBtn) {
+						prevPageBtn.disabled = currentPage === 1;
+					}
+					if (nextPageBtn) {
+						nextPageBtn.disabled = currentPage === totalPages;
+					}
 				} else {
 					paginationContainer.style.display = "none";
 				}

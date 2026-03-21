@@ -16,7 +16,9 @@ const tags = [...new Set(posts.flatMap((post) => post.data.tags || []))];
 const categoryCounts = posts.reduce(
 	(acc, post) => {
 		const category = post.data.category?.trim();
-		if (!category) {return acc;}
+		if (!category) {
+			return acc;
+		}
 		acc[category] = (acc[category] || 0) + 1;
 		return acc;
 	},

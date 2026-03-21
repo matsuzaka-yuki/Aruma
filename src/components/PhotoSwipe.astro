@@ -114,7 +114,9 @@ import "photoswipe/style.css";
 					className: "pswp__bullets-indicator",
 					order: 5,
 					onInit: (el, pswpInstance) => {
-						if (pswpInstance.getNumItems() <= 1) {return;}
+						if (pswpInstance.getNumItems() <= 1) {
+							return;
+						}
 
 						const bullets = document.createElement("div");
 						bullets.className = "pswp__bullets";
@@ -152,8 +154,12 @@ import "photoswipe/style.css";
 		function setupSingleImage(selector: string) {
 			document.querySelectorAll(selector).forEach((container) => {
 				container.querySelectorAll("img").forEach((img) => {
-					if (img.closest(".pswp")) {return;}
-					if ((img as any)._pswpInitialized) {return;}
+					if (img.closest(".pswp")) {
+						return;
+					}
+					if ((img as any)._pswpInitialized) {
+						return;
+					}
 					(img as any)._pswpInitialized = true;
 
 					img.style.cursor = "pointer";
@@ -174,11 +180,17 @@ import "photoswipe/style.css";
 				const imageContainer = card.querySelector(
 					imageContainerSelector,
 				);
-				if (!imageContainer) {return;}
+				if (!imageContainer) {
+					return;
+				}
 
 				imageContainer.querySelectorAll("img").forEach((img) => {
-					if (img.closest(".pswp")) {return;}
-					if ((img as any)._pswpInitialized) {return;}
+					if (img.closest(".pswp")) {
+						return;
+					}
+					if ((img as any)._pswpInitialized) {
+						return;
+					}
 					(img as any)._pswpInitialized = true;
 
 					img.style.cursor = "pointer";
@@ -197,8 +209,12 @@ import "photoswipe/style.css";
 		function setupPostContent() {
 			document.querySelectorAll(".post-content").forEach((container) => {
 				container.querySelectorAll("img").forEach((img) => {
-					if (img.closest(".pswp")) {return;}
-					if ((img as any)._pswpInitialized) {return;}
+					if (img.closest(".pswp")) {
+						return;
+					}
+					if ((img as any)._pswpInitialized) {
+						return;
+					}
 					(img as any)._pswpInitialized = true;
 
 					img.style.cursor = "pointer";

@@ -15,7 +15,9 @@ const posts = allPosts.sort(
 const groupedPosts = posts.reduce(
 	(acc, post) => {
 		const year = post.data.pubDate.getFullYear();
-		if (!acc[year]) {acc[year] = [];}
+		if (!acc[year]) {
+			acc[year] = [];
+		}
 		acc[year].push(post);
 		return acc;
 	},

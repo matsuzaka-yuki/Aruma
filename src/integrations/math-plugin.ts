@@ -23,7 +23,9 @@ export function mathPlugin(): AstroIntegration {
 										if (node.children) {
 											for (const child of node.children) {
 												visit(child);
-												if (hasMath) {return;}
+												if (hasMath) {
+													return;
+												}
 											}
 										}
 									}

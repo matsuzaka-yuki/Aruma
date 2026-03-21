@@ -8,7 +8,9 @@
 		const darkModeIcon = document.getElementById("dark-mode-icon");
 		const html = document.documentElement;
 
-		if (!darkModeBtn || !darkModeIcon) {return;}
+		if (!darkModeBtn || !darkModeIcon) {
+			return;
+		}
 
 		const toggleTheme = () => {
 			if (html.classList.contains("mdui-theme-layout-dark")) {

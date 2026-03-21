@@ -122,8 +122,9 @@ if (
 
 					preBlocks.forEach((pre) => {
 						// 避免重复初始化
-						if (pre.querySelector(".post-content-code-copy"))
-							{return;}
+						if (pre.querySelector(".post-content-code-copy")) {
+							return;
+						}
 
 						// 创建复制按钮
 						const copyBtn = document.createElement("div");
@@ -151,8 +152,9 @@ if (
 								if (icon) {
 									icon.innerText = "check";
 									setTimeout(() => {
-										if (icon)
-											{icon.innerText = "content_copy";}
+										if (icon) {
+											icon.innerText = "content_copy";
+										}
 									}, 2000);
 								}
 
