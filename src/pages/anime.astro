@@ -144,7 +144,10 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			/>
 
 			<!-- 番剧列表 -->
-			<div id="anime-list-container" class="anime-list-container">
+			<div
+				id="anime-container"
+				class="anime-container anime-mode"
+			>
 				{
 					allAnime.length === 0 ? (
 						<div class="anime-empty">
@@ -217,7 +220,7 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		flex: 1;
 	}
 
-	.anime-list-container {
+	.anime-container {
 		display: grid;
 		grid-template-columns: 1fr;
 		gap: 1.25rem;
@@ -225,7 +228,7 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 	}
 
 	@media (min-width: 1024px) {
-		.anime-list-container {
+		.anime-container {
 			grid-template-columns: repeat(2, 1fr);
 		}
 	}
@@ -339,6 +342,44 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			transition-duration: 0.15s;
 		}
 	}
+
+	.anime-container.anime-mode {
+		grid-template-columns: 1fr;
+	}
+
+	@media (min-width: 1280px) {
+		.anime-container.anime-mode {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	.anime-container.anime-mode .anime-card {
+		display: flex;
+		flex-direction: row;
+		min-height: 12rem;
+	}
+
+	.anime-container.anime-mode .anime-cover {
+		width: 8.5rem;
+		aspect-ratio: 2/3;
+		flex-shrink: 0;
+	}
+
+	@media (min-width: 768px) {
+		.anime-container.anime-mode .anime-cover {
+			width: 11rem;
+		}
+	}
+
+	.anime-container.anime-mode .anime-content {
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		padding: 0.75rem 1rem;
+		min-width: 0;
+		min-height: 160px;
+	}
 </style>
 
 <script>
@@ -356,7 +397,6 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		) as HTMLButtonElement | null;
 		const currentPageSpan = document.getElementById("current-page");
 		const totalPagesSpan = document.getElementById("total-pages");
-
 		const pageSize = parseInt(animePage?.dataset.pageSize || "0");
 		let currentPage = 1;
 
