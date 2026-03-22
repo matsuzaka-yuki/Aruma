@@ -1,9 +1,9 @@
 ---
 import SkillCard from "../components/cards/SkillCard.astro";
 import FilterModule from "../components/FilterModule.astro";
+import FlipAnimationModule from "../components/FlipAnimationModule.astro";
 import Sidebar from "../components/Sidebar.astro";
 import Pagination from "../components/ui/Pagination.astro";
-// 导入技能数据
 import skillsData from "../data/skills.json";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
@@ -13,7 +13,6 @@ import type { SkillItem } from "../types/skill";
 
 const allSkills = skillsData as SkillItem[];
 
-// 过滤选项配置
 const skillFilters = [
 	{ value: "all", label: i18n(I18nKey.all) },
 	{ value: "frontend", label: i18n(I18nKey.skillsFrontend) },
@@ -33,7 +32,6 @@ const skillFilters = [
 		</div>
 
 		<main class="skills-page">
-			<!-- 过滤和搜索 -->
 			<FilterModule
 				filters={skillFilters}
 				searchPlaceholder={i18n(I18nKey.searchPlaceholder)}
@@ -41,9 +39,9 @@ const skillFilters = [
 				cardSelector=".skill-card"
 				searchableFields={[".skill-name", ".skill-description"]}
 				filterAttribute="data-category"
+				customLogic={true}
 			/>
 
-			<!-- 技能列表 -->
 			<div id="skills-list-container" class="skills-list-container">
 				{
 					allSkills.length === 0 ? (
@@ -69,7 +67,6 @@ const skillFilters = [
 				}
 			</div>
 
-			<!-- 分页控件 -->
 			{
 				siteConfig.skillsSource?.pageSize &&
 					allSkills.length > siteConfig.skillsSource.pageSize && (
@@ -78,10 +75,18 @@ const skillFilters = [
 							pageSize={siteConfig.skillsSource.pageSize}
 							totalItems={allSkills.length}
 							itemSelector=".skill-card"
-							hiddenClass="skill-hidden"
+							hiddenClass="flip-hidden"
+							customLogic={true}
 						/>
 					)
 			}
+			<FlipAnimationModule
+				cardSelector=".skill-card"
+				listContainerId="skills-list-container"
+				paginationId="skills-pagination"
+				hiddenClass="flip-hidden"
+				pageSize={siteConfig.skillsSource?.pageSize || 0}
+			/>
 		</main>
 	</div>
 
@@ -132,7 +137,66 @@ const skillFilters = [
 		margin: 0;
 	}
 
-	.skill-hidden {
-		display: none !important;
+	:global(.mdui-theme-layout-dark) .filter-buttons button {
+		color: rgba(255, 255, 255, 0.9);
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	:global(.mdui-theme-layout-dark) .search-input {
+		background: var(--archive-card-bg);
+		color: rgba(255, 255, 255, 0.9);
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	:global(.mdui-theme-layout-dark) .search-input::placeholder {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-toggle {
+		background: var(--archive-card-bg);
+		color: rgba(255, 255, 255, 0.9);
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-popup {
+		background: var(--archive-card-bg);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-option {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	:global(.mdui-theme-layout-dark) .filter-option:hover {
+		background: rgba(255, 255, 255, 0.1);
+	}
+
+	@media (max-width: 900px) {
+		.filter-buttons {
+			display: none;
+		}
+
+		.filter-toggle-wrapper {
+			display: block;
+		}
+
+		.search-wrapper {
+			flex: 1;
+			min-width: 0;
+		}
+
+		.search-input {
+			width: 100%;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.search-wrapper {
+			width: 100%;
+		}
+
+		.search-input {
+			flex: 1;
+			min-width: 0;
+		}
 	}
 </style>
