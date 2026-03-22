@@ -133,8 +133,6 @@ export default defineConfig([
 			parserOptions: {
 				parser: tsParser,
 				extraFileExtensions: [".astro", ".svelte"],
-				project: "./tsconfig.json",
-				tsconfigRootDir: process.cwd(),
 			},
 			globals: browserGlobals,
 		},

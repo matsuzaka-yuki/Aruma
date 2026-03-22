@@ -240,6 +240,11 @@ export const siteConfig: SiteConfig = {
 			cacheTime: 86400, // 缓存时间（秒）
 		},
 	},
+
+	// 技能页面配置
+	skillsSource: {
+		pageSize: 10, // 每页显示数量，超过此数量开始分页，设为 0 禁用分页
+	},
 };
 
 export const footerConfig = {

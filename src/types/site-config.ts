@@ -144,6 +144,7 @@ export type SiteConfig = {
 	notice?: NoticeConfig;
 	sidebar?: SidebarConfig;
 	animeSource?: AnimeSourceConfig;
+	skillsSource?: SkillsSourceConfig;
 	profileCard?: ProfileCardConfig;
 	drawerProfile?: DrawerProfileConfig;
 	footerSocial?: FooterSocialConfig;
@@ -178,4 +179,9 @@ export type BangumiAnimeConfig = {
 
 export type LocalAnimeConfig = {
 	dataPath: string; // 本地 JSON 文件路径（默认 "src/data/anime.json"）
+};
+
+// 技能数据源配置
+export type SkillsSourceConfig = {
+	pageSize?: number; // 每页显示数量，超过此数量开始分页，设为 0 禁用分页
 };

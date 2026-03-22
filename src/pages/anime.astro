@@ -5,6 +5,7 @@ import { join } from "path";
 import AnimeCard from "../components/cards/AnimeCard.astro";
 import FilterModule from "../components/FilterModule.astro";
 import Sidebar from "../components/Sidebar.astro";
+import Pagination from "../components/ui/Pagination.astro";
 import localAnimeData from "../data/anime.json";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
@@ -129,10 +130,7 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			</div>
 		</div>
 
-		<main
-			class="anime-page"
-			data-page-size={siteConfig.animeSource?.pageSize || 0}
-		>
+		<main class="anime-page">
 			<!-- 过滤和搜索 -->
 			<FilterModule
 				filters={animeFilters}
@@ -144,10 +142,7 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			/>
 
 			<!-- 番剧列表 -->
-			<div
-				id="anime-container"
-				class="anime-container anime-mode"
-			>
+			<div id="anime-container" class="anime-container anime-mode">
 				{
 					allAnime.length === 0 ? (
 						<div class="anime-empty">
@@ -179,27 +174,13 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 			{
 				siteConfig.animeSource?.pageSize &&
 					allAnime.length > siteConfig.animeSource.pageSize && (
-						<div class="anime-pagination" id="anime-pagination">
-							<button
-								class="pagination-btn prev-page"
-								id="prev-page"
-								disabled
-							>
-								<mdui-icon name="chevron_left" />
-								<span>{i18n(I18nKey.prevPage)}</span>
-							</button>
-							<div class="pagination-info">
-								<span id="current-page">1</span> /{" "}
-								<span id="total-pages">1</span>
-							</div>
-							<button
-								class="pagination-btn next-page"
-								id="next-page"
-							>
-								<span>{i18n(I18nKey.nextPage)}</span>
-								<mdui-icon name="chevron_right" />
-							</button>
-						</div>
+						<Pagination
+							id="anime-pagination"
+							pageSize={siteConfig.animeSource.pageSize}
+							totalItems={allAnime.length}
+							itemSelector=".anime-card"
+							hiddenClass="anime-hidden"
+						/>
 					)
 			}
 		</main>
@@ -288,55 +269,6 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		margin: 0;
 	}
 
-	.anime-pagination {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 1.5rem;
-		margin-top: 2rem;
-		margin-bottom: 2rem;
-	}
-
-	.pagination-btn {
-		display: flex;
-		align-items: center;
-		gap: 0.25rem;
-		padding: 0.5rem 1rem;
-		border: 1px solid var(--mdui-color-outline, #e0e0e0);
-		border-radius: 8px;
-		background: var(--archive-card-bg);
-		color: var(--mdui-color-on-surface, #212121);
-		cursor: pointer;
-		transition: all 0.2s;
-		font-weight: 500;
-	}
-
-	.pagination-btn:hover:not(:disabled) {
-		background: var(--mdui-color-surface-container, #f5f5f5);
-		border-color: var(--color, #ff4081);
-		color: var(--color, #ff4081);
-	}
-
-	.pagination-btn:disabled {
-		opacity: 0.5;
-		cursor: not-allowed;
-	}
-
-	.pagination-info {
-		font-weight: 600;
-		color: var(--mdui-color-on-surface, #212121);
-	}
-
-	:global(.mdui-theme-layout-dark) .pagination-btn {
-		background: var(--archive-card-bg);
-		color: rgba(255, 255, 255, 0.9);
-		border-color: rgba(255, 255, 255, 0.3);
-	}
-
-	:global(.mdui-theme-layout-dark) .pagination-info {
-		color: rgba(255, 255, 255, 0.9);
-	}
-
 	@media (prefers-reduced-motion: reduce) {
 		.anime-card {
 			transition-duration: 0.15s;
@@ -381,118 +313,3 @@ const allAnime = mergeAnimeData(localAnimeData, externalData);
 		min-height: 160px;
 	}
 </style>
-
-<script>
-	// 客户端交互逻辑 - 与 FilterModule 配合使用
-	document.addEventListener("astro:page-load", () => {
-		const animePage = document.querySelector(
-			".anime-page",
-		) as HTMLElement | null;
-		const paginationContainer = document.getElementById("anime-pagination");
-		const prevPageBtn = document.getElementById(
-			"prev-page",
-		) as HTMLButtonElement | null;
-		const nextPageBtn = document.getElementById(
-			"next-page",
-		) as HTMLButtonElement | null;
-		const currentPageSpan = document.getElementById("current-page");
-		const totalPagesSpan = document.getElementById("total-pages");
-		const pageSize = parseInt(animePage?.dataset.pageSize || "0");
-		let currentPage = 1;
-
-		// 初始分页
-		if (pageSize > 0) {
-			applyPagination();
-		}
-
-		// 监听 FilterModule 的过滤变化事件
-		window.addEventListener("filter-changed", () => {
-			currentPage = 1; // 重置页码
-			applyPagination();
-		});
-
-		// 分页按钮点击事件
-		prevPageBtn?.addEventListener("click", () => {
-			if (currentPage > 1) {
-				currentPage--;
-				applyPagination();
-			}
-		});
-
-		nextPageBtn?.addEventListener("click", () => {
-			const totalPages = parseInt(totalPagesSpan?.textContent || "1");
-			if (currentPage < totalPages) {
-				currentPage++;
-				applyPagination();
-			}
-		});
-
-		function applyPagination() {
-			// 获取所有动漫卡片
-			const allCards = document.querySelectorAll(".anime-card");
-			// 获取当前可见的卡片（没有被 FilterModule 隐藏的）
-			const visibleCards = Array.from(allCards).filter(
-				(card) => !card.classList.contains("item-hidden"),
-			);
-
-			const totalItems = visibleCards.length;
-			const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
-
-			if (currentPage > totalPages) {
-				currentPage = totalPages;
-			}
-			if (currentPage < 1) {
-				currentPage = 1;
-			}
-
-			// 更新分页 UI
-			if (paginationContainer) {
-				if (pageSize > 0 && totalItems > pageSize) {
-					paginationContainer.style.display = "flex";
-					if (currentPageSpan) {
-						currentPageSpan.textContent = currentPage.toString();
-					}
-					if (totalPagesSpan) {
-						totalPagesSpan.textContent = totalPages.toString();
-					}
-					if (prevPageBtn) {
-						prevPageBtn.disabled = currentPage === 1;
-					}
-					if (nextPageBtn) {
-						nextPageBtn.disabled = currentPage === totalPages;
-					}
-				} else {
-					paginationContainer.style.display = "none";
-				}
-			}
-
-			// 计算当前页的卡片范围
-			const startIndex = (currentPage - 1) * pageSize;
-			const endIndex = startIndex + pageSize;
-
-			// 显示/隐藏卡片
-			visibleCards.forEach((card, index) => {
-				const cardElement = card as HTMLElement;
-				if (pageSize > 0) {
-					// 分页模式
-					if (index >= startIndex && index < endIndex) {
-						cardElement.style.display = "";
-						cardElement.classList.remove("anime-hidden");
-					} else {
-						cardElement.style.display = "none";
-						cardElement.classList.add("anime-hidden");
-					}
-				} else {
-					// 非分页模式 - 保持 FilterModule 的显示状态
-					if (cardElement.classList.contains("item-hidden")) {
-						cardElement.style.display = "none";
-						cardElement.classList.add("anime-hidden");
-					} else {
-						cardElement.style.display = "";
-						cardElement.classList.remove("anime-hidden");
-					}
-				}
-			});
-		}
-	});
-</script>

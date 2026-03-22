@@ -1,0 +1,239 @@
+---
+import I18nKey from "../../i18n/i18nKey";
+import { i18n } from "../../i18n/translation";
+
+export interface Props {
+	id?: string;
+	pageSize: number;
+	totalItems: number;
+	initialPage?: number;
+	itemSelector?: string;
+	hiddenClass?: string;
+	class?: string;
+}
+
+const {
+	id = "pagination",
+	pageSize,
+	totalItems,
+	initialPage = 1,
+	itemSelector = ".anime-card",
+	hiddenClass = "anime-hidden",
+	class: className = "",
+} = Astro.props;
+
+const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
+const safeInitialPage = Math.min(Math.max(1, initialPage), totalPages);
+
+// Generate unique IDs for this instance
+const prevBtnId = `${id}-prev`;
+const nextBtnId = `${id}-next`;
+const currentPageId = `${id}-current`;
+const totalPagesId = `${id}-total`;
+const containerId = `${id}-container`;
+---
+
+<div
+	class:list={["pagination", className]}
+	id={containerId}
+	data-page-size={pageSize}
+	data-item-selector={itemSelector}
+	data-hidden-class={hiddenClass}
+>
+	<button class="pagination-btn prev-page" id={prevBtnId} disabled>
+		<mdui-icon name="chevron_left"></mdui-icon>
+		<span>{i18n(I18nKey.prevPage)}</span>
+	</button>
+	<div class="pagination-info">
+		<span id={currentPageId}>{safeInitialPage}</span> /{" "}
+		<span id={totalPagesId}>{totalPages}</span>
+	</div>
+	<button class="pagination-btn next-page" id={nextBtnId}>
+		<span>{i18n(I18nKey.nextPage)}</span>
+		<mdui-icon name="chevron_right"></mdui-icon>
+	</button>
+</div>
+
+<script
+	is:inline
+	define:vars={{
+		id,
+		containerId,
+		prevBtnId,
+		nextBtnId,
+		currentPageId,
+		totalPagesId,
+		itemSelector,
+		hiddenClass,
+		safeInitialPage,
+	}}
+>
+	function initPagination() {
+		const paginationContainer = document.getElementById(containerId);
+		const prevBtn = document.getElementById(prevBtnId);
+		const nextBtn = document.getElementById(nextBtnId);
+		const currentPageSpan = document.getElementById(currentPageId);
+		const totalPagesSpan = document.getElementById(totalPagesId);
+
+		if (!paginationContainer) {
+			return;
+		}
+
+		const pageSize = parseInt(paginationContainer.dataset.pageSize || "0");
+		let currentPage = safeInitialPage;
+
+		// Apply pagination to items
+		function applyPagination() {
+			const allItems = document.querySelectorAll(itemSelector);
+			// Get visible items (not hidden by filter)
+			const visibleItems = Array.from(allItems).filter(
+				(item) => !item.classList.contains("item-hidden"),
+			);
+
+			const totalItemsCount = visibleItems.length;
+			const totalPages = Math.max(
+				1,
+				Math.ceil(totalItemsCount / pageSize),
+			);
+
+			// Clamp current page
+			if (currentPage > totalPages) {
+				currentPage = totalPages;
+			}
+			if (currentPage < 1) {
+				currentPage = 1;
+			}
+
+			// Update UI
+			if (currentPageSpan) {
+				currentPageSpan.textContent = currentPage.toString();
+			}
+			if (totalPagesSpan) {
+				totalPagesSpan.textContent = totalPages.toString();
+			}
+			if (prevBtn) {
+				prevBtn.disabled = currentPage === 1;
+			}
+			if (nextBtn) {
+				nextBtn.disabled = currentPage === totalPages;
+			}
+
+			// Calculate page range
+			const startIndex = (currentPage - 1) * pageSize;
+			const endIndex = startIndex + pageSize;
+
+			// Show/hide items
+			visibleItems.forEach((item, index) => {
+				const element = item;
+				if (pageSize > 0) {
+					if (index >= startIndex && index < endIndex) {
+						element.style.display = "";
+						element.classList.remove(hiddenClass);
+					} else {
+						element.style.display = "none";
+						element.classList.add(hiddenClass);
+					}
+				} else {
+					// No pagination - respect filter visibility only
+					if (element.classList.contains("item-hidden")) {
+						element.style.display = "none";
+						element.classList.add(hiddenClass);
+					} else {
+						element.style.display = "";
+						element.classList.remove(hiddenClass);
+					}
+				}
+			});
+
+			// Dispatch event for external listeners
+			window.dispatchEvent(
+				new CustomEvent("pagination-changed", {
+					detail: {
+						currentPage,
+						totalPages,
+						totalItems: totalItemsCount,
+						pageSize,
+					},
+				}),
+			);
+		}
+
+		// Button click handlers
+		prevBtn?.addEventListener("click", () => {
+			if (currentPage > 1) {
+				currentPage--;
+				applyPagination();
+			}
+		});
+
+		nextBtn?.addEventListener("click", () => {
+			const totalPages = parseInt(totalPagesSpan?.textContent || "1");
+			if (currentPage < totalPages) {
+				currentPage++;
+				applyPagination();
+			}
+		});
+
+		// Listen for filter changes
+		window.addEventListener("filter-changed", () => {
+			currentPage = 1;
+			applyPagination();
+		});
+
+		// Initial apply
+		applyPagination();
+	}
+
+	document.addEventListener("astro:page-load", initPagination);
+</script>
+
+<style>
+	.pagination {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		gap: 1.5rem;
+		margin-top: 2rem;
+		margin-bottom: 2rem;
+	}
+
+	.pagination-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--mdui-color-outline, #e0e0e0);
+		border-radius: 8px;
+		background: var(--archive-card-bg);
+		color: var(--mdui-color-on-surface, #212121);
+		cursor: pointer;
+		transition: all 0.2s;
+		font-weight: 500;
+	}
+
+	.pagination-btn:hover:not(:disabled) {
+		background: var(--mdui-color-surface-container, #f5f5f5);
+		border-color: var(--color, #ff4081);
+		color: var(--color, #ff4081);
+	}
+
+	.pagination-btn:disabled {
+		opacity: 0.5;
+		cursor: not-allowed;
+	}
+
+	.pagination-info {
+		font-weight: 600;
+		color: var(--mdui-color-on-surface, #212121);
+	}
+
+	:global(.mdui-theme-layout-dark) .pagination-btn {
+		background: var(--archive-card-bg);
+		color: rgba(255, 255, 255, 0.9);
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	:global(.mdui-theme-layout-dark) .pagination-info {
+		color: rgba(255, 255, 255, 0.9);
+	}
+</style>

@@ -2,11 +2,13 @@
 import SkillCard from "../components/cards/SkillCard.astro";
 import FilterModule from "../components/FilterModule.astro";
 import Sidebar from "../components/Sidebar.astro";
+import Pagination from "../components/ui/Pagination.astro";
 // 导入技能数据
 import skillsData from "../data/skills.json";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import Layout from "../layouts/Layout.astro";
+import { siteConfig } from "../site.config";
 import type { SkillItem } from "../types/skill";
 
 const allSkills = skillsData as SkillItem[];
@@ -66,6 +68,20 @@ const skillFilters = [
 					)
 				}
 			</div>
+
+			<!-- 分页控件 -->
+			{
+				siteConfig.skillsSource?.pageSize &&
+					allSkills.length > siteConfig.skillsSource.pageSize && (
+						<Pagination
+							id="skills-pagination"
+							pageSize={siteConfig.skillsSource.pageSize}
+							totalItems={allSkills.length}
+							itemSelector=".skill-card"
+							hiddenClass="skill-hidden"
+						/>
+					)
+			}
 		</main>
 	</div>
 
@@ -114,5 +130,9 @@ const skillFilters = [
 		font-weight: 500;
 		color: var(--mdui-color-on-surface-variant, #9e9e9e);
 		margin: 0;
+	}
+
+	.skill-hidden {
+		display: none !important;
 	}
 </style>

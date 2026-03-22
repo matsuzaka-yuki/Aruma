@@ -2,100 +2,441 @@
 	{
 		"name": "JavaScript",
 		"icon": "logos:javascript",
-		"level": "expert",
-		"description": "熟悉 ES6+ 语法，异步编程，以及现代前端开发流程。",
+		"level": "advanced",
+		"description": "Modern JavaScript development, including ES6+ syntax, asynchronous programming, and modular development.",
 		"category": "frontend",
-		"experience": {
-			"years": 3,
-			"months": 6
-		}
+		"experience": { "years": 3, "months": 6 }
 	},
 	{
 		"name": "TypeScript",
 		"icon": "logos:typescript-icon",
 		"level": "advanced",
-		"description": "强类型 JavaScript 超集，提升代码质量和可维护性。",
+		"description": "A type-safe superset of JavaScript that enhances code quality and development efficiency.",
 		"category": "frontend",
-		"experience": {
-			"years": 2,
-			"months": 8
-		}
+		"experience": { "years": 2, "months": 8 }
 	},
 	{
 		"name": "React",
 		"icon": "logos:react",
 		"level": "advanced",
-		"description": "用于构建用户界面的 JavaScript 库，熟悉 Hooks 和状态管理。",
+		"description": "A JavaScript library for building user interfaces, including Hooks, Context, and state management.",
 		"category": "frontend",
-		"experience": {
-			"years": 2,
-			"months": 10
-		}
+		"experience": { "years": 2, "months": 10 }
 	},
 	{
 		"name": "Vue.js",
 		"icon": "logos:vue",
 		"level": "intermediate",
-		"description": "渐进式 JavaScript 框架，易于上手，适合快速开发。",
+		"description": "A progressive JavaScript framework that is easy to learn and use, suitable for rapid development.",
 		"category": "frontend",
-		"experience": {
-			"years": 1,
-			"months": 8
-		}
+		"experience": { "years": 1, "months": 8 }
+	},
+	{
+		"name": "Angular",
+		"icon": "logos:angular-icon",
+		"level": "beginner",
+		"description": "An enterprise-level frontend framework developed by Google, a complete single-page application solution.",
+		"category": "frontend",
+		"experience": { "years": 0, "months": 9 }
+	},
+	{
+		"name": "Next.js",
+		"icon": "logos:nextjs-icon",
+		"level": "intermediate",
+		"description": "A production-level React framework supporting SSR, SSG, and full-stack development.",
+		"category": "frontend",
+		"experience": { "years": 1, "months": 4 }
+	},
+	{
+		"name": "Nuxt.js",
+		"icon": "logos:nuxt-icon",
+		"level": "beginner",
+		"description": "An intuitive Vue.js framework supporting server-side rendering and static site generation.",
+		"category": "frontend",
+		"experience": { "years": 0, "months": 6 }
+	},
+	{
+		"name": "Astro",
+		"icon": "logos:astro-icon",
+		"level": "advanced",
+		"description": "A modern static site generator supporting multi-framework integration and excellent performance.",
+		"category": "frontend",
+		"experience": { "years": 1, "months": 2 }
+	},
+	{
+		"name": "Tailwind CSS",
+		"icon": "logos:tailwindcss-icon",
+		"level": "advanced",
+		"description": "A utility-first CSS framework for rapidly building modern user interfaces.",
+		"category": "frontend",
+		"experience": { "years": 2, "months": 0 }
+	},
+	{
+		"name": "Sass/SCSS",
+		"icon": "logos:sass",
+		"level": "intermediate",
+		"description": "A CSS preprocessor providing advanced features like variables, nesting, and mixins.",
+		"category": "frontend",
+		"experience": { "years": 2, "months": 3 }
+	},
+	{
+		"name": "Webpack",
+		"icon": "logos:webpack",
+		"level": "intermediate",
+		"description": "A static module bundler for modern JavaScript applications.",
+		"category": "frontend",
+		"experience": { "years": 1, "months": 10 }
+	},
+	{
+		"name": "Vite",
+		"icon": "logos:vitejs",
+		"level": "intermediate",
+		"description": "Next-generation frontend build tool with fast cold starts and hot updates.",
+		"category": "frontend",
+		"experience": { "years": 1, "months": 2 }
 	},
 	{
 		"name": "Node.js",
 		"icon": "logos:nodejs-icon",
 		"level": "intermediate",
-		"description": "基于 Chrome V8 引擎的 JavaScript 运行时，用于构建高性能后端服务。",
+		"description": "A JavaScript runtime based on Chrome V8 engine, used for server-side development.",
 		"category": "backend",
-		"experience": {
-			"years": 2,
-			"months": 3
-		}
+		"experience": { "years": 2, "months": 3 }
 	},
 	{
 		"name": "Python",
 		"icon": "logos:python",
 		"level": "intermediate",
-		"description": "简洁强大的编程语言，常用于自动化脚本和后端开发。",
+		"description": "A general-purpose programming language suitable for web development, data analysis, machine learning, and more.",
 		"category": "backend",
-		"experience": {
-			"years": 1,
-			"months": 10
-		}
+		"experience": { "years": 1, "months": 10 }
+	},
+	{
+		"name": "Java",
+		"icon": "logos:java",
+		"level": "intermediate",
+		"description": "A mainstream programming language for enterprise application development, cross-platform and object-oriented.",
+		"category": "backend",
+		"experience": { "years": 2, "months": 0 }
+	},
+	{
+		"name": "C#",
+		"icon": "devicon:csharp",
+		"level": "intermediate",
+		"description": "A modern object-oriented programming language developed by Microsoft, suitable for the .NET ecosystem.",
+		"category": "backend",
+		"experience": { "years": 1, "months": 6 }
+	},
+	{
+		"name": "Go",
+		"icon": "logos:go",
+		"level": "beginner",
+		"description": "An efficient programming language developed by Google, suitable for cloud-native and microservices development.",
+		"category": "backend",
+		"experience": { "years": 0, "months": 8 }
+	},
+	{
+		"name": "Rust",
+		"icon": "logos:rust",
+		"level": "beginner",
+		"description": "A systems programming language focusing on safety, speed, and concurrency, with no garbage collector.",
+		"category": "backend",
+		"experience": { "years": 0, "months": 6 }
+	},
+	{
+		"name": "C++",
+		"icon": "logos:c-plusplus",
+		"level": "intermediate",
+		"description": "A high-performance systems programming language widely used in game development, system software, and embedded development.",
+		"category": "backend",
+		"experience": { "years": 1, "months": 4 }
+	},
+	{
+		"name": "C",
+		"icon": "logos:c",
+		"level": "intermediate",
+		"description": "A low-level systems programming language, the foundation for operating systems and embedded systems development.",
+		"category": "backend",
+		"experience": { "years": 1, "months": 2 }
+	},
+	{
+		"name": "Kotlin",
+		"icon": "logos:kotlin-icon",
+		"level": "beginner",
+		"description": "A modern programming language developed by JetBrains, fully compatible with Java, the preferred choice for Android development.",
+		"category": "backend",
+		"experience": { "years": 0, "months": 8 }
+	},
+	{
+		"name": "Swift",
+		"icon": "logos:swift",
+		"level": "beginner",
+		"description": "A modern programming language developed by Apple for iOS, macOS, watchOS, and tvOS development.",
+		"category": "backend",
+		"experience": { "years": 0, "months": 6 }
+	},
+	{
+		"name": "Ruby",
+		"icon": "logos:ruby",
+		"level": "beginner",
+		"description": "A dynamic, open-source programming language focusing on simplicity and productivity, the foundation of the Rails framework.",
+		"category": "backend",
+		"experience": { "years": 0, "months": 4 }
+	},
+	{
+		"name": "PHP",
+		"icon": "logos:php",
+		"level": "intermediate",
+		"description": "A widely-used server-side scripting language, particularly suitable for web development.",
+		"category": "backend",
+		"experience": { "years": 1, "months": 6 }
+	},
+	{
+		"name": "Express.js",
+		"icon": "simple-icons:express",
+		"level": "intermediate",
+		"description": "A fast, minimalist Node.js web application framework.",
+		"category": "backend",
+		"experience": { "years": 1, "months": 8 }
+	},
+	{
+		"name": "Spring Boot",
+		"icon": "logos:spring-icon",
+		"level": "intermediate",
+		"description": "The most popular enterprise application development framework in the Java ecosystem.",
+		"category": "backend",
+		"experience": { "years": 1, "months": 4 }
+	},
+	{
+		"name": "Django",
+		"icon": "logos:django-icon",
+		"level": "beginner",
+		"description": "A high-level Python web framework with rapid development and clean, pragmatic design.",
+		"category": "backend",
+		"experience": { "years": 0, "months": 6 }
+	},
+	{
+		"name": "MySQL",
+		"icon": "logos:mysql-icon",
+		"level": "advanced",
+		"description": "The world's most popular open-source relational database management system, widely used in web applications.",
+		"category": "database",
+		"experience": { "years": 2, "months": 6 }
 	},
 	{
 		"name": "PostgreSQL",
 		"icon": "logos:postgresql",
-		"level": "beginner",
-		"description": "功能强大的开源关系型数据库。",
+		"level": "intermediate",
+		"description": "A powerful open-source relational database management system.",
 		"category": "database",
-		"experience": {
-			"years": 1,
-			"months": 5
-		}
+		"experience": { "years": 1, "months": 5 }
+	},
+	{
+		"name": "Redis",
+		"icon": "logos:redis",
+		"level": "intermediate",
+		"description": "A high-performance in-memory data structure store, used as a database, cache, and message broker.",
+		"category": "database",
+		"experience": { "years": 1, "months": 3 }
+	},
+	{
+		"name": "MongoDB",
+		"icon": "logos:mongodb-icon",
+		"level": "intermediate",
+		"description": "A document-oriented NoSQL database with a flexible data model.",
+		"category": "database",
+		"experience": { "years": 1, "months": 2 }
+	},
+	{
+		"name": "SQLite",
+		"icon": "simple-icons:sqlite",
+		"level": "intermediate",
+		"description": "A lightweight embedded relational database, suitable for mobile applications and small projects.",
+		"category": "database",
+		"experience": { "years": 1, "months": 8 }
+	},
+	{
+		"name": "Firebase",
+		"icon": "simple-icons:firebase",
+		"level": "intermediate",
+		"description": "Google's mobile and web application development platform providing real-time database and authentication services.",
+		"category": "database",
+		"experience": { "years": 0, "months": 10 }
 	},
 	{
 		"name": "Git",
 		"icon": "logos:git-icon",
 		"level": "advanced",
-		"description": "分布式版本控制系统，日常开发必备。",
+		"description": "A distributed version control system, an essential tool for code management and team collaboration.",
 		"category": "tools",
-		"experience": {
-			"years": 3,
-			"months": 0
-		}
+		"experience": { "years": 3, "months": 0 }
+	},
+	{
+		"name": "VS Code",
+		"icon": "logos:visual-studio-code",
+		"level": "expert",
+		"description": "A lightweight but powerful code editor with a rich plugin ecosystem.",
+		"category": "tools",
+		"experience": { "years": 3, "months": 6 }
+	},
+	{
+		"name": "WebStorm",
+		"icon": "logos:webstorm",
+		"level": "advanced",
+		"description": "A professional JavaScript and web development IDE developed by JetBrains with intelligent code assistance.",
+		"category": "tools",
+		"experience": { "years": 2, "months": 0 }
+	},
+	{
+		"name": "IntelliJ IDEA",
+		"icon": "logos:intellij-idea",
+		"level": "intermediate",
+		"description": "JetBrains flagship IDE, the preferred tool for Java development with powerful intelligent coding assistance.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 8 }
+	},
+	{
+		"name": "PyCharm",
+		"icon": "logos:pycharm",
+		"level": "intermediate",
+		"description": "A professional Python IDE by JetBrains providing intelligent code analysis and debugging features.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 4 }
+	},
+	{
+		"name": "Rider",
+		"icon": "logos:rider",
+		"level": "beginner",
+		"description": "A cross-platform .NET IDE by JetBrains supporting development in C#, VB.NET, F#, and other languages.",
+		"category": "tools",
+		"experience": { "years": 0, "months": 8 }
+	},
+	{
+		"name": "GoLand",
+		"icon": "logos:goland",
+		"level": "beginner",
+		"description": "A professional Go language IDE by JetBrains providing intelligent coding assistance and debugging tools.",
+		"category": "tools",
+		"experience": { "years": 0, "months": 6 }
 	},
 	{
 		"name": "Docker",
 		"icon": "logos:docker-icon",
-		"level": "beginner",
-		"description": "开源的应用容器引擎，让应用部署更简单。",
+		"level": "intermediate",
+		"description": "A containerization platform that simplifies application deployment and environment management.",
 		"category": "tools",
-		"experience": {
-			"years": 1,
-			"months": 0
-		}
+		"experience": { "years": 1, "months": 0 }
+	},
+	{
+		"name": "Kubernetes",
+		"icon": "logos:kubernetes",
+		"level": "beginner",
+		"description": "A container orchestration platform for automating deployment, scaling, and management of containerized applications.",
+		"category": "tools",
+		"experience": { "years": 0, "months": 4 }
+	},
+	{
+		"name": "Nginx",
+		"icon": "logos:nginx",
+		"level": "intermediate",
+		"description": "A high-performance web server and reverse proxy server.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 2 }
+	},
+	{
+		"name": "Apache HTTP Server",
+		"icon": "logos:apache",
+		"level": "intermediate",
+		"description": "The world's most popular web server software, a stable and reliable HTTP server.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 6 }
+	},
+	{
+		"name": "OpenResty",
+		"icon": "simple-icons:nginx",
+		"level": "beginner",
+		"description": "A high-performance web platform based on Nginx and LuaJIT, supporting dynamic web application development.",
+		"category": "tools",
+		"experience": { "years": 0, "months": 8 }
+	},
+	{
+		"name": "Apache Tomcat",
+		"icon": "logos:tomcat",
+		"level": "intermediate",
+		"description": "A Java Servlet container and web server, the standard deployment environment for Java web applications.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 4 }
+	},
+	{
+		"name": "AWS",
+		"icon": "logos:aws",
+		"level": "intermediate",
+		"description": "Amazon's cloud platform providing comprehensive cloud computing solutions.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 0 }
+	},
+	{
+		"name": "Linux",
+		"icon": "logos:linux-tux",
+		"level": "intermediate",
+		"description": "An open-source operating system, the preferred choice for server deployment and development environments.",
+		"category": "tools",
+		"experience": { "years": 2, "months": 0 }
+	},
+	{
+		"name": "Postman",
+		"icon": "logos:postman-icon",
+		"level": "intermediate",
+		"description": "An API development and testing tool that simplifies API design, testing, and documentation.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 8 }
+	},
+	{
+		"name": "Figma",
+		"icon": "logos:figma",
+		"level": "intermediate",
+		"description": "A collaborative interface design tool for UI/UX design and prototyping.",
+		"category": "tools",
+		"experience": { "years": 1, "months": 6 }
+	},
+	{
+		"name": "Photoshop",
+		"icon": "logos:adobe-photoshop",
+		"level": "intermediate",
+		"description": "Professional image editing and design software.",
+		"category": "tools",
+		"experience": { "years": 2, "months": 6 }
+	},
+	{
+		"name": "GraphQL",
+		"icon": "logos:graphql",
+		"level": "beginner",
+		"description": "An API query language and runtime providing a more efficient, powerful, and flexible way to fetch data.",
+		"category": "other",
+		"experience": { "years": 0, "months": 6 }
+	},
+	{
+		"name": "Elasticsearch",
+		"icon": "logos:elasticsearch",
+		"level": "beginner",
+		"description": "A distributed search and analytics engine used for full-text search and data analysis.",
+		"category": "other",
+		"experience": { "years": 0, "months": 4 }
+	},
+	{
+		"name": "Jest",
+		"icon": "logos:jest",
+		"level": "intermediate",
+		"description": "A JavaScript testing framework focused on simplicity and ease of use.",
+		"category": "other",
+		"experience": { "years": 1, "months": 2 }
+	},
+	{
+		"name": "Cypress",
+		"icon": "logos:cypress-icon",
+		"level": "beginner",
+		"description": "A modern end-to-end testing framework for web applications.",
+		"category": "other",
+		"experience": { "years": 0, "months": 8 }
 	}
 ]
