@@ -2,9 +2,6 @@ import Key from "../i18nKey";
 import type { Translation } from "../translation";
 
 export const ja: Translation = {
-	// 修复：补充缺失的 animeStatusOnHold 和 animeStatusDropped
-	[Key.animeStatusOnHold]: "一時中断",
-	[Key.animeStatusDropped]: "中止",
 	// ナビゲーション
 	[Key.home]: "ホーム",
 	[Key.category]: "カテゴリー",
@@ -41,9 +38,9 @@ export const ja: Translation = {
 	[Key.notice]: "お知らせ",
 
 	// サイト統計
-	[Key.siteStats]: "サイト統計",
+	[Key.siteStats]: "統計情報",
 	[Key.siteStatsPosts]: "記事数",
-	[Key.siteStatsRunningDays]: "運営日数",
+	[Key.siteStatsRunningDays]: "稼働日数",
 	[Key.siteStatsWords]: "総文字数",
 
 	// ページタイトル
@@ -63,7 +60,7 @@ export const ja: Translation = {
 
 	// コードコピー
 	[Key.copyCode]: "コードをコピー",
-	[Key.copySuccess]: "コピーしました！",
+	[Key.copySuccess]: "コピーしました",
 
 	// RSS
 	[Key.rssSubscribe]: "RSS フィード",
@@ -71,8 +68,8 @@ export const ja: Translation = {
 
 	// デバイスページ
 	[Key.devices]: "デバイス",
-	[Key.devicesTitle]: "私のデバイス",
-	[Key.devicesViewDetails]: "詳細を見る",
+	[Key.devicesTitle]: "日常的に使用しているデバイスを紹介",
+	[Key.devicesViewDetails]: "詳細を表示",
 
 	// アルバムページ
 	[Key.albumsSubtitle]: "人生の美しい瞬間の記録です",
@@ -80,7 +77,7 @@ export const ja: Translation = {
 	[Key.albumsPhotoCount]: "件の写真",
 	[Key.albumsEmpty]: "コンテンツはありません",
 	[Key.albumsEmptyDesc]:
-		"まだアルバムが作成されていません。美しい思い出を追加しましょう！",
+		"まだアルバムが作成されていません。美しい思い出を追加しましょう!",
 	[Key.albumsBackToList]: "アルバムに戻る",
 
 	// アニメページ
@@ -92,8 +89,10 @@ export const ja: Translation = {
 	[Key.local]: "ローカル",
 	[Key.all]: "すべて",
 	[Key.watching]: "視聴中",
-	[Key.completed]: "視聴済み",
-	[Key.planned]: "視聴予定",
+	[Key.completed]: "完了",
+	[Key.planned]: "検討中",
+	[Key.animeStatusOnHold]: "保留中",
+	[Key.animeStatusDropped]: "中断",
 	[Key.searchAnime]: "アニメを検索...",
 	[Key.prevPage]: "前のページ",
 	[Key.nextPage]: "次のページ",
@@ -114,16 +113,16 @@ export const ja: Translation = {
 	[Key.musicPlayerNext]: "次へ",
 	[Key.musicPlayerShuffle]: "シャッフル",
 	[Key.musicPlayerRepeat]: "リピート",
-	[Key.musicPlayerRepeatOne]: "1 曲のみリピート",
+	[Key.musicPlayerRepeatOne]: "1曲のみリピート",
 	[Key.musicPlayerVolume]: "音量コントロール",
 	[Key.musicPlayerProgress]: "再生状況",
 	[Key.musicPlayerCover]: "カバー",
 	[Key.musicPlayerPlaylist]: "プレイリスト",
 	[Key.musicPlayerLoading]: "読み込み中...",
-	[Key.musicPlayerErrorPlaylist]: "プレイリストを取得できませんでした",
+	[Key.musicPlayerErrorPlaylist]: "プレイリストを取得できませんでした。",
 	[Key.musicPlayerErrorSong]:
-		"現在の曲を読み込めませんでした。次の曲を読み込みます",
-	[Key.musicPlayerErrorEmpty]: "プレイリストに利用可能な曲がありません",
+		"曲の読み込みに失敗しました。次の曲を再生します。",
+	[Key.musicPlayerErrorEmpty]: "プレイリストに利用可能な曲がありません。",
 	[Key.unknownSong]: "不明な曲",
 	[Key.unknownArtist]: "不明なアーティスト",
 
@@ -133,30 +132,30 @@ export const ja: Translation = {
 	[Key.twikooEnvIdMissing]:
 		"[Twikoo] site.config.ts で envId が設定されていません。最新のコメントの取得をスキップします。",
 	[Key.twikooFetching]: "[Twikoo] 最新のコメントを取得しています...",
-	[Key.twikooFetchFail]: "[Twikoo] 最新のコメントの取得に失敗しました：",
+	[Key.twikooFetchFail]: "[Twikoo] 最新のコメントの取得に失敗しました: ",
 	[Key.twikooParseFail]:
-		"[Twikoo] レスポンスの解析に失敗しました。最新のコメントを読み取ることができません：",
-	[Key.twikooEmptyFileCreated]: "[Twikoo] 空のファイルを作成しました：",
-	[Key.twikooNetworkError]: "[Twikoo] ネットワークリクエストが失敗しました、",
-	[Key.twikooResponseError]: "[Twikoo] レスポンスが失敗しました、",
-	[Key.twikooJsonParseError]: "[Twikoo] JSON の解析に失敗しました、",
-	[Key.twikooUnknownError]: "[Twikoo] エラーが発生しました、",
+		"[Twikoo] レスポンスの解析に失敗しました。最新のコメントを読み取ることができません: ",
+	[Key.twikooEmptyFileCreated]: "[Twikoo] 空のファイルを作成しました: ",
+	[Key.twikooNetworkError]: "[Twikoo] ネットワークリクエストが失敗しました。",
+	[Key.twikooResponseError]: "[Twikoo] レスポンスが失敗しました。",
+	[Key.twikooJsonParseError]: "[Twikoo] JSON の解析に失敗しました。",
+	[Key.twikooUnknownError]: "[Twikoo] エラーが発生しました。",
 	[Key.twikooFetched]:
-		"[Twikoo] {count} 件の最新のコメントを取得し、書き込みました：",
+		"[Twikoo] {count} 件の最新のコメントを取得し、書き込みました: ",
 
 	// スキルページ
 	[Key.skills]: "スキル",
 	[Key.skillsTitle]: "私のスキル",
-	[Key.skillsExpert]: "熟練",
-	[Key.skillsAdvanced]: "上級",
-	[Key.skillsIntermediate]: "中級",
-	[Key.skillsBeginner]: "初級",
-	[Key.skillsFrontend]: "フロントエンド",
-	[Key.skillsBackend]: "バックエンド",
+	[Key.skillsExpert]: "エキスパートレベル",
+	[Key.skillsAdvanced]: "上級者",
+	[Key.skillsIntermediate]: "中級者",
+	[Key.skillsBeginner]: "初心者",
+	[Key.skillsFrontend]: "フロントエンド開発",
+	[Key.skillsBackend]: "バックエンド開発",
 	[Key.skillsDatabase]: "データベース",
-	[Key.skillsTools]: "ツール",
-	[Key.skillsOther]: "その他",
-	[Key.skillExperience]: "経験",
+	[Key.skillsTools]: "開発ツール",
+	[Key.skillsOther]: "その他のスキル",
+	[Key.skillExperience]: "経験の合計",
 	[Key.skillYears]: "年",
 	[Key.skillMonths]: "ヶ月",
 	[Key.skillsEmpty]: "スキルデータがありません",

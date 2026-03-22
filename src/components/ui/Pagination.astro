@@ -10,6 +10,7 @@ export interface Props {
 	itemSelector?: string;
 	hiddenClass?: string;
 	class?: string;
+	customLogic?: boolean;
 }
 
 const {
@@ -20,6 +21,7 @@ const {
 	itemSelector = ".anime-card",
 	hiddenClass = "anime-hidden",
 	class: className = "",
+	customLogic = false,
 } = Astro.props;
 
 const totalPages = Math.max(1, Math.ceil(totalItems / pageSize));
@@ -66,9 +68,14 @@ const containerId = `${id}-container`;
 		itemSelector,
 		hiddenClass,
 		safeInitialPage,
+		customLogic,
 	}}
 >
 	function initPagination() {
+		if (customLogic) {
+			return;
+		}
+
 		const paginationContainer = document.getElementById(containerId);
 		const prevBtn = document.getElementById(prevBtnId);
 		const nextBtn = document.getElementById(nextBtnId);

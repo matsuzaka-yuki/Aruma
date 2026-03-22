@@ -16,6 +16,7 @@ export interface Props {
 	filterAttribute?: string;
 	initialFilter?: string;
 	class?: string;
+	customLogic?: boolean;
 }
 
 const {
@@ -27,6 +28,7 @@ const {
 	filterAttribute = "data-filter",
 	initialFilter = "all",
 	class: className = "",
+	customLogic = false,
 } = Astro.props;
 
 // Generate unique IDs for this instance
@@ -98,6 +100,7 @@ const popupId = `filter-popup-${searchId}`;
 		searchableFields,
 		filterAttribute,
 		initialFilter,
+		customLogic,
 	}}
 >
 	function initFilterModule() {
@@ -166,12 +169,16 @@ const popupId = `filter-popup-${searchId}`;
 				const matchesSearch = searchableContent.includes(searchQuery);
 
 				if (matchesFilter && matchesSearch) {
-					cardElement.style.display = "";
-					cardElement.classList.remove("item-hidden");
+					if (!customLogic) {
+						cardElement.style.display = "";
+						cardElement.classList.remove("item-hidden");
+					}
 					matchedCards.push(cardElement);
 				} else {
-					cardElement.style.display = "none";
-					cardElement.classList.add("item-hidden");
+					if (!customLogic) {
+						cardElement.style.display = "none";
+						cardElement.classList.add("item-hidden");
+					}
 				}
 			});
 
