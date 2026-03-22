@@ -3,7 +3,53 @@
  * 使用 https://api.bgm.tv/
  */
 
-const BANGIMI_API_BASE = "https://api.bgm.tv";
+const BANGIMI_API_BASE = "https://api.bgm.tv/v0";
+
+/**
+ * 获取 Bangumi 番剧详细信息（包含 infobox）
+ * @param {number} subjectId - 番剧 ID
+ * @returns {Promise<Object|null>} 番剧详情
+ */
+async function fetchSubjectDetail(subjectId) {
+	try {
+		const headers = {
+			"User-Agent": "Aruma/1.0 (https://github.com/your-repo)",
+		};
+		const response = await fetch(`${BANGIMI_API_BASE}/subjects/${subjectId}`, {
+			headers,
+		});
+		if (!response.ok) return null;
+		return await response.json();
+	} catch (error) {
+		return null;
+	}
+}
+
+/**
+ * 从 infobox 中提取制作公司
+ * 按优先级查找: 动画制作 > 制作 > 製作 > 开发
+ * @param {Array} infobox - infobox 数组
+ * @returns {string} 制作公司名称
+ */
+function getStudioFromInfobox(infobox) {
+	if (!Array.isArray(infobox)) return "Unknown";
+
+	const targetKeys = ["动画制作", "制作", "製作", "开发"];
+
+	for (const key of targetKeys) {
+		const item = infobox.find((i) => i.key === key);
+		if (item) {
+			if (typeof item.value === "string") {
+				return item.value;
+			}
+			if (Array.isArray(item.value)) {
+				const validItem = item.value.find((v) => v.v);
+				if (validItem) return validItem.v;
+			}
+		}
+	}
+	return "Unknown";
+}
 
 /**
  * 获取 Bangumi 用户收藏的动画列表
@@ -11,10 +57,11 @@ const BANGIMI_API_BASE = "https://api.bgm.tv";
  * @param {Object} config - 配置对象
  * @param {string} config.userId - 用户 ID
  * @param {number} [config.amount] - 拉取数量（默认 50）
+ * @param {boolean} [config.fetchDetail] - 是否获取番剧详情（包含制作公司）
  * @returns {Promise<Array>} 动画列表
  */
 async function fetchBangumiAnime(config) {
-	const { userId, amount = 50 } = config;
+	const { userId, amount = 50, fetchDetail = true } = config;
 
 	const headers = {
 		"User-Agent": "Aruma/1.0 (https://github.com/your-repo)",
@@ -32,7 +79,7 @@ async function fetchBangumiAnime(config) {
 			offset: offset.toString(),
 		});
 
-		let url = `${BANGIMI_API_BASE}/v0/users/${userId}/collections?${params.toString()}`;
+		let url = `${BANGIMI_API_BASE}/users/${userId}/collections?${params.toString()}`;
 
 		try {
 			const response = await fetch(url, { headers });
@@ -80,7 +127,42 @@ async function fetchBangumiAnime(config) {
 	const result = allAnimeList.slice(0, amount);
 	console.log(`Fetched ${result.length} Bangumi anime items`);
 
-	return transformBangumiData(result);
+	// 转换数据
+	let transformed = transformBangumiData(result);
+
+	// 获取番剧详情以提取制作公司
+	if (fetchDetail && transformed.length > 0) {
+		console.log("Fetching subject details for studio info...");
+		const subjectIds = transformed.map((anime) => {
+			const id = anime.id.replace("bangumi_", "");
+			return parseInt(id, 10);
+		});
+
+		// 批量获取详情（限制并发）
+		const batchSize = 5;
+		for (let i = 0; i < subjectIds.length; i += batchSize) {
+			const batch = subjectIds.slice(i, i + batchSize);
+			const details = await Promise.all(
+				batch.map((id) => fetchSubjectDetail(id))
+			);
+
+			details.forEach((detail, index) => {
+				if (detail && detail.infobox) {
+					const studio = getStudioFromInfobox(detail.infobox);
+					if (studio) {
+						transformed[i + index].studio = studio;
+					}
+				}
+			});
+
+			// 避免请求过快
+			if (i + batchSize < subjectIds.length) {
+				await new Promise((resolve) => setTimeout(resolve, 100));
+			}
+		}
+	}
+
+	return transformed;
 }
 
 /**
@@ -116,7 +198,7 @@ function transformBangumiData(list) {
 				link: `https://bgm.tv/subject/${subject.id}`,
 				description: subject.short_summary || "",
 				year: subject.date ? subject.date.substring(0, 4) : "",
-				studio: "", // Bangumi API 不直接提供制作公司
+				studio: "",
 				progress: item.ep_status || 0,
 				totalEpisodes: subject.eps || subject.volumes || 0,
 				source: "bangumi",

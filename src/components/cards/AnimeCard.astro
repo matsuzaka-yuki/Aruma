@@ -27,6 +27,47 @@ const {
 } = Astro.props;
 const progressPercent =
 	totalEpisodes > 0 ? (progress / totalEpisodes) * 100 : 0;
+
+// Map status to i18n key
+const statusI18nMap: Record<string, I18nKey> = {
+	watching: I18nKey.watching,
+	completed: I18nKey.completed,
+	planned: I18nKey.planned,
+	onhold: I18nKey.animeStatusOnHold,
+	dropped: I18nKey.animeStatusDropped,
+};
+
+// Status color classes (Mizuki style - light bg with colored text, dark mode variants)
+const statusColorMap: Record<string, { light: string; dark: string }> = {
+	watching: {
+		light: "bg-green-100 text-green-700",
+		dark: "dark:bg-green-900/30 dark:text-green-300",
+	},
+	completed: {
+		light: "bg-blue-100 text-blue-700",
+		dark: "dark:bg-blue-900/30 dark:text-blue-300",
+	},
+	planned: {
+		light: "bg-amber-100 text-amber-700",
+		dark: "dark:bg-amber-900/30 dark:text-amber-300",
+	},
+	onhold: {
+		light: "bg-purple-100 text-purple-700",
+		dark: "dark:bg-purple-900/30 dark:text-purple-300",
+	},
+	dropped: {
+		light: "bg-red-100 text-red-700",
+		dark: "dark:bg-red-900/30 dark:text-red-300",
+	},
+};
+
+const displayStatus =
+	status && statusI18nMap[status]
+		? {
+				label: i18n(statusI18nMap[status]),
+				colors: statusColorMap[status] || statusColorMap.planned,
+			}
+		: null;
 ---
 
 <article
@@ -50,6 +91,15 @@ const progressPercent =
 				class="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
 			/>
 			<div class="anime-cover-overlay">
+				{
+					displayStatus && (
+						<span
+							class={`anime-status-tag absolute top-2 left-2 z-10 inline-flex items-center px-2 py-1 rounded-md text-xs font-medium shadow-md ${displayStatus.colors.light} ${displayStatus.colors.dark}`}
+						>
+							{displayStatus.label}
+						</span>
+					)
+				}
 				<div class="anime-play-button">
 					<svg
 						class="w-6 h-6"
@@ -59,6 +109,22 @@ const progressPercent =
 						<path d="M8 5v14l11-7z"></path>
 					</svg>
 				</div>
+				{
+					status === "watching" && (
+						<div class="anime-cover-progress absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
+							<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
+								<div
+									class="bg-gradient-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
+									style={`width: ${progressPercent}%`}
+								></div>
+							</div>
+							<div class="text-white text-xs font-medium">
+								{progress}/{totalEpisodes} (
+								{Math.round(progressPercent)}%)
+							</div>
+						</div>
+					)
+				}
 			</div>
 		</a>
 	</div>
@@ -103,31 +169,12 @@ const progressPercent =
 				</span>
 			</div>
 		</div>
-
-		<div class="anime-progress-container">
-			<div
-				class="anime-progress-bar w-full h-1 rounded-full overflow-hidden mb-1"
-			>
-				<div
-					class="anime-progress-fill h-full bg-gradient-to-r from-green-500 to-green-400 rounded-full transition-all duration-300"
-					style={`width: ${progressPercent}%`}
-				>
-				</div>
-			</div>
-			<span class="anime-progress-text text-xs">
-				{progress}/{totalEpisodes} ({Math.round(progressPercent)}%)
-			</span>
-		</div>
 	</div>
 </article>
 
 <style>
 	.mdui-card.anime-card {
 		background: var(--archive-card-bg);
-	}
-
-	.anime-progress-bar {
-		background: #e5e7eb;
 	}
 
 	.anime-cover-overlay {
@@ -137,12 +184,6 @@ const progressPercent =
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-	}
-
-	.anime-card:hover .anime-cover-overlay {
-		opacity: 1;
 	}
 
 	.anime-play-button {
@@ -154,6 +195,16 @@ const progressPercent =
 		align-items: center;
 		justify-content: center;
 		color: var(--mdui-color-primary, #ff4081);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.anime-card:hover .anime-play-button {
+		opacity: 1;
+	}
+
+	.anime-status-tag {
+		pointer-events: none;
 	}
 
 	:global(.mdui-theme-layout-dark) .anime-title {
@@ -170,13 +221,5 @@ const progressPercent =
 
 	:global(.mdui-theme-layout-dark) .anime-meta-value {
 		color: rgba(255, 255, 255, 0.7);
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-progress-bar {
-		background: rgba(255, 255, 255, 0.15);
-	}
-
-	:global(.mdui-theme-layout-dark) .anime-progress-text {
-		color: rgba(255, 255, 255, 0.6);
 	}
 </style>
