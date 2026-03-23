@@ -33,7 +33,7 @@ const categories = Object.keys(devices);
 			{
 				categories.map((category, index) => (
 					<button
-						class={`mdui-btn filter-btn ${index === 0 ? "mdui-btn-active" : ""}`}
+						class={`filter-btn ${index === 0 ? "active" : ""}`}
 						data-category={category}
 					>
 						{category}
@@ -94,50 +94,31 @@ const categories = Object.keys(devices);
 	.filter-container {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 12px;
-		margin: 20px 0;
+		gap: 0.5rem;
+		margin: 1.5rem 0;
 	}
 
 	.filter-btn {
-		background-color: rgba(255, 255, 255, 0.6);
-		color: #424242;
-		border-radius: 7px;
-		font-size: 14px;
-		padding: 8px 20px;
-		transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-		border: 1px solid rgba(0, 0, 0, 0.08);
+		padding: 0.5rem 1rem;
+		border: 1px solid var(--mdui-color-outline, #e0e0e0);
+		border-radius: 8px;
+		background: var(--archive-card-bg);
+		color: var(--mdui-color-on-surface, #212121);
+		cursor: pointer;
+		transition: all 0.2s;
+		font-weight: 500;
 	}
 
-	.filter-btn:hover {
-		background-color: rgba(255, 255, 255, 0.9);
-		transform: translateY(-2px);
-		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-	}
-
-	.filter-btn.mdui-btn-active {
-		background-color: var(--color, #ff4081);
+	.filter-btn.active {
+		background: var(--color, #ff4081);
 		color: white;
 		border-color: var(--color, #ff4081);
-		box-shadow: 0 4px 12px rgba(255, 64, 129, 0.3);
+		font-weight: 600;
 	}
 
 	:global(.mdui-theme-layout-dark) .filter-btn {
-		background-color: rgba(66, 66, 66, 0.6);
-		color: rgba(255, 255, 255, 0.87);
-		border-color: rgba(255, 255, 255, 0.08);
-	}
-
-	:global(.mdui-theme-layout-dark) .filter-btn:hover {
-		background-color: rgba(66, 66, 66, 0.9);
-	}
-
-	:global(.mdui-theme-layout-dark) .filter-btn.mdui-btn-active {
-		background-color: var(--color, #ff4081);
-		color: white;
-		border-color: var(--color, #ff4081);
-		box-shadow:
-			0 4px 16px rgba(255, 64, 129, 0.5),
-			0 0 20px rgba(255, 64, 129, 0.3);
+		color: rgba(255, 255, 255, 0.9);
+		border-color: rgba(255, 255, 255, 0.3);
 	}
 
 	.devices-container {
@@ -291,15 +272,6 @@ const categories = Object.keys(devices);
 			grid-template-columns: 1fr;
 		}
 
-		.filter-container {
-			gap: 8px;
-		}
-
-		.filter-btn {
-			padding: 6px 16px;
-			font-size: 13px;
-		}
-
 		.device-image {
 			height: 180px;
 		}
@@ -323,10 +295,8 @@ const categories = Object.keys(devices);
 			btn.addEventListener("click", () => {
 				const category = btn.getAttribute("data-category");
 
-				filterBtns.forEach((b) =>
-					b.classList.remove("mdui-btn-active"),
-				);
-				btn.classList.add("mdui-btn-active");
+				filterBtns.forEach((b) => b.classList.remove("active"));
+				btn.classList.add("active");
 
 				deviceCards.forEach((card) => {
 					const cardElement = card as HTMLElement;

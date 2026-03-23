@@ -38,6 +38,13 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 	}}
 >
 	function initFlipAnimation() {
+		const instanceKey = `__flipAnimationCleanup__:${listContainerId}:${cardSelector}:${paginationId || "no-pagination"}`;
+		const previousCleanup = window[instanceKey];
+
+		if (typeof previousCleanup === "function") {
+			previousCleanup();
+		}
+
 		const cards = document.querySelectorAll(cardSelector);
 		const listContainer = document.getElementById(listContainerId);
 		const paginationContainer = document.getElementById(
@@ -57,19 +64,62 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 		}
 
 		let currentPage = 1;
+		let animationTimeout = null;
+		let cleanupTimeout = null;
+		let destroyed = false;
 
-		if (pageSize > 0) {
-			const allCards = Array.from(cards);
-			filterItems(false, allCards);
-		}
+		const clearPendingTimers = () => {
+			if (animationTimeout) {
+				clearTimeout(animationTimeout);
+				animationTimeout = null;
+			}
+			if (cleanupTimeout) {
+				clearTimeout(cleanupTimeout);
+				cleanupTimeout = null;
+			}
+		};
 
-		window.addEventListener("filter-changed", (e) => {
+		const resetAnimatedStyles = () => {
+			cards.forEach((item) => {
+				item.style.transition = "";
+				item.style.transform = "";
+				item.style.opacity = "";
+				item.style.willChange = "";
+				item.style.transitionDelay = "";
+				item.classList.remove(
+					"flip-fade-in",
+					"flip-fade-in-active",
+					"flip-fade-out",
+				);
+			});
+
+			if (listContainer) {
+				listContainer.style.minHeight = "";
+			}
+
+			if (paginationContainer) {
+				paginationContainer.style.transition = "";
+				paginationContainer.style.transform = "";
+			}
+		};
+
+		const handleFilterChanged = (e) => {
+			if (destroyed) {
+				return;
+			}
+
 			const { matchedCards } = e.detail;
 			currentPage = 1;
 			filterItems(false, matchedCards);
-		});
+		};
 
-		prevPageBtn?.addEventListener("click", () => {
+		window.addEventListener("filter-changed", handleFilterChanged);
+
+		const handlePrevClick = () => {
+			if (destroyed) {
+				return;
+			}
+
 			if (currentPage > 1) {
 				currentPage--;
 				const matchedCards = Array.from(cards).filter(
@@ -77,9 +127,15 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 				);
 				filterItems(false, matchedCards);
 			}
-		});
+		};
 
-		nextPageBtn?.addEventListener("click", () => {
+		prevPageBtn?.addEventListener("click", handlePrevClick);
+
+		const handleNextClick = () => {
+			if (destroyed) {
+				return;
+			}
+
 			const totalPages = parseInt(totalPagesSpan?.textContent || "1");
 			if (currentPage < totalPages) {
 				currentPage++;
@@ -88,14 +144,25 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 				);
 				filterItems(false, matchedCards);
 			}
-		});
+		};
+
+		nextPageBtn?.addEventListener("click", handleNextClick);
 
 		function filterItems(scrollToTop = false, currentMatchedItems = []) {
+			if (destroyed) {
+				return;
+			}
+
+			clearPendingTimers();
+
 			let initialHeight = 0;
 			if (listContainer) {
 				initialHeight = listContainer.offsetHeight;
 				listContainer.style.minHeight = `${initialHeight}px`;
 			}
+
+			// Clear previous inline styles to ensure correct layout calculations
+			resetAnimatedStyles();
 
 			const itemsToHide = [];
 			const itemsToShow = [];
@@ -183,6 +250,10 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 			}
 
 			const runAnimation = () => {
+				if (destroyed) {
+					return;
+				}
+
 				itemsToHide.forEach((item) => {
 					item.classList.add(hiddenClass);
 					item.classList.remove("flip-fade-out");
@@ -238,7 +309,15 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 				});
 
 				requestAnimationFrame(() => {
+					if (destroyed) {
+						return;
+					}
+
 					requestAnimationFrame(() => {
+						if (destroyed) {
+							return;
+						}
+
 						itemsToMove.forEach((item) => {
 							const target = targetPositions.get(item);
 							const current = currentPositions.get(item);
@@ -276,7 +355,11 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 						(itemsToShow.length > 0
 							? Math.min(itemsToShow.length, 20) * 30
 							: 0);
-					setTimeout(() => {
+					cleanupTimeout = setTimeout(() => {
+						if (destroyed) {
+							return;
+						}
+
 						[...itemsToMove, ...itemsToShow].forEach((item) => {
 							item.classList.remove("flip-fade-in-active");
 							item.style.transition = "";
@@ -309,11 +392,38 @@ const paginationContainerId = paginationId ? `${paginationId}-container` : "";
 				itemsToHide.forEach((item) => {
 					item.classList.add("flip-fade-out");
 				});
-				setTimeout(runAnimation, 200);
+				animationTimeout = setTimeout(runAnimation, 200);
 			} else {
 				runAnimation();
 			}
 		}
+
+		const initialMatchedCards = Array.from(cards).filter(
+			(card) => !card.classList.contains("item-hidden"),
+		);
+
+		requestAnimationFrame(() => {
+			if (destroyed) {
+				return;
+			}
+
+			filterItems(
+				false,
+				initialMatchedCards.length
+					? initialMatchedCards
+					: Array.from(cards),
+			);
+		});
+
+		window[instanceKey] = () => {
+			destroyed = true;
+			clearPendingTimers();
+			resetAnimatedStyles();
+			window.removeEventListener("filter-changed", handleFilterChanged);
+			prevPageBtn?.removeEventListener("click", handlePrevClick);
+			nextPageBtn?.removeEventListener("click", handleNextClick);
+			delete window[instanceKey];
+		};
 	}
 
 	document.addEventListener("astro:page-load", initFlipAnimation);
