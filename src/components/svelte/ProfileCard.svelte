@@ -14,13 +14,11 @@
 		<div
 			class="sidebar-info-bg"
 			style={`background-image: url('${siteConfig.sidebarBg}')`}
-		>
-		</div>
+		></div>
 		<div
 			class="mdui-img-circle mdui-shadow-3"
 			style={`background-image: url('${siteConfig.avatar}')`}
-		>
-		</div>
+		></div>
 	</div>
 	<div class="sidebar-info-body">
 		<div class="sidebar-info-name">{siteConfig.author}</div>
