@@ -29,6 +29,7 @@
 		"katex": "^0.16.40",
 		"lucide-astro": "^0.556.0",
 		"mdui": "^2.1.4",
+		"mermaid": "^11.13.0",
 		"pace-js": "^1.2.4",
 		"pagefind": "^1.4.0",
 		"photoswipe": "^5.4.4",
