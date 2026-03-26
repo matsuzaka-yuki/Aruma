@@ -228,3 +228,12 @@ Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and ot
 
 
 ```
+
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```

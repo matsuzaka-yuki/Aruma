@@ -7,6 +7,7 @@ import Comment from "../components/comment/index.astro";
 import FormattedDate from "../components/FormattedDate.astro";
 import PhotoSwipe from "../components/PhotoSwipe.astro";
 import Sidebar from "../components/Sidebar.astro";
+import MermaidModule from "../components/MermaidModule.astro";
 import I18nKey from "../i18n/i18nKey";
 import { i18n } from "../i18n/translation";
 import { siteConfig } from "../site.config";
@@ -182,6 +183,7 @@ if (
 	</div>
 
 	<PhotoSwipe />
+	<MermaidModule />
 	<Sidebar slot="sidebar" />
 </Layout>
 
