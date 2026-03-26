@@ -213,6 +213,10 @@ Press <kbd>CTRL</kbd> + <kbd>ALT</kbd> + <kbd>Delete</kbd> to end the session.
 
 Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.
 
+## Extended Markdown Syntax
+
+### GitHub Syntax Admonitions Example
+
 > [!NOTE]
 > The GitHub syntax is also supported.
 
@@ -225,10 +229,9 @@ Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and ot
 
 > [!TIP]
 > The GitHub syntax is also supported.
-
-
 ```
 
+### Mermaid Example
 
 ```mermaid
 graph TD;
@@ -237,3 +240,4 @@ graph TD;
     B-->D;
     C-->D;
 ```
+

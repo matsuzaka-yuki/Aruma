@@ -15,26 +15,36 @@
 
 		// 选择由 Astro 默认渲染的 mermaid 代码块（未被隐藏处理过的内容）
 		const rawBlocks = document.querySelectorAll(
-			'pre[data-language="mermaid"], .mermaid'
+			'pre[data-language="mermaid"], .mermaid',
 		);
-		
+
 		// 过滤出真正的源块，避免选到已经被我们隐藏并生成过 Wrapper 的内容，但也需要支持重新渲染
 		const blocks: HTMLElement[] = [];
 		rawBlocks.forEach((b) => {
 			const el = b as HTMLElement;
 			// 如果是 wrapper 本身或者 wrapper 内部的，不作为源块
-			if (!el.closest('.mermaid-wrapper') && el.tagName.toLowerCase() !== 'div') {
+			if (
+				!el.closest(".mermaid-wrapper") &&
+				el.tagName.toLowerCase() !== "div"
+			) {
 				blocks.push(el);
 			}
 		});
 
-		if (blocks.length === 0) return;
+		if (blocks.length === 0) {
+			return;
+		}
 
 		// 懒加载 mermaid 库
 		const mermaidModule = await import("mermaid");
 		const mermaid = mermaidModule.default;
 
-		let currentTheme: "dark" | "default" = document.documentElement.classList.contains("mdui-theme-layout-dark") ? "dark" : "default";
+		let currentTheme: "dark" | "default" =
+			document.documentElement.classList.contains(
+				"mdui-theme-layout-dark",
+			)
+				? "dark"
+				: "default";
 
 		async function renderAll(theme: "dark" | "default") {
 			mermaid.initialize({
@@ -44,17 +54,23 @@
 
 			for (let i = 0; i < blocks.length; i++) {
 				const block = blocks[i];
-				
+
 				// 记录原始文本，避免重复读取丢失
 				if (!block.dataset.originalText) {
 					const codeElement = block.querySelector("code");
-					const text = codeElement ? codeElement.textContent : block.textContent;
-					if (!text || text.trim() === "") continue;
+					const text = codeElement
+						? codeElement.textContent
+						: block.textContent;
+					if (!text || text.trim() === "") {
+						continue;
+					}
 					block.dataset.originalText = text;
 				}
 
 				const text = block.dataset.originalText;
-				if (!text) continue;
+				if (!text) {
+					continue;
+				}
 
 				// 给原本的 pre 标签增加 class，防止被代码复制逻辑处理
 				if (block.tagName.toLowerCase() === "pre") {
@@ -64,14 +80,17 @@
 				try {
 					const id = `mermaid-svg-${Date.now()}-${i}`;
 					const { svg } = await mermaid.render(id, text);
-					
+
 					// 查找是否已经存在 Wrapper（应该紧跟在 block 后面）
 					let wrapper = block.nextElementSibling as HTMLElement;
-					const hasWrapper = wrapper && wrapper.classList.contains("mermaid-wrapper");
+					const hasWrapper =
+						wrapper &&
+						wrapper.classList.contains("mermaid-wrapper");
 
 					if (hasWrapper) {
 						// 仅更新 SVG 视图内容，保留交互状态
-						const content = wrapper.querySelector(".mermaid-content");
+						const content =
+							wrapper.querySelector(".mermaid-content");
 						if (content) {
 							content.innerHTML = svg;
 							const svgEl = content.querySelector("svg");
@@ -107,7 +126,7 @@
 						const content = document.createElement("div");
 						content.className = "mermaid-content";
 						content.innerHTML = svg;
-						
+
 						const svgEl = content.querySelector("svg");
 						if (svgEl) {
 							svgEl.style.maxWidth = "100%";
@@ -121,7 +140,10 @@
 						wrapper.appendChild(viewport);
 
 						// 将 wrapper 插入到原有 block 之后
-						block.parentNode?.insertBefore(wrapper, block.nextSibling);
+						block.parentNode?.insertBefore(
+							wrapper,
+							block.nextSibling,
+						);
 						block.style.display = "none"; // 隐藏原本的 pre 源码块
 
 						// ===== 拖拽与缩放交互逻辑 =====
@@ -132,8 +154,19 @@
 						let startX = 0;
 						let startY = 0;
 
-						const updateTransform = (smooth = false) => {
-							content.style.transition = smooth ? "transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)" : "none";
+						const updateTransform = (
+							duration: number | boolean = false,
+						) => {
+							if (duration === true) {
+								duration = 200;
+							}
+							if (duration === false) {
+								duration = 0;
+							}
+							content.style.transition =
+								duration > 0
+									? `transform ${duration}ms cubic-bezier(0.4, 0, 0.2, 1)`
+									: "none";
 							content.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
 						};
 
@@ -145,7 +178,9 @@
 							viewport.style.cursor = "grabbing";
 						});
 						window.addEventListener("mousemove", (e) => {
-							if (!isDragging) return;
+							if (!isDragging) {
+								return;
+							}
 							translateX = e.clientX - startX;
 							translateY = e.clientY - startY;
 							updateTransform(false);
@@ -158,49 +193,71 @@
 						});
 
 						// 2. 鼠标滚轮缩放
-						wrapper.addEventListener("wheel", (e) => {
-							e.preventDefault(); 
-							const zoomSensitivity = 0.002;
-							const delta = -e.deltaY * zoomSensitivity;
-							scale = Math.min(Math.max(0.3, scale + delta), 5);
-							updateTransform(false);
-						}, { passive: false });
+						wrapper.addEventListener(
+							"wheel",
+							(e) => {
+								e.preventDefault();
+								const zoomSensitivity = 0.002;
+								const delta = -e.deltaY * zoomSensitivity;
+								scale = Math.min(
+									Math.max(0.3, scale + delta),
+									5,
+								);
+								updateTransform(50);
+							},
+							{ passive: false },
+						);
 
 						// 3. 移动端触摸处理
 						let initialDistance = 0;
 						let initialScale = 1;
 
-						viewport.addEventListener("touchstart", (e) => {
-							if (e.touches.length === 1) {
-								isDragging = true;
-								startX = e.touches[0].clientX - translateX;
-								startY = e.touches[0].clientY - translateY;
-							} else if (e.touches.length === 2) {
-								isDragging = false;
-								initialDistance = Math.hypot(
-									e.touches[0].clientX - e.touches[1].clientX,
-									e.touches[0].clientY - e.touches[1].clientY
-								);
-								initialScale = scale;
-							}
-						}, { passive: false });
+						viewport.addEventListener(
+							"touchstart",
+							(e) => {
+								if (e.touches.length === 1) {
+									isDragging = true;
+									startX = e.touches[0].clientX - translateX;
+									startY = e.touches[0].clientY - translateY;
+								} else if (e.touches.length === 2) {
+									isDragging = false;
+									initialDistance = Math.hypot(
+										e.touches[0].clientX -
+											e.touches[1].clientX,
+										e.touches[0].clientY -
+											e.touches[1].clientY,
+									);
+									initialScale = scale;
+								}
+							},
+							{ passive: false },
+						);
 
-						viewport.addEventListener("touchmove", (e) => {
-							e.preventDefault();
-							if (e.touches.length === 1 && isDragging) {
-								translateX = e.touches[0].clientX - startX;
-								translateY = e.touches[0].clientY - startY;
-								updateTransform(false);
-							} else if (e.touches.length === 2) {
-								const distance = Math.hypot(
-									e.touches[0].clientX - e.touches[1].clientX,
-									e.touches[0].clientY - e.touches[1].clientY
-								);
-								const delta = (distance / initialDistance);
-								scale = Math.min(Math.max(0.3, initialScale * delta), 5);
-								updateTransform(false);
-							}
-						}, { passive: false });
+						viewport.addEventListener(
+							"touchmove",
+							(e) => {
+								e.preventDefault();
+								if (e.touches.length === 1 && isDragging) {
+									translateX = e.touches[0].clientX - startX;
+									translateY = e.touches[0].clientY - startY;
+									updateTransform(false);
+								} else if (e.touches.length === 2) {
+									const distance = Math.hypot(
+										e.touches[0].clientX -
+											e.touches[1].clientX,
+										e.touches[0].clientY -
+											e.touches[1].clientY,
+									);
+									const delta = distance / initialDistance;
+									scale = Math.min(
+										Math.max(0.3, initialScale * delta),
+										5,
+									);
+									updateTransform(50);
+								}
+							},
+							{ passive: false },
+						);
 
 						viewport.addEventListener("touchend", (e) => {
 							if (e.touches.length < 2) {
@@ -212,22 +269,27 @@
 						});
 
 						// 4. 按钮控制
-						toolbar.querySelector('.btn-zoom-in')?.addEventListener('click', () => {
-							scale = Math.min(scale * 1.25, 5);
-							updateTransform(true);
-						});
-						toolbar.querySelector('.btn-zoom-out')?.addEventListener('click', () => {
-							scale = Math.max(scale / 1.25, 0.3);
-							updateTransform(true);
-						});
-						toolbar.querySelector('.btn-reset')?.addEventListener('click', () => {
-							scale = 1;
-							translateX = 0;
-							translateY = 0;
-							updateTransform(true);
-						});
+						toolbar
+							.querySelector(".btn-zoom-in")
+							?.addEventListener("click", () => {
+								scale = Math.min(scale * 1.25, 5);
+								updateTransform(true);
+							});
+						toolbar
+							.querySelector(".btn-zoom-out")
+							?.addEventListener("click", () => {
+								scale = Math.max(scale / 1.25, 0.3);
+								updateTransform(true);
+							});
+						toolbar
+							.querySelector(".btn-reset")
+							?.addEventListener("click", () => {
+								scale = 1;
+								translateX = 0;
+								translateY = 0;
+								updateTransform(true);
+							});
 					}
-
 				} catch (e) {
 					console.error("Mermaid render error", e);
 					block.style.display = "block"; // 失败时回退显示源码
@@ -241,8 +303,11 @@
 		// 监听全局的主题变化，动态更新渲染图表的颜色
 		themeObserver = new MutationObserver((mutations) => {
 			for (const mutation of mutations) {
-				if (mutation.attributeName === 'class') {
-					const isDarkNow = document.documentElement.classList.contains("mdui-theme-layout-dark");
+				if (mutation.attributeName === "class") {
+					const isDarkNow =
+						document.documentElement.classList.contains(
+							"mdui-theme-layout-dark",
+						);
 					const newTheme = isDarkNow ? "dark" : "default";
 					if (newTheme !== currentTheme) {
 						currentTheme = newTheme;
@@ -255,7 +320,7 @@
 
 		themeObserver.observe(document.documentElement, { attributes: true });
 	}
-	
+
 	document.addEventListener("astro:page-load", initMermaid);
 </script>
 
@@ -271,7 +336,9 @@
 		padding-top: 40px; /* 为顶部仿 macOS 按钮留出空间 */
 		border: 1px solid var(--mdui-color-surface-variant, #e0e0e0);
 		/* 添加过渡动画，切换黑暗模式时更平滑 */
-		transition: background-color 0.3s ease, border-color 0.3s ease;
+		transition:
+			background-color 0.3s ease,
+			border-color 0.3s ease;
 	}
 
 	/* 适配暗色模式：匹配暗色代码块背景 */
